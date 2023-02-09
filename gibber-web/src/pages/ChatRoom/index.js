@@ -93,7 +93,7 @@ function ChatRoom() {
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
       <Container>
-        {loading ? <CenteredContent className="loading"><Spinner/></CenteredContent>:
+        {loading ? <CenteredContent className="loading"><Spinner color="#358bd0"/></CenteredContent>:
           <>
             <Sidebar user={user} conversations={conversations} setConversations={setConversations} setChatId={setChatId} createChat={createConversation} />
             {chatData._id &&
