@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-const mongoUri = `mongodb+srv://developer:9PBGYcxir6QWMLGS@gibber.f5l8bnb.mongodb.net/?retryWrites=true&w=majority`;
+const mongoUri = 'mongodb+srv://developer:9PBGYcxir6QWMLGS@gibber.f5l8bnb.mongodb.net';
 mongoose.connect(mongoUri, {
   dbName: 'gibber',
   useNewUrlParser: true,
