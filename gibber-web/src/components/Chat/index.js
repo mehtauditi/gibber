@@ -87,7 +87,7 @@ function Chat({data, user, mode, ...props}) {
   const messagesData = React.useMemo(() => mapMessageData(messages), [messages]);
 
   const onSend = React.useCallback(async (id, message) => {
-    const res = await Api.post('/chat/conversation/reply/' + id, {messageData: {...message}});
+    const res = await Api.post('/chat/conversation/reply/' + id, {messageData: {...message}, originalLang: user.language});
     props.updateLastMessage(id, res.data.message);
     setMessages(messages => messages.map((msg, i) => i === 0 ? res.data.message : msg));
     sendMessage({...res.data.message, recipientIds: isGroup ? recipients.map(r => r._id) : [recipient._id]});
@@ -179,7 +179,7 @@ function Chat({data, user, mode, ...props}) {
               return <Bubble {...allProps} />;
             }
           }}
-          renderMessageText={props => <MessageText right={props.position === 'right'}>{props.currentMessage.text}</MessageText>}
+          renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
           renderInputToolbar={() => <ChatInput value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} />}
           renderMessageVideo={props => <VideoMessage src={props.currentMessage.video}/>}
