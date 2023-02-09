@@ -18,9 +18,8 @@ yarn start
 `
 
 For iOS on gibber-app, run
-`
-cd ios
-pod install
-cd ..
-yarn run ios
-`
+
+`cd ios`   
+`pod install `   
+`cd ..`  
+`yarn run ios`
