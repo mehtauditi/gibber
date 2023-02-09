@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, LeftSection, RightSection, Shape, StoreBtn} from "./styles";
+import {Container, LeftSection, RightSection, StoreBtn} from "./styles";
 import {Button, Logo, MockUpContainer, MockUpSource, MocUp, Row} from "../../utils/sharedStyles";
 import {useNavigate} from 'react-router-dom';
 
