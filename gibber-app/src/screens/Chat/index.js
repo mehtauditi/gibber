@@ -112,7 +112,7 @@ const Chat = (props) => {
   }, [user, recipients, isGroup, recipient]);
 
   const onSend = React.useCallback((message) => {
-    const dbData = {conversationId, messageData: {...message}};
+    const dbData = {conversationId, messageData: {...message}, originalLang: user.language};
     dispatch(conversationReply(dbData));
   }, [conversationId]);
 
@@ -218,6 +218,13 @@ const Chat = (props) => {
             renderMessage={props => {
               if (props.currentMessage.audio)
                 return <AudioPlayer {...props} currentAudioId={currentAudioId} you={(props.currentMessage._id === currentAudioId).toString()} setCurrentAudioId={setCurrentAudioId} />;
+              if (props.currentMessage.text){
+                if(typeof(props.currentMessage.text) === 'string')
+                  return <Message {...props} />
+                else 
+                props.currentMessage.text = (props.currentMessage?.text.find(i => i.language === user.language))?.text;
+                return <Message {...props} />
+              }
               return <Message {...props} />;
             }}
             renderBubble={props => {
