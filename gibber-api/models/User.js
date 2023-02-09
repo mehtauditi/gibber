@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   phone: String,
   email: String,
   password: String,
+  language: String,
   contacts: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blocked: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blockedFrom: [{type: mongoose.Types.ObjectId, ref: 'User'}],

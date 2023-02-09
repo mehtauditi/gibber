@@ -1,16 +1,18 @@
 import React from 'react';
 import {CenteredContent, Logo, Row, Divider, Button} from "../../utils/sharedStyles";
-import Input from "../../components/Input";
+import TextInput from "../../components/TextInput";
 import {useNavigate, Link} from "react-router-dom";
 import Api from '../../config/axios';
 import {toast} from "react-toastify";
 import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
 import io from "socket.io-client";
 import constants from "../../config/constants";
+import DropdownInput from '../../components/DropdownInput';
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
   const [name, setName] = React.useState('');
+  const [lang, setLang] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -58,14 +60,14 @@ function Login() {
 
   const signUp = React.useCallback(async () => {
     try {
-      const res = await Api.post('/user', {name, email, phone, password});
+      const res = await Api.post('/user', {name, email, phone, password, language: lang});
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
       navigate('/app/chat')
     } catch (e) {
       toast.warn(e.response.data.message);
     }
-  }, [name, email, password, navigate]);
+  }, [name, email, password, lang, phone, navigate]);
 
   return (
     <div className="container">
@@ -93,20 +95,22 @@ function Login() {
           <CenteredContent>
             <h3>Login With {loginType === 1 ? 'Phone' : 'Email'}</h3>
             {loginType === 1 ?
-              <Input placeholder="Phone" type="number" value={phone} onChange={setPhone} />
+              <TextInput placeholder="Phone" type="number" value={phone} onChange={setPhone} />
               :
-              <Input placeholder="Email" type="email" value={email} onChange={setEmail} />
+              <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
             }
-            <Input placeholder="Password" type="password" value={password} onChange={setPassword} />
+            <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
             <Button onClick={login} width={350}>Login</Button>
           </CenteredContent>
           :
           <CenteredContent>
             <h3>Sign Up</h3>
-            <Input placeholder="Name" value={name} onChange={setName} />
-            <Input placeholder="Email" type="email" value={email} onChange={setEmail} />
-            <Input placeholder="Password" type="password" value={password} onChange={setPassword} />
+            <TextInput placeholder="Name" value={name} onChange={setName} />
+            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
+            <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
+
             <br/><br/>
             <Button onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>

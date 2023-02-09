@@ -73,7 +73,7 @@ function Home(props) {
         : msg.audio ? msgText('headphones', 'Sound', unseenMessage):
           msg.location ? msgText('pin', 'Location', unseenMessage) :
           msg.video ? msgText('video', 'Video', unseenMessage) :
-            <MessageText unseen={unseenMessage}>{msg.text}</MessageText>;
+            <MessageText unseen={unseenMessage}>{(msg.text?.find(i => i.language === user.language))?.text}</MessageText>;
     return (
       <Item onPress={() => props.navigation.navigate('Chat', {conversation: item})} unseen={unseenMessage}>
         <View style={{flexDirection: 'row'}}>

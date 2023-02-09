@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TextInput = styled.input.attrs(({type}) => ({type: type || 'text'}))`
+export const Text = styled.input.attrs(({type}) => ({type: type || 'text'}))`
   border:none;
   background-image:none;
   background-color:transparent;
@@ -16,3 +16,5 @@ export const TextInput = styled.input.attrs(({type}) => ({type: type || 'text'})
     outline: none;
   }
 `;
+
+

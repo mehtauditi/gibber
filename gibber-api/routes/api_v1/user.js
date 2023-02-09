@@ -11,10 +11,11 @@ const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
 const create = async (req, res, next) => {
   try {
-    const {name, phone, email, password} = req.body;
+    const {name, phone, email, password, language} = req.body;
     const missingFields = [];
     if (!name) missingFields.push('Name');
     if (!password) missingFields.push('Password');
+    if (!language || language === "") missingFields.push('Language');
 
     if (missingFields.length > 0)
       return new ErrorHandler(400, "Missing fields: " + missingFields.toString(), missingFields, res);
@@ -25,7 +26,7 @@ const create = async (req, res, next) => {
     if (alreadyHave)
       return new ErrorHandler(409, `This ${type} already taken. Please try with a different ${type}`, [], res);
 
-    const user = {...query, name, password};
+    const user = {...query, name, password, language};
     const finalUser = new User(user);
     finalUser.setPassword(user.password);
 

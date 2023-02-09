@@ -28,13 +28,13 @@ function Sidebar({user, conversations, ...props}) {
         msg.audio ? msgText('headphones', 'Sound', unseenMessage):
         msg.location ? msgText('pin', 'Location', unseenMessage) :
         msg.video ? msgText('video', 'Video', unseenMessage) :
-          <MessageText unseen={unseenMessage}>{msg.text}</MessageText>;
+          <MessageText unseen={unseenMessage}>{(msg.text?.find(i => i.language === user.language))?.text}</MessageText>;
     return (
       <Item onClick={() => props.setChatId(item._id)} unseen={unseenMessage} key={item._id}>
         <Row>
-          <Avatar src={getAvatarPath(!item.isGroup ? recipient.avatar : item.image, item.isGroup)} />
+          <Avatar src={getAvatarPath(!item.isGroup ? recipient?.avatar : item.image, item.isGroup)} />
           <div>
-            <UserName unseen={unseenMessage}>{!item.isGroup ? recipient.name : item.name}</UserName>
+            <UserName unseen={unseenMessage}>{!item.isGroup ? recipient?.name : item.name}</UserName>
             <div>{text}</div>
           </div>
         </Row>
@@ -47,7 +47,7 @@ function Sidebar({user, conversations, ...props}) {
         </div>
       </Item>
     )
-  }, [user._id]);
+  }, [user._id, msgText, props]);
 
   return (
     <SidebarContainer>

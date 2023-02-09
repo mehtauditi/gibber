@@ -7,6 +7,7 @@ const {ErrorHandler} = require('../../config/error');
 const {upload, getImageName} = require('../../config/storage');
 const s3 = require('../../config/s3');
 const {sendNotification} = require('../../config/notification');
+const axios = require('axios');
 
 const getConversations = async (req, res, next) => {
   try {
@@ -91,16 +92,52 @@ const conversationExist = async (req, res, next) => {
   }
 };
 
+const translateText = async (text, lang, tarLang) => {
+  if(lang === tarLang) return text;
+  try{
+    const options = {
+      method: 'POST',
+      url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept-Encoding': 'application/gzip',
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+        'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+      },
+      data: {q: text, source: lang, target: tarLang}
+    };
+  
+    const resp =  await axios.request(options);
+    return resp.data.data.translations[0].translatedText;
+  }catch(e){
+    next(e);
+  }
+}
+
 const reply = async (req, res, next) => {
   try {
-    const {messageData} = req.body;
+    const {messageData, originalLang}  = req.body;
+    const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
     const reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), ...messageData});
+    if(messageData.text){
+      let users =  conversation.users.map(u => u._id.toString());
+      let userLangs = await Promise.all(users.map(async uId => {
+        const u = await User.findById(uId);
+        return u.language;
+      }));
+      // create text array with obj {language: '', text: ''}
+      const textArr = await Promise.all(userLangs.map(async lang => {
+        const translated = await translateText(messageData.text, originalLang, lang);
+        let obj = {language: lang, text: translated};
+        return obj;
+      }));
+      reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), originalLang, text: textArr, originalText: messageData.text });
+    }
     reply.save(async function (err, reply) {
       if (err) return new ErrorHandler(404, "Conversation not found", [], res);
       else {
         const msg = await Message.populate(reply, {path:"user", select: 'name , avatar'});
         const text = messageData.video ? 'Video' : messageData.image ? 'image' : messageData.audio ? 'Sound' : messageData.location ? 'Location' : messageData.text;
-        const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
         const recipients = conversation.users.map(u => u._id.toString()).filter(id => id !== req.payload.id && !conversation.mutedBy.includes(id));
         if (!!recipients.length) await sendNotification(text, recipients, {conversationId: req.params.conversation});
         res.status(200).json({message: {...msg.toJSON()}, name: msg.user.name});
