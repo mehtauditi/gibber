@@ -48,15 +48,16 @@ function ChatRoom() {
 
   useBeforeunload(() => {setOffline(user._id)});
 
-  React.useEffect(() => {
-    fetchChatData()
-  }, [chatId]);
+  
   const fetchChatData = React.useCallback(async () => {
     if (chatId) {
       const res = await Api.get('/chat/conversation/' + chatId);
       setChatData(res.data);
     }
   }, [chatId]);
+  React.useEffect(() => {
+    fetchChatData()
+  }, [chatId, fetchChatData]);
 
   React.useEffect(() => {
     if (user._id) {
