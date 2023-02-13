@@ -118,7 +118,7 @@ const reply = async (req, res, next) => {
   try {
     const {messageData, originalLang}  = req.body;
     const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
-    const reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), ...messageData});
+    var reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), ...messageData});
     if(messageData.text){
       let users =  conversation.users.map(u => u._id.toString());
       let userLangs = await Promise.all(users.map(async uId => {
