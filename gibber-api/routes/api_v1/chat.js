@@ -97,18 +97,17 @@ const translateText = async (text, lang, tarLang) => {
   try{
     const options = {
       method: 'POST',
-      url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
+      url: 'https://nlp-translation.p.rapidapi.com/v1/translate',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',
-        'Accept-Encoding': 'application/gzip',
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+        'X-RapidAPI-Host': 'nlp-translation.p.rapidapi.com'
       },
-      data: {q: text, source: lang, target: tarLang}
+      data: {text: text, from: lang, to: tarLang}
     };
-  
+
     const resp =  await axios.request(options);
-    return resp.data.data.translations[0].translatedText;
+    return resp.data.translated_text[tarLang];
   }catch(e){
     next(e);
   }
