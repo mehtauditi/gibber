@@ -3,7 +3,7 @@ import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import {Chat, Profile, Sidebar} from "../../components";
 import {Container} from "./styles";
-import {Link, useNavigate, useOutletContext} from "react-router-dom";
+import {useNavigate, useOutletContext} from "react-router-dom";
 import Api from "../../config/axios";
 import {LoadScript} from "@react-google-maps/api";
 import constants from "../../config/constants";
@@ -120,7 +120,7 @@ function ChatRoom() {
         }
       </Container>
       <footer style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button onClick={handleLogout}>Logout</button>
+          <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
       </footer>
     </ThemeProvider>
   )
