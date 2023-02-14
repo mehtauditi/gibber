@@ -74,13 +74,13 @@ function Login() {
       <Link to="/"><Logo/></Link>
       {!loginType ?
         <CenteredContent>
-          <img src={qrCode} alt=""/>
+          {/* <img src={qrCode} alt=""/> */}
           <Row align="center" style={{margin: '25px 0'}}>
-            <Divider/>
-            <h3 style={{margin: '10px'}}>OR</h3>
-            <Divider/>
+            {/* <Divider/> */}
+            {/* <h3 style={{margin: '10px'}}>OR</h3> */}
+            {/* <Divider/> */}
           </Row>
-          <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button>
+          {/* <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button> */}
           <br/>
           <Button onClick={() => setLoginType(2)} width={350}>Login With Email</Button>
           <Row align="center" style={{margin: '25px 0'}}>

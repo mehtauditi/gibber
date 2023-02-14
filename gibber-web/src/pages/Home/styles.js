@@ -9,7 +9,7 @@ export const Container = styled.div`
   justify-content: space-between;
   position: relative;
   @media screen and (max-width: 1500px) {
-    width: 90%;   
+    width: 90%;
   }
 `;
 
@@ -17,7 +17,7 @@ export const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 700px;
+  width: 100vw;
   p {
     margin: 35px 0;
   }
@@ -30,7 +30,7 @@ export const RightSection = styled.div`
   align-self: center;
   position: relative;
   @media screen and (max-width: 1100px) {
-    display: none;   
+    display: none;
   }
 `;
 
@@ -42,4 +42,12 @@ export const StoreBtn = styled.img`
 export const Shape = styled.img`
   position: absolute;
   width: 130px;
+`;
+
+export const HomeText = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
 `;
