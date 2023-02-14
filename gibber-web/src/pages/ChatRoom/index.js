@@ -48,7 +48,7 @@ function ChatRoom() {
 
   useBeforeunload(() => {setOffline(user._id)});
 
-  
+
   const fetchChatData = React.useCallback(async () => {
     if (chatId) {
       const res = await Api.get('/chat/conversation/' + chatId);
@@ -91,6 +91,11 @@ function ChatRoom() {
     localStorage.setItem('mode', val);
   }, []);
 
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    navigate('/')
+  }
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
       <Container>
@@ -114,8 +119,13 @@ function ChatRoom() {
           </>
         }
       </Container>
+      <footer style={{ display: "flex", justifyContent: "flex-end" }}>
+          <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
+      </footer>
     </ThemeProvider>
   )
 }
 
 export default ChatRoom;
+
+
