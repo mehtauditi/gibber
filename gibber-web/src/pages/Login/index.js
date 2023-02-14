@@ -9,6 +9,7 @@ import io from "socket.io-client";
 import constants from "../../config/constants";
 import DropdownInput from '../../components/DropdownInput';
 import PhoneInput from 'react-phone-input-2';
+import PasswordChecklist from 'react-password-checklist';
 import 'react-phone-input-2/lib/style.css'
 
 function Login() {
@@ -112,6 +113,11 @@ function Login() {
             <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
+            <PasswordChecklist
+                rules={["minLength","number","capital"]}
+                minLength={8}
+                value={password}
+            />
             <br/><br/>
             <PhoneInput
               containerStyle={{ marginLeft: 920, marginBottom: 20 }}
@@ -122,7 +128,6 @@ function Login() {
             />
             <Button onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
-
       }
     </div>
   )
