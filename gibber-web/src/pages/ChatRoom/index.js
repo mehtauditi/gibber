@@ -3,7 +3,7 @@ import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import {Chat, Profile, Sidebar} from "../../components";
 import {Container} from "./styles";
-import {useNavigate, useOutletContext} from "react-router-dom";
+import {Link, useNavigate, useOutletContext} from "react-router-dom";
 import Api from "../../config/axios";
 import {LoadScript} from "@react-google-maps/api";
 import constants from "../../config/constants";
@@ -48,7 +48,7 @@ function ChatRoom() {
 
   useBeforeunload(() => {setOffline(user._id)});
 
-  
+
   const fetchChatData = React.useCallback(async () => {
     if (chatId) {
       const res = await Api.get('/chat/conversation/' + chatId);
@@ -91,6 +91,11 @@ function ChatRoom() {
     localStorage.setItem('mode', val);
   }, []);
 
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    navigate('/')
+  }
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
       <Container>
@@ -114,8 +119,13 @@ function ChatRoom() {
           </>
         }
       </Container>
+      <footer style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button onClick={handleLogout}>Logout</button>
+      </footer>
     </ThemeProvider>
   )
 }
 
 export default ChatRoom;
+
+
