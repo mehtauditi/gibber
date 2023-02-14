@@ -8,6 +8,8 @@ import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
 import io from "socket.io-client";
 import constants from "../../config/constants";
 import DropdownInput from '../../components/DropdownInput';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css'
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
@@ -110,10 +112,17 @@ function Login() {
             <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
-
             <br/><br/>
+            <PhoneInput
+              containerStyle={{ marginLeft: 920, marginBottom: 20 }}
+              inputStyle={{ width: 350 }}
+              country={'us'}
+              value={phone}
+              onChange={setPhone}
+            />
             <Button onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
+
       }
     </div>
   )
