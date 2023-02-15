@@ -122,7 +122,6 @@ function Login() {
             <PasswordChecklist
                 rules={["minLength", "number","capital"]}
                 minLength={8}
-                maxLength={20}
                 value={password}
             />
             <br/><br/>
