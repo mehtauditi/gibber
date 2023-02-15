@@ -20,6 +20,7 @@ function Login() {
   const [phone, setPhone] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [qrCode, setQrCode] = React.useState('');
+  const [isValid, setIsValid] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -36,6 +37,12 @@ function Login() {
     setPhone('');
     setPassword('');
   }, [loginType]);
+
+  React.useEffect(() => {
+    const hasDigit = /\d/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    setIsValid(hasDigit && hasUppercase && password.length >= 8);
+  }, [password])
 
   const getQrCode = React.useCallback(async () => {
     const secret = randomStr();
@@ -62,6 +69,9 @@ function Login() {
   }, [email, phone, password, navigate]);
 
   const signUp = React.useCallback(async () => {
+    if (!isValid) {
+      return toast.warn('Password is not valid!');
+    }
     try {
       const res = await Api.post('/user', {name, email, phone, password, language: lang});
       localStorage.setItem('token', res.data.token);
@@ -85,7 +95,7 @@ function Login() {
           </Row>
           {/* <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button> */}
           <br/>
-          <Button onClick={() => setLoginType(2)} width={350}>Login With Email</Button>
+          <Button onClick={() => setLoginType(2)} width={350}>Login</Button>
           <Row align="center" style={{margin: '25px 0'}}>
             <Divider/>
             <h3 style={{margin: '10px'}}>OR</h3>
@@ -96,12 +106,8 @@ function Login() {
         :
         loginType !== 3 ?
           <CenteredContent>
-            <h3>Login With {loginType === 1 ? 'Phone' : 'Email'}</h3>
-            {loginType === 1 ?
-              <TextInput placeholder="Phone" type="number" value={phone} onChange={setPhone} />
-              :
-              <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
-            }
+            <h3>Login</h3>
+            <TextInput placeholder="Email or Phone Number" type="email" value={email} onChange={setEmail} />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
             <Button onClick={login} width={350}>Login</Button>
@@ -114,8 +120,9 @@ function Login() {
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <PasswordChecklist
-                rules={["minLength","number","capital"]}
+                rules={["minLength", "number","capital"]}
                 minLength={8}
+                maxLength={20}
                 value={password}
             />
             <br/><br/>
