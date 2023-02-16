@@ -11,6 +11,7 @@ import DropdownInput from '../../components/DropdownInput';
 import PhoneInput from 'react-phone-input-2';
 import PasswordChecklist from 'react-password-checklist';
 import 'react-phone-input-2/lib/style.css'
+import './index.css';
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
@@ -118,6 +119,12 @@ function Login() {
             <TextInput placeholder="Name" value={name} onChange={setName} />
             <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <PhoneInput
+              className="text-field"
+              country={'us'}
+              value={phone}
+              onChange={setPhone}
+            />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <PasswordChecklist
                 rules={["minLength", "number","capital"]}
@@ -125,13 +132,6 @@ function Login() {
                 value={password}
             />
             <br/><br/>
-            <PhoneInput
-              containerStyle={{ marginLeft: 920, marginBottom: 20 }}
-              inputStyle={{ width: 350 }}
-              country={'us'}
-              value={phone}
-              onChange={setPhone}
-            />
             <Button onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
       }
