@@ -4,9 +4,9 @@ import TextInput from "../../components/TextInput";
 import {useNavigate, Link} from "react-router-dom";
 import Api from '../../config/axios';
 import {toast} from "react-toastify";
-import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
-import io from "socket.io-client";
-import constants from "../../config/constants";
+// import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
+// import io from "socket.io-client";
+// import constants from "../../config/constants";
 import DropdownInput from '../../components/DropdownInput';
 import PhoneInput from 'react-phone-input-2';
 import PasswordChecklist from 'react-password-checklist';
@@ -20,7 +20,7 @@ function Login() {
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [qrCode, setQrCode] = React.useState('');
+  // const [qrCode, setQrCode] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ function Login() {
       Api.setToken(token);
       navigate('/app/chat');
     }
-    getQrCode();
+    // getQrCode();
   }, [navigate]);
 
   React.useEffect(() => {
@@ -45,18 +45,18 @@ function Login() {
     setIsValid(hasDigit && hasUppercase && password.length >= 8);
   }, [password])
 
-  const getQrCode = React.useCallback(async () => {
-    const secret = randomStr();
-    const res = await Api.post('/user/qr', {secret});
-    setQrCode(res.data.src);
-    let socket = io(constants.base_url, {transports : ['websocket'], query: {secret}});
-    socket.on('qrLoginToken', async token => {
-      localStorage.setItem('token', token);
-      Api.setToken(token);
-      await Api.put('/user/device', {device: `${getOsName()} - ${detectBrowser()}`});
-      navigate('/app/chat');
-    })
-  }, [navigate]);
+  // const getQrCode = React.useCallback(async () => {
+  //   const secret = randomStr();
+  //   const res = await Api.post('/user/qr', {secret});
+  //   setQrCode(res.data.src);
+  //   let socket = io(constants.base_url, {transports : ['websocket'], query: {secret}});
+  //   socket.on('qrLoginToken', async token => {
+  //     localStorage.setItem('token', token);
+  //     Api.setToken(token);
+  //     await Api.put('/user/device', {device: `${getOsName()} - ${detectBrowser()}`});
+  //     navigate('/app/chat');
+  //   })
+  // }, [navigate]);
 
   const login = React.useCallback(async () => {
     try {
@@ -81,7 +81,7 @@ function Login() {
     } catch (e) {
       toast.warn(e.response.data.message);
     }
-  }, [name, email, password, lang, phone, navigate]);
+  }, [name, email, password, lang, phone, navigate, isValid]);
 
   return (
     <div className="container">

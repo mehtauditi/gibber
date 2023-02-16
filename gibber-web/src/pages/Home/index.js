@@ -1,6 +1,6 @@
 import React from 'react';
-import {Container, HomeText, LeftSection, RightSection, StoreBtn} from "./styles";
-import {Button, Logo, MockUpContainer, MockUpSource, MocUp, Row} from "../../utils/sharedStyles";
+import {Container, HomeText, LeftSection} from "./styles";
+import {Button, Logo, Row} from "../../utils/sharedStyles";
 import {useNavigate} from 'react-router-dom';
 
 function Home() {
