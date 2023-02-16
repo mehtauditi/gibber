@@ -4,6 +4,8 @@ import constants from './constants';
 const instance = axios.create({baseURL: constants.base_url + '/api/v1'});
 
 instance.defaults.headers.post['Content-Type'] = 'application/json';
+instance.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
 
 instance.setToken = (accessToken) => {
   instance.defaults.headers.Authorization = `Token ${accessToken}`;
