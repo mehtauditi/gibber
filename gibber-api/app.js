@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-const mongoUri = 'mongodb+srv://developer:9PBGYcxir6QWMLGS@gibber.f5l8bnb.mongodb.net';
+const mongoUri = process.env.MONGO_URI;
 mongoose.connect(mongoUri, {
   dbName: 'gibber',
   useNewUrlParser: true,
