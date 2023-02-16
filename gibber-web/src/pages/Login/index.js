@@ -8,6 +8,10 @@ import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
 import io from "socket.io-client";
 import constants from "../../config/constants";
 import DropdownInput from '../../components/DropdownInput';
+import PhoneInput from 'react-phone-input-2';
+import PasswordChecklist from 'react-password-checklist';
+import 'react-phone-input-2/lib/style.css'
+import './index.css';
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
@@ -17,6 +21,7 @@ function Login() {
   const [phone, setPhone] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [qrCode, setQrCode] = React.useState('');
+  const [isValid, setIsValid] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -33,6 +38,12 @@ function Login() {
     setPhone('');
     setPassword('');
   }, [loginType]);
+
+  React.useEffect(() => {
+    const hasDigit = /\d/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    setIsValid(hasDigit && hasUppercase && password.length >= 8);
+  }, [password])
 
   const getQrCode = React.useCallback(async () => {
     const secret = randomStr();
@@ -59,6 +70,9 @@ function Login() {
   }, [email, phone, password, navigate]);
 
   const signUp = React.useCallback(async () => {
+    if (!isValid) {
+      return toast.warn('Password is not valid!');
+    }
     try {
       const res = await Api.post('/user', {name, email, phone, password, language: lang});
       localStorage.setItem('token', res.data.token);
@@ -82,7 +96,7 @@ function Login() {
           </Row>
           {/* <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button> */}
           <br/>
-          <Button onClick={() => setLoginType(2)} width={350}>Login With Email</Button>
+          <Button onClick={() => setLoginType(2)} width={350}>Login</Button>
           <Row align="center" style={{margin: '25px 0'}}>
             <Divider/>
             <h3 style={{margin: '10px'}}>OR</h3>
@@ -93,12 +107,8 @@ function Login() {
         :
         loginType !== 3 ?
           <CenteredContent>
-            <h3>Login With {loginType === 1 ? 'Phone' : 'Email'}</h3>
-            {loginType === 1 ?
-              <TextInput placeholder="Phone" type="number" value={phone} onChange={setPhone} />
-              :
-              <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
-            }
+            <h3>Login</h3>
+            <TextInput placeholder="Email or Phone Number" type="email" value={email} onChange={setEmail} />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
             <Button onClick={login} width={350}>Login</Button>
@@ -109,8 +119,18 @@ function Login() {
             <TextInput placeholder="Name" value={name} onChange={setName} />
             <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <PhoneInput
+              className="text-field"
+              country={'us'}
+              value={phone}
+              onChange={setPhone}
+            />
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
-
+            <PasswordChecklist
+                rules={["minLength", "number","capital"]}
+                minLength={8}
+                value={password}
+            />
             <br/><br/>
             <Button onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
