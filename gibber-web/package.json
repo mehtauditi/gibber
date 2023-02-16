@@ -16,7 +16,7 @@
     "react-audio-player": "0.17.0",
     "react-beforeunload": "2.5.3",
     "react-dom": "17.0.2",
-    "react-native-gifted-chat": "^1.1.1",
+    "react-native-gifted-chat": "0.16.3",
     "react-native-web": "0.17.6",
     "react-password-checklist": "^1.4.3",
     "react-phone-input-2": "^2.15.1",
