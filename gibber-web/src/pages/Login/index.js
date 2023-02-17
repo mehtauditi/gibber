@@ -70,6 +70,9 @@ function Login() {
   }, [email, phone, password, navigate]);
 
   const signUp = React.useCallback(async () => {
+    if (!(email.length !== 0 || phone.length > 4)){
+      return toast.warn('Email or Phone Number required');
+    }
     if (!isValid) {
       return toast.warn('Password is not valid!');
     }
@@ -94,9 +97,9 @@ function Login() {
             {/* <h3 style={{margin: '10px'}}>OR</h3> */}
             {/* <Divider/> */}
           </Row>
-          {/* <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button> */}
+          <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button>
           <br/>
-          <Button onClick={() => setLoginType(2)} width={350}>Login</Button>
+          <Button onClick={() => setLoginType(2)} width={350}>Login With Email</Button>
           <Row align="center" style={{margin: '25px 0'}}>
             <Divider/>
             <h3 style={{margin: '10px'}}>OR</h3>
@@ -107,8 +110,17 @@ function Login() {
         :
         loginType !== 3 ?
           <CenteredContent>
-            <h3>Login</h3>
-            <TextInput placeholder="Email or Phone Number" type="email" value={email} onChange={setEmail} />
+            <h3>Login With {loginType === 1 ? 'Phone' : 'Email'}</h3>
+            {loginType === 1 ?
+              <PhoneInput
+              className="text-field"
+              country={'us'}
+              value={phone}
+              onChange={setPhone}
+            />
+              :
+              <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
+            }
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
             <Button onClick={login} width={350}>Login</Button>
