@@ -62,5 +62,8 @@ typings/
 
 .idea
 
+#misc
+app.js
+
 # Archive.zip
 Archive.zip
