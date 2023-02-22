@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Logo = styled.img.attrs({src: require('../images/logo.png')})`
   width: 100px;
+  padding-bottom: 20px;
 `;
 
 export const MocUp = styled.img.attrs({src: require('../images/mocup.png')})`
@@ -37,6 +38,7 @@ export const Button = styled.a`
   transition: all 0.3s;
   text-align: center;
   cursor: pointer;
+  text-decoration: none;
   &:hover {
     background-color: #fff;
     color: #358bd0;
@@ -54,4 +56,7 @@ export const Divider = styled.div`
   width: 130px;
   height: 2px;
   background-color: #333;
+  @media (max-width: 350px) {
+    width: 110px;
+  }
 `;

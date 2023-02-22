@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-  font-family: 'Public Sans', sans-serif;
+  font-family: 'Public Sans', sans-serif !important;
 }
 
 .App {
@@ -28,8 +28,8 @@ body {
 }
 
 h1 {
-  font-weight: 900;
-  font-size: 50px;
+  font-weight: 900 !important;
+  font-size: calc(2rem + 1.5vw) !important;
   line-height: 60px;
 }
 
@@ -46,6 +46,7 @@ p {
   background: #fff;
   position: relative;
   border-radius: 25px;
+  overflow-y:scroll
 }
 
 .center-text {
