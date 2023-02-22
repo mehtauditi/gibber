@@ -12,10 +12,13 @@ import {disconnectSocket, initiateSocket, sendMessage, subscribeToChat, subscrib
 import VideoMessage from "./components/VideoMessage";
 import AudioMessage from "./components/AudioMessage";
 import {Spinner, Switch} from '../index'
+import Icon from '../Icon';
+import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
 let timeout;
 
-function Chat({data, user, mode, ...props}) {
+function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
+  const { width } = useDimensions();
   const [messages, setMessages] = React.useState([]);
   const [message, setMessage] = React.useState('');
   const [isGroup, setIsGroup] = React.useState(false);
@@ -155,8 +158,11 @@ function Chat({data, user, mode, ...props}) {
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
-    <ChatContainer>
+    <ChatContainer onFocus={() => {
+        if(sidebarStatus === 'open') sideBarToggle('close');
+      }}>
       <Header>
+      {width < 700 ? <div onClick={sideBarToggle}><Icon name="menu-outline" color="#848484" /></div>: <></>}
         <Row align="center" onClick={() => !isGroup && props.setProfile(recipient._id)}>
           <HeaderAvatar src={getAvatarPath(isGroup ? groupImage : recipient.avatar, isGroup)} />
           <div>
@@ -181,7 +187,7 @@ function Chat({data, user, mode, ...props}) {
           }}
           renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
-          renderInputToolbar={() => <ChatInput value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} />}
+          renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} />}
           renderMessageVideo={props => <VideoMessage src={props.currentMessage.video}/>}
           listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           extraData={[mode]}

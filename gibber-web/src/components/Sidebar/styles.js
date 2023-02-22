@@ -23,6 +23,10 @@ export const SidebarContainer = styled.div`
     cursor: pointer;
     }
   }
+  @media (max-width: 375px) {
+    flex-basis: 280px !important;
+    width: 280px !important;
+  } 
 `;
 
 export const ChatList = styled.div`
