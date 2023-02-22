@@ -8,12 +8,18 @@ import {CreateChat} from "../index";
 
 function Sidebar({user, conversations, ...props}) {
   const [createVisible, setCreateVisible] = React.useState(false);
+  const [isConvoSelected, setIsConvoSelected] = React.useState(false);
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);
     const blockedFrom = user?.blockedFrom?.map(b => b._id);
     const filter = c => {if (c.isGroup) return true; else return !c.users.find(u => blocked?.includes(u._id)) && !c.users.find(u => blockedFrom?.includes(u._id))};
     return conversations.filter(filter);
   }, [user, conversations]);
+
+  // function to set selected conversation background color
+  const setSelectedConvoColor = (selected) => {
+    {isConvoSelected ? selected.target.setAttribute("style", "background-color: #c9cac5") : selected.target.setAttribute("style", "background-color: gainsboro")}
+  }
 
   const msgText = React.useCallback((icon, text, unseenMessage) => <Msg><Icon name={icon} size={16} /><MessageText unseen={unseenMessage} noFont style={{marginLeft: 4}}>{text}</MessageText></Msg>, []);
   const renderItem = React.useCallback(item => {
@@ -30,7 +36,14 @@ function Sidebar({user, conversations, ...props}) {
         msg.video ? msgText('video', 'Video', unseenMessage) :
           <MessageText unseen={unseenMessage}>{(msg.text?.find(i => i.language === user.language))?.text}</MessageText>;
     return (
-      <Item onClick={() => props.setChatId(item._id)} unseen={unseenMessage} key={item._id}>
+      <Item onClick={(e) => {
+        props.setChatId(item._id); 
+        setIsConvoSelected(true);
+        setSelectedConvoColor(e);
+        }} 
+        unseen={unseenMessage} 
+        key={item._id}
+      >
         <Row>
           <Avatar src={getAvatarPath(!item.isGroup ? recipient?.avatar : item.image, item.isGroup)} />
           <div>
