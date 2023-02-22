@@ -1,5 +1,7 @@
 .react-tel-input{
-    width: 350px !important;
+    max-width: 350px !important;
+    min-width: 250px !important;
+    width: -webkit-fill-available !important;
 
 }
 
@@ -8,6 +10,9 @@
     font-size: 17px;
     height: auto;
     line-height: inherit;
+    max-width: 350px !important;
+    min-width: 250px !important;
+    width: -webkit-fill-available !important;
 }
 
 .react-tel-input .flag-dropdown {
@@ -25,6 +30,15 @@
     border-bottom: 2px solid #848484;
     font-size: 17px;
     padding: 10px 0;
-    width: 350px;
     margin-top: 25px;
+}
+
+h3 {
+    font-size: calc(.7rem + .7vw) !important;
+    font-weight: 700 !important;
+}
+
+.login-btn {
+    max-width: 300px !important;
+    width: -webkit-fill-available !important;
 }

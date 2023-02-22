@@ -5,6 +5,8 @@ import {ChatRoom, Home, Login} from "./pages";
 import useDimensions from "./utils/useDimensions";
 import {Layout} from "./components";
 import 'react-toastify/dist/ReactToastify.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const {height} = useDimensions();
