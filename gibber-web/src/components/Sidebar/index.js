@@ -31,13 +31,17 @@ function Sidebar({user, conversations, ...props}) {
         msg.video ? msgText('video', 'Video', unseenMessage) :
           <MessageText unseen={unseenMessage}>{(msg.text?.find(i => i.language === user.language))?.text}</MessageText>;
     return (
-      <Item onClick={(e) => {
+      <Item onClick={() => {
           props.setChatId(item._id);
           setConvoSelected(item._id);
           }} 
           style={ 
-            convoSelected === item._id && localStorage.mode === 'light' ? { backgroundColor: "gainsboro" } : { backgroundColor: "#fbfdf6" } 
-            && convoSelected === item._id && localStorage.mode === 'dark' ? { backgroundColor: "gainsboro" } : { backgroundColor: "black" }
+            convoSelected === item._id ? 
+              localStorage.mode === 'light' ? { backgroundColor: "#c9cac5" } : { backgroundColor: "gainsboro"}
+              && localStorage.mode === 'dark' ? { backgroundColor: "gainsboro" } : { backgroundColor: "#c9cac5"}
+            : 
+              localStorage.mode === 'light' ? { backgroundColor: "#fbfdf6"} : { backgroundColor: "black"}
+              && localStorage.mode === 'dark' ? { backgroundColor: "black" } : { backgroundColor: "#fbfdf6"}
           }
           unseen={unseenMessage} 
           key={item._id}
