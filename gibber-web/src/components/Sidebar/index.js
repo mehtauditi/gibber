@@ -40,10 +40,10 @@ function Sidebar({user, conversations, ...props}) {
         </Row>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <Time>{moment(msg?.createdAt || item.createdAt).fromNow()}</Time>
-          <ItemRight>
+          {props.width > 375 ? <ItemRight>
             {unseenMessage ? <UnseenCount>{unseenMessageLength > 9 ? '9+' : unseenMessageLength}</UnseenCount> : <div style={{height: 0}} />}
             <div style={{opacity: (sender && !unseenMessage) ? 1 : 0}}><Icon name={"done-all-outline"} color="gray" size={15} /></div>
-          </ItemRight>
+          </ItemRight>: <></>}
         </div>
       </Item>
     )

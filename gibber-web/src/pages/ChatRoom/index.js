@@ -9,11 +9,13 @@ import {LoadScript} from "@react-google-maps/api";
 import constants from "../../config/constants";
 import {createChat, disconnectSocket, initiateSocket, newChat, refreshMessages, setOffline, setOnline} from "./socket";
 import Spinner from "../../components/Spinner";
+import useDimensions from "../../utils/useDimensions";
 import {CenteredContent} from "../../utils/sharedStyles";
 import {useBeforeunload} from 'react-beforeunload';
 
 
 function ChatRoom() {
+  const { width } = useDimensions();
   const [loading, setLoading] = React.useState(true);
   const [mode, setMode] = useOutletContext();
   const [user, setUser] = React.useState({});
@@ -21,6 +23,7 @@ function ChatRoom() {
   const [chatId, setChatId] = React.useState('');
   const [chatData, setChatData] = React.useState({});
   const [profile, setProfile] = React.useState();
+  const [sidebarStatus, setSidebarStatus] = React.useState('open');
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -53,6 +56,7 @@ function ChatRoom() {
     if (chatId) {
       const res = await Api.get('/chat/conversation/' + chatId);
       setChatData(res.data);
+      setSidebarStatus('close')
     }
   }, [chatId]);
   React.useEffect(() => {
@@ -71,6 +75,8 @@ function ChatRoom() {
       });
     }
   }, [user._id]);
+
+  React.useEffect(() => {}, [sidebarStatus]);
 
   const updateLastMessage = React.useCallback((id, message) => {
     setConversations(state => state.map(c => c._id === id ? {...c, message} : c))
@@ -96,15 +102,35 @@ function ChatRoom() {
     localStorage.removeItem("token")
     navigate('/')
   }
+
+  const handleProfileClick = (event) => {
+    event.preventDefault();
+    navigate(`/app/myprofile`, { state: user })
+  }
+
+
+  const sideBarToggle = (val) => {
+    if(width < 700 && val === 'close'){
+      setSidebarStatus(val);
+      console.log(val);
+    }else {
+      console.log('here')
+      if(sidebarStatus === 'close') setSidebarStatus('open');
+      else setSidebarStatus('close');
+
+    }
+    console.log('toggled');
+  }
+
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
       <Container>
         {loading ? <CenteredContent className="loading"><Spinner color="#358bd0"/></CenteredContent>:
           <>
-            <Sidebar user={user} conversations={conversations} setConversations={setConversations} setChatId={setChatId} createChat={createConversation} />
+            {width >= 700 || ( sidebarStatus === 'open') ? <Sidebar width={width} user={user} conversations={conversations} setConversations={setConversations} setChatId={setChatId} createChat={createConversation} /> : <></>}
             {chatData._id &&
             <LoadScript googleMapsApiKey={constants.maps_api}>
-              <Chat
+              {width > 950 || !profile ? <Chat
                 updateLastMessage={updateLastMessage}
                 setSeenMessages={setSeenMessages}
                 setProfile={setProfile}
@@ -112,7 +138,9 @@ function ChatRoom() {
                 user={user}
                 mode={mode}
                 setMode={setThemeMode}
-              />
+                sideBarToggle={sideBarToggle}
+                sidebarStatus={sidebarStatus}
+              />: <></>}
             </LoadScript>
             }
             {profile ? <Profile id={profile} setProfile={setProfile} /> : null}
@@ -120,6 +148,8 @@ function ChatRoom() {
         }
       </Container>
       <footer style={{ display: "flex", justifyContent: "flex-end" }}>
+          <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
+          <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
           <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
       </footer>
     </ThemeProvider>
