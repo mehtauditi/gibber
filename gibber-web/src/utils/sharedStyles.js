@@ -56,7 +56,7 @@ export const Divider = styled.div`
   width: 130px;
   height: 2px;
   background-color: #333;
-  @media (max-width: 350px) {
+  @media screen and (max-width: 350px) {
     width: 110px;
   }
 `;

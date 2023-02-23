@@ -93,7 +93,7 @@ function MyProfile(props) {
           </div>
         </div>
         <h2 style={{marginBottom: '5px'}}>Change Password</h2>
-        <Divider style={{width: '250px'}}/>
+        <Divider style={{width: '250px', marginBottom: 20}}/>
         <div className="password-container">
           <div className="old-password">
             <h4>Current Password: </h4>
