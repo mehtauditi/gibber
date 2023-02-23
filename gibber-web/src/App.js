@@ -6,6 +6,8 @@ import useDimensions from "./utils/useDimensions";
 import {Layout} from "./components";
 import 'react-toastify/dist/ReactToastify.css';
 import MyProfile from './pages/MyProfile';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const {height} = useDimensions();
