@@ -6,14 +6,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
 }
 
 .user-info h4,
 .email-info h4, .old-password h4, .new-password h4, .language-info h4, .phone-info h4 {
-  margin-right: 10px;
   display: inline-block;
-  width: 150px;
   text-align: left;
+  margin: 5px 5px 5px 0px;
 }
 
 .update-profile {
@@ -21,15 +21,12 @@
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .back-to-chat {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+  color: #358bd0;
   padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #358bd0;
 }
 
 .back-to-chat:hover {
@@ -37,7 +34,8 @@
 }
 
 .user-info, .email-info, .language-info, .phone-info {
-  height: 45px;
+  padding: 5px;
+  margin:5px;
 }
 
 input {

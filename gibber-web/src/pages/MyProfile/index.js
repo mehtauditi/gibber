@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Button, Divider, Logo } from "../../utils/sharedStyles";
+import { CenteredContent, Button, Divider, Logo } from "../../utils/sharedStyles";
+import PasswordChecklist from 'react-password-checklist';
 import Api from "../../config/axios";
 import "./index.css";
 import { toast } from "react-toastify";
@@ -59,19 +60,19 @@ function MyProfile(props) {
   };
 
   return (
-    <div>
+    <div className="container">
       <div style={{padding: '20px'}}>
         <NavLink to="/app/chat" className="back-to-chat">
           Return To Chat
         </NavLink>
       </div>
-      <form className="container">
+      <CenteredContent >
         <Logo/>
         <h2 style={{ marginTop: "20px", marginBottom: '5px' }}>Account Information</h2>
-        <Divider style={{width: '250px'}}/>
+        <Divider style={{width: '250px', marginBottom: 20}}/>
         <div className="user-container">
           <div className="user-info">
-            <h4>Display Name</h4>
+            <h4>Display Name:</h4>
             <input
               style={{ display: "inline-block" }}
               value={username}
@@ -79,15 +80,15 @@ function MyProfile(props) {
             ></input>
           </div>
           <div className="email-info">
-            <h4>Email Address</h4>
+            <h4>Email Address:</h4>
             <h5 style={{ display: "inline-block" }}>{userData.email}</h5>
           </div>
           <div className="phone-info">
-            <h4>Phone Number</h4>
+            <h4>Phone Number:</h4>
             <h5 style={{ display: "inline-block" }}>{!userData.phone ? 'None' : userData.phone}</h5>
           </div>
           <div className="language-info">
-            <h4>Language</h4>
+            <h4>Language:</h4>
             <h5 style={{ display: "inline-block" }}>{userData.language}</h5>
           </div>
         </div>
@@ -95,7 +96,7 @@ function MyProfile(props) {
         <Divider style={{width: '250px'}}/>
         <div className="password-container">
           <div className="old-password">
-            <h4>Current Password </h4>
+            <h4>Current Password: </h4>
             <input
               type="password"
               value={password.currentPassword}
@@ -104,15 +105,20 @@ function MyProfile(props) {
             ></input>
           </div>
           <div className="new-password">
-            <h4>New Password</h4>
+            <h4>New Password:</h4>
             <input
               type="password"
               value={password.newPassword}
               name="newPassword"
               onChange={handlePasswordChange}
             ></input>
+            <PasswordChecklist
+                rules={["minLength", "number","capital"]}
+                minLength={8}
+                value={password.newPassword}
+            />
             <br />
-            <h4>Confirm Password</h4>
+            <h4>Confirm Password:</h4>
             <input
               type="password"
               value={password.confirmPassword}
@@ -127,7 +133,7 @@ function MyProfile(props) {
             Update Profile
           </Button>
         </div>
-      </form>
+      </CenteredContent>
     </div>
   );
 }
