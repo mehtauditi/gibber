@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Logo = styled.img.attrs({src: require('../images/logo.png')})`
   width: 100px;
   padding-bottom: 20px;
+  padding-top: 20px;
 `;
 
 export const MocUp = styled.img.attrs({src: require('../images/mocup.png')})`
