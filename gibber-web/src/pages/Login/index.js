@@ -86,6 +86,7 @@ function Login() {
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
 
+
   return (
     <div className="container">
       <Link to="/"><Logo/></Link>

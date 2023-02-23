@@ -96,6 +96,12 @@ function ChatRoom() {
     localStorage.removeItem("token")
     navigate('/')
   }
+
+  const handleProfileClick = (event) => {
+    event.preventDefault();
+    navigate(`/app/myprofile`, { state: user })
+  }
+
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
       <Container>
@@ -120,6 +126,8 @@ function ChatRoom() {
         }
       </Container>
       <footer style={{ display: "flex", justifyContent: "flex-end" }}>
+          <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
+          <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
           <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
       </footer>
     </ThemeProvider>
