@@ -8,9 +8,7 @@ import {CreateChat} from "../index";
 
 function Sidebar({user, conversations, ...props}) {
   const [createVisible, setCreateVisible] = React.useState(false);
-  const [isConvoSelected, setIsConvoSelected] = React.useState(false);
-  const [selectedConvo, setSelectedConvo] = React.useState(null);
-  console.log('selectedConvo', selectedConvo);
+  const [convoSelected, setConvoSelected] = React.useState('');
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);
     const blockedFrom = user?.blockedFrom?.map(b => b._id);
@@ -35,13 +33,12 @@ function Sidebar({user, conversations, ...props}) {
     return (
       <Item onClick={(e) => {
           props.setChatId(item._id);
-          setIsConvoSelected(true);
-          // setSelectedConvo(e.target.innerText);
-          // setSelectedConvoColor();
-          // console.log('e.target', e.target)
+          setConvoSelected(item._id);
           }} 
-          // id={selectedConvo}
-          style={ isConvoSelected ? { backgroundColor: "#c9cac5"} : { backgroundColor: "#fbfdf6" } }
+          style={ 
+            convoSelected === item._id && localStorage.mode === 'light' ? { backgroundColor: "gainsboro" } : { backgroundColor: "#fbfdf6" } 
+            && convoSelected === item._id && localStorage.mode === 'dark' ? { backgroundColor: "gainsboro" } : { backgroundColor: "black" }
+          }
           unseen={unseenMessage} 
           key={item._id}
       >

@@ -41,7 +41,6 @@ export const Item = styled.div`
   cursor: pointer;
   position: relative;
   padding: 0 25px;
-  background-color: #fbfdf6;
 `;
 
 export const Avatar = styled.img`
