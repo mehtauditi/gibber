@@ -130,7 +130,7 @@ function ChatRoom() {
             {width >= 700 || ( sidebarStatus === 'open') ? <Sidebar width={width} user={user} conversations={conversations} setConversations={setConversations} setChatId={setChatId} createChat={createConversation} /> : <></>}
             {chatData._id &&
             <LoadScript googleMapsApiKey={constants.maps_api}>
-              <Chat
+              {width > 950 || !profile ? <Chat
                 updateLastMessage={updateLastMessage}
                 setSeenMessages={setSeenMessages}
                 setProfile={setProfile}
@@ -140,7 +140,7 @@ function ChatRoom() {
                 setMode={setThemeMode}
                 sideBarToggle={sideBarToggle}
                 sidebarStatus={sidebarStatus}
-              />
+              />: <></>}
             </LoadScript>
             }
             {profile ? <Profile id={profile} setProfile={setProfile} /> : null}
