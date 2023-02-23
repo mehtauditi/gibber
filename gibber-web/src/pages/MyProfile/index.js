@@ -18,7 +18,7 @@ function MyProfile(props) {
 
 
   const handleProfileUpdateSubmit = async () => {
-    if (!username) {
+    if (!username || username.trim() === '') {
       toast.warn('Invalid name');
       return;
     }
@@ -26,7 +26,7 @@ function MyProfile(props) {
         await Api.put(`/user`, { name: username } );
     }
     if (!password.newPassword && !password.confirmPassword && !password.currentPassword) {
-      alert('Profile Updated');
+      toast.success('Profile Updated');
       return;
     }
     if (password.newPassword === password.confirmPassword) {
@@ -40,7 +40,13 @@ function MyProfile(props) {
       toast.warn("Invalid password or mismatched");
       return;
     }
-    alert('Profile Updated');
+    toast.success('Profile Updated');
+    setPassword({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+
   };
 
   const handleChangeUserName = (event) => {
