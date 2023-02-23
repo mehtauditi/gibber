@@ -5,6 +5,7 @@ import {ChatRoom, Home, Login} from "./pages";
 import useDimensions from "./utils/useDimensions";
 import {Layout} from "./components";
 import 'react-toastify/dist/ReactToastify.css';
+import MyProfile from './pages/MyProfile';
 
 function App() {
   const {height} = useDimensions();
@@ -17,6 +18,7 @@ function App() {
           <Route path="app" element={<Layout/>}>
             <Route path="login" element={<Login/>}/>
             <Route path="chat" element={<ChatRoom/>}/>
+            <Route exact path="myprofile" element={<MyProfile/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
