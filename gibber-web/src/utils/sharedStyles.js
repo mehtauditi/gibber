@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Logo = styled.img.attrs({src: require('../images/logo.png')})`
   width: 100px;
   padding-bottom: 20px;
+  padding-top: 20px;
 `;
 
 export const MocUp = styled.img.attrs({src: require('../images/mocup.png')})`
@@ -56,7 +57,7 @@ export const Divider = styled.div`
   width: 130px;
   height: 2px;
   background-color: #333;
-  @media (max-width: 350px) {
+  @media screen and (max-width: 350px) {
     width: 110px;
   }
 `;
