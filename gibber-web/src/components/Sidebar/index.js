@@ -9,12 +9,14 @@ import {CreateChat} from "../index";
 function Sidebar({user, conversations, ...props}) {
   const [createVisible, setCreateVisible] = React.useState(false);
   const [convoSelected, setConvoSelected] = React.useState('');
+
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);
     const blockedFrom = user?.blockedFrom?.map(b => b._id);
     const filter = c => {if (c.isGroup) return true; else return !c.users.find(u => blocked?.includes(u._id)) && !c.users.find(u => blockedFrom?.includes(u._id))};
     return conversations.filter(filter);
   }, [user, conversations]);
+
 
   const msgText = React.useCallback((icon, text, unseenMessage) => <Msg><Icon name={icon} size={16} /><MessageText unseen={unseenMessage} noFont style={{marginLeft: 4}}>{text}</MessageText></Msg>, []);
   const renderItem = React.useCallback(item => {
@@ -35,14 +37,7 @@ function Sidebar({user, conversations, ...props}) {
           props.setChatId(item._id);
           setConvoSelected(item._id);
           }} 
-          style={ 
-            convoSelected === item._id ? 
-              localStorage.mode === 'light' ? { backgroundColor: "#c9cac5" } : { backgroundColor: "gainsboro"}
-              && localStorage.mode === 'dark' ? { backgroundColor: "gainsboro" } : { backgroundColor: "#c9cac5"}
-            : 
-              localStorage.mode === 'light' ? { backgroundColor: "#fbfdf6"} : { backgroundColor: "black"}
-              && localStorage.mode === 'dark' ? { backgroundColor: "black" } : { backgroundColor: "#fbfdf6"}
-          }
+          className={convoSelected === item._id ? "selected" : ""}
           unseen={unseenMessage} 
           key={item._id}
       >

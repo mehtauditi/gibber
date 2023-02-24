@@ -11,7 +11,8 @@ const theme = {
     secondary: '#175B4A',
     gray: '#848484',
     border: '#3b3b3b',
-    danger: '#e74c3c'
+    danger: '#e74c3c',
+    selectedConvo: 'black',
   },
   light: {
     mode: 'light',
@@ -25,7 +26,8 @@ const theme = {
     secondary: '#175B4A',
     gray: '#848484',
     border: '#EBEBEB',
-    danger: '#e74c3c'
+    danger: '#e74c3c',
+    selectedConvo: 'gainsboro'
   },
   body: {
     flex: 1

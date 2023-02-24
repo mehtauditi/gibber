@@ -41,6 +41,7 @@ export const Item = styled.div`
   cursor: pointer;
   position: relative;
   padding: 0 25px;
+  background-color: ${(props) => props.className === 'selected' ? props.theme.selectedConvo : {}}
 `;
 
 export const Avatar = styled.img`
