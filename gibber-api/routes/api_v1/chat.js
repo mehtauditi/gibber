@@ -109,7 +109,7 @@ const translateText = async (text, lang, tarLang) => {
     const resp =  await axios.request(options);
     return resp.data.translated_text[tarLang];
   }catch(e){
-    return e;
+    throw new Error(e);
   }
 }
 
