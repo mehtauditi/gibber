@@ -36,6 +36,7 @@ function Sidebar({user, conversations, ...props}) {
       <Item onClick={() => {
           props.setChatId(item._id);
           setConvoSelected(item._id);
+          props.setSidebarStatus('close');
           }} 
           className={convoSelected === item._id ? "selected" : ""}
           unseen={unseenMessage} 
