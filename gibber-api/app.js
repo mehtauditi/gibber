@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: process.env.ALLOWED_CORS_ORIGINS.split(',') // 'http://localhost:3000'
 }));
 
 const mongoUri = process.env.MONGO_URI;
