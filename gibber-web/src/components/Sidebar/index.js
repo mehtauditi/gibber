@@ -8,12 +8,15 @@ import {CreateChat} from "../index";
 
 function Sidebar({user, conversations, ...props}) {
   const [createVisible, setCreateVisible] = React.useState(false);
+  const [convoSelected, setConvoSelected] = React.useState('');
+
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);
     const blockedFrom = user?.blockedFrom?.map(b => b._id);
     const filter = c => {if (c.isGroup) return true; else return !c.users.find(u => blocked?.includes(u._id)) && !c.users.find(u => blockedFrom?.includes(u._id))};
     return conversations.filter(filter);
   }, [user, conversations]);
+
 
   const msgText = React.useCallback((icon, text, unseenMessage) => <Msg><Icon name={icon} size={16} /><MessageText unseen={unseenMessage} noFont style={{marginLeft: 4}}>{text}</MessageText></Msg>, []);
   const renderItem = React.useCallback(item => {
@@ -30,7 +33,15 @@ function Sidebar({user, conversations, ...props}) {
         msg.video ? msgText('video', 'Video', unseenMessage) :
           <MessageText unseen={unseenMessage}>{(msg.text?.find(i => i.language === user.language))?.text}</MessageText>;
     return (
-      <Item onClick={() => props.setChatId(item._id)} unseen={unseenMessage} key={item._id}>
+      <Item onClick={() => {
+          props.setChatId(item._id);
+          setConvoSelected(item._id);
+          props.setSidebarStatus('close');
+          }} 
+          className={convoSelected === item._id ? "selected" : ""}
+          unseen={unseenMessage} 
+          key={item._id}
+      >
         <Row>
           <Avatar src={getAvatarPath(!item.isGroup ? recipient?.avatar : item.image, item.isGroup)} />
           <div>
@@ -40,10 +51,10 @@ function Sidebar({user, conversations, ...props}) {
         </Row>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <Time>{moment(msg?.createdAt || item.createdAt).fromNow()}</Time>
-          <ItemRight>
+          {props.width > 375 ? <ItemRight>
             {unseenMessage ? <UnseenCount>{unseenMessageLength > 9 ? '9+' : unseenMessageLength}</UnseenCount> : <div style={{height: 0}} />}
             <div style={{opacity: (sender && !unseenMessage) ? 1 : 0}}><Icon name={"done-all-outline"} color="gray" size={15} /></div>
-          </ItemRight>
+          </ItemRight>: <></>}
         </div>
       </Item>
     )

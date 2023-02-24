@@ -65,9 +65,9 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, ...props}) =
           onChange={e => onChange(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && submit()}
         />
-        <IconBtn onClick={() => setActionsVisible(true)}>
+        {value?.trim().length === 0 && props.sidebarStatus === 'close' && false ? <IconBtn onClick={() => setActionsVisible(true)}>
           <Icon size={21} name="attach-outline" color={theme.gray} />
-        </IconBtn>
+        </IconBtn>: <></>}
         <IconContainer onClick={submit}>
           <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
         </IconContainer>

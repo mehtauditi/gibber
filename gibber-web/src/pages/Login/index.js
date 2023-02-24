@@ -86,6 +86,7 @@ function Login() {
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
 
+
   return (
     <div className="container">
       <Link to="/"><Logo/></Link>
@@ -97,15 +98,15 @@ function Login() {
             {/* <h3 style={{margin: '10px'}}>OR</h3> */}
             {/* <Divider/> */}
           </Row>
-          <Button onClick={() => setLoginType(1)} width={350}>Login With Phone</Button>
+          <Button className='login-btn' onClick={() => setLoginType(1)} width={350}>Login With Phone</Button>
           <br/>
-          <Button onClick={() => setLoginType(2)} width={350}>Login With Email</Button>
+          <Button className='login-btn' onClick={() => setLoginType(2)} width={350}>Login With Email</Button>
           <Row align="center" style={{margin: '25px 0'}}>
             <Divider/>
             <h3 style={{margin: '10px'}}>OR</h3>
             <Divider/>
           </Row>
-          <Button onClick={() => setLoginType(3)} width={350}>Sign Up</Button>
+          <Button className='login-btn' onClick={() => setLoginType(3)} width={350}>Sign Up</Button>
         </CenteredContent>
         :
         loginType !== 3 ?
@@ -123,7 +124,7 @@ function Login() {
             }
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
-            <Button onClick={login} width={350}>Login</Button>
+            <Button className='login-btn' onClick={login} width={350}>Login</Button>
           </CenteredContent>
           :
           <CenteredContent>
@@ -144,7 +145,7 @@ function Login() {
                 value={password}
             />
             <br/><br/>
-            <Button onClick={signUp} width={350}>Sign Up</Button>
+            <Button className='login-btn' onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
       }
     </div>

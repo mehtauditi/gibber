@@ -12,6 +12,9 @@ export const Text = styled.input.attrs(({type}) => ({type: type || 'text'}))`
   padding: 10px 0;
   width: 350px;
   margin-top: 25px;
+  max-width: 350px !important;
+  min-width: 250px !important;
+  width: -webkit-fill-available !important;
   &:focus {
     outline: none;
   }

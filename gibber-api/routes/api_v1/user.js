@@ -125,6 +125,23 @@ const updateAvatar = async (req, res, next) => {
   }
 };
 
+const updatePassword = async (req, res, next) => {
+  try {
+    const { userOldPassword, userNewPassword } = req.body;
+    const userId = req.params.id;
+    const user = await User.findOne({_id: userId});
+    if (!user || !user.validatePassword(userOldPassword)) {
+      new ErrorHandler(400, ('Invalid password or passwords do not match'), [], res);
+      return;
+    }
+    user.setPassword(userNewPassword);
+    await user.save();
+    res.json(user)
+  } catch (e) {
+    next(e);
+  }
+}
+
 const block = async (req, res, next) => {
   try {
     await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}});
@@ -182,6 +199,7 @@ router.get("/search", auth.required, search);
 router.get("/:id", auth.required, get);
 router.put("/", auth.required, update);
 router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
+router.put("/password/:id", auth.required, updatePassword);
 router.put("/block/:user", auth.required, block);
 router.put("/unblock/:user", auth.required, unblock);
 router.delete("/:id", auth.required, remove);
