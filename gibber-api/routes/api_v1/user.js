@@ -6,6 +6,7 @@ const {getNotNullFields} = require('../../utils');
 const {upload, getImageName} = require('../../config/storage');
 const s3 = require('../../config/s3');
 const qr = require('qrcode');
+const Conversation = require('../../models/Conversation');
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
@@ -29,18 +30,24 @@ const create = async (req, res, next) => {
     const user = {...query, name, password, language};
     const finalUser = new User(user);
     finalUser.setPassword(user.password);
-
-    return finalUser
-      .save()
-      .then(async data => {
-        const userWithToken = {...data.toJSON()};
-        delete userWithToken['password'];
-        userWithToken.token = finalUser.generateJWT();
-        return res.status(200).json(userWithToken);
-      })
-      .catch(async e => {
+    finalUser.save(async (err, newUser) => {
+      if (err)
         return new ErrorHandler(400, "An error occurred during user creation, please try again later.", [], res);
+      const userWithToken = { ...newUser.toJSON() };
+      delete userWithToken['password'];
+      userWithToken.token = finalUser.generateJWT();
+      const adminUser = await User.findOne({ email: 'dchoifor2@gmail.com' });
+      const newConversation = new Conversation({
+        users: [adminUser._id, newUser._id]
       });
+      await newConversation.save( async (err, newConv) => {
+        if (err)
+          return new ErrorHandler(404, "Failed to create conversation with team account", [], res);
+        await User.updateOne({ _id: adminUser._id }, { $addToSet: { contacts: newUser._id } });
+        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
+        res.status(200).json(userWithToken);
+      });
+    });
   } catch (e) {
     next(e);
   }
