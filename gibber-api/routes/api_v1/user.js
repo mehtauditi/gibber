@@ -20,10 +20,14 @@ const create = async (req, res, next) => {
     if (missingFields.length > 0)
       return new ErrorHandler(400, "Missing fields: " + missingFields.toString(), missingFields, res);
 
-    const userEmail = await User.findOne(email);
-    const userPhone = await User.findOne(phone);
-    if (!(userEmail && userPhone))
-      return new ErrorHandler(409, `Please enter an email address and a phone number.`, [], res);
+    const alreadyExists = await User.findOne({
+     $or: [
+            { email },
+            { phone }
+          ]
+   });
+    if (alreadyExists)
+      return new ErrorHandler(409, `Either Email or Phone already exist. Please enter a different email address or phone number.`, [], res);
 
     const user = {email, phone, name, password, language};
     const finalUser = new User(user);
@@ -189,7 +193,7 @@ const remove = async (req, res, next) => {
   }
 };
 
-router.post("/user", create);
+router.post("/", create);
 router.post("/login", login);
 router.post("/qr", generateQr);
 router.put("/device", auth.required, addDevice);
