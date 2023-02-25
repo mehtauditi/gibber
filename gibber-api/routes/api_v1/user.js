@@ -20,13 +20,12 @@ const create = async (req, res, next) => {
     if (missingFields.length > 0)
       return new ErrorHandler(400, "Missing fields: " + missingFields.toString(), missingFields, res);
 
-    const type = phone ? 'phone' : 'email';
-    const query = type === 'phone' ? {phone} : {email};
-    const alreadyHave = await User.findOne({...query});
-    if (alreadyHave)
-      return new ErrorHandler(409, `This ${type} already taken. Please try with a different ${type}`, [], res);
+    const userEmail = await User.findOne(email);
+    const userPhone = await User.findOne(phone);
+    if (!(userEmail && userPhone))
+      return new ErrorHandler(409, `Please enter an email address and a phone number.`, [], res);
 
-    const user = {...query, name, password, language};
+    const user = {email, phone, name, password, language};
     const finalUser = new User(user);
     finalUser.setPassword(user.password);
 
@@ -190,7 +189,7 @@ const remove = async (req, res, next) => {
   }
 };
 
-router.post("/", create);
+router.post("/user", create);
 router.post("/login", login);
 router.post("/qr", generateQr);
 router.put("/device", auth.required, addDevice);
