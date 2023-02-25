@@ -54,8 +54,13 @@ const create = async (req, res, next) => {
 
         // creating reply from Team account
         const translated = await translateText(welcomeMessage, 'en', newUser.language);
-        let obj = {language: newUser.language, text: translated};
-        const reply = new Message({conversationId: newConv._id, user: adminUser._id, createdAt: new Date(), originalLang: 'en', text: [obj], originalText: welcomeMessage });
+        let textArr;
+        if(newUser.language === 'en'){
+          textArr = [{language: newUser.language, text: translated}];
+        }else {
+          textArr = [{language: newUser.language, text: translated}, {language: 'en', text: welcomeMessage}];
+        }
+        const reply = new Message({conversationId: newConv._id, user: adminUser._id, createdAt: new Date(), originalLang: 'en', text: textArr, originalText: welcomeMessage });
         reply.save(async function (err, reply) {
           if (err) return new ErrorHandler(404, "Failed to create message from team account", [], res);
           else {
