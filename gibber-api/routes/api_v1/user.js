@@ -40,12 +40,13 @@ const create = async (req, res, next) => {
       const newConversation = new Conversation({
         users: [adminUser._id, newUser._id]
       });
-      await newConversation.save();
-
-      await User.updateOne({ _id: adminUser._id }, { $addToSet: { contacts: newUser._id } });
-      await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } });
-
-      res.status(200).json(userWithToken);
+      await newConversation.save( async (err, newConv) => {
+        if (err)
+          return new ErrorHandler(404, "Failed to create conversation with team account", [], res);
+        await User.updateOne({ _id: adminUser._id }, { $addToSet: { contacts: newUser._id } });
+        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
+        res.status(200).json(userWithToken);
+      });
     });
   } catch (e) {
     next(e);
