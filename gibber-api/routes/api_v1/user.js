@@ -23,13 +23,16 @@ const create = async (req, res, next) => {
     if (missingFields.length > 0)
       return new ErrorHandler(400, "Missing fields: " + missingFields.toString(), missingFields, res);
 
-    const type = phone ? 'phone' : 'email';
-    const query = type === 'phone' ? {phone} : {email};
-    const alreadyHave = await User.findOne({...query});
-    if (alreadyHave)
-      return new ErrorHandler(409, `This ${type} already taken. Please try with a different ${type}`, [], res);
+    const alreadyExists = await User.findOne({
+     $or: [
+            { email },
+            { phone }
+          ]
+   });
+    if (alreadyExists)
+      return new ErrorHandler(409, `Either Email or Phone already exist. Please enter a different email address or phone number.`, [], res);
 
-    const user = {...query, name, password, language};
+    const user = {email, phone, name, password, language};
     const finalUser = new User(user);
     finalUser.setPassword(user.password);
     finalUser.save(async (err, newUser) => {
