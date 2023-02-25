@@ -34,4 +34,5 @@ exports.translateText = async (text, lang, tarLang) => {
 }
 
 
+exports.welcomeMessage = "Hey! We're excited you're here! We're reaching out today to kick off a conversation so you see the power of our app! Reply back in any language you feel comfortable and see the power of translation. FYI if you have any feedback or bugs, we're open to hearing about them! Excited to talk with you!";
 
