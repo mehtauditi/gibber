@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { CenteredContent, Button, Divider, Logo } from "../../utils/sharedStyles";
+import {theme} from "../../config/theme";
+import {ThemeProvider} from "styled-components";
+import { useOutletContext} from "react-router-dom";
+import { CenteredContent, Button, Logo } from "../../utils/sharedStyles";
+import { Container, Divider, TextField } from "./styles";
 import PasswordChecklist from 'react-password-checklist';
 import Api from "../../config/axios";
 import "./index.css";
@@ -16,6 +20,8 @@ function MyProfile(props) {
     newPassword: "",
     confirmPassword: "",
   });
+  const [mode, setMode] = useOutletContext();
+
 
 
   const handleProfileUpdateSubmit = async () => {
@@ -60,7 +66,8 @@ function MyProfile(props) {
   };
 
   return (
-    <div className="container">
+    <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
+    <Container>
       <div style={{padding: '20px'}}>
         <NavLink to="/app/chat" className="back-to-chat">
           Return To Chat
@@ -71,14 +78,14 @@ function MyProfile(props) {
         <h2 style={{ marginTop: "20px", marginBottom: '5px' }}>Account Information</h2>
         <Divider style={{width: '250px', marginBottom: 20}}/>
         <div className="user-container">
-          <div className="user-info">
+          <TextField>
             <h4>Display Name:</h4>
             <input
               style={{ display: "inline-block" }}
               value={username}
               onChange={handleChangeUserName}
             ></input>
-          </div>
+          </TextField>
           <div className="email-info">
             <h4>Email Address:</h4>
             <h5 style={{ display: "inline-block" }}>{userData.email}</h5>
@@ -95,7 +102,7 @@ function MyProfile(props) {
         <h2 style={{marginBottom: '5px'}}>Change Password</h2>
         <Divider style={{width: '250px', marginBottom: 20}}/>
         <div className="password-container">
-          <div className="old-password">
+          <TextField>
             <h4>Current Password: </h4>
             <input
               type="password"
@@ -103,8 +110,8 @@ function MyProfile(props) {
               name="currentPassword"
               onChange={handlePasswordChange}
             ></input>
-          </div>
-          <div className="new-password">
+          </TextField>
+          <TextField>
             <h4>New Password:</h4>
             <input
               type="password"
@@ -125,7 +132,7 @@ function MyProfile(props) {
               name="confirmPassword"
               onChange={handlePasswordChange}
             ></input>
-          </div>
+          </TextField>
           <Button
             className="update-profile"
             onClick={handleProfileUpdateSubmit}
@@ -134,7 +141,8 @@ function MyProfile(props) {
           </Button>
         </div>
       </CenteredContent>
-    </div>
+    </Container>
+    </ThemeProvider>
   );
 }
 

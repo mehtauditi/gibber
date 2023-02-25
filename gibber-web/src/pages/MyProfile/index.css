@@ -1,16 +1,5 @@
-.container {
-  height: 100%;
-  width: 100%;
-  padding: 0px;
-  margin: 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: scroll;
-}
 
-.user-info h4,
-.email-info h4, .old-password h4, .new-password h4, .language-info h4, .phone-info h4 {
+.email-info h4, .language-info h4, .phone-info h4 {
   display: inline-block;
   text-align: left;
   margin: 5px 5px 5px 0px;

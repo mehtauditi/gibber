@@ -23,9 +23,9 @@ export const SidebarContainer = styled.div`
     cursor: pointer;
     }
   }
-  @media screen and (max-width: 375px) {
-    flex-basis: 280px !important;
-    width: 280px !important;
+  @media screen and (max-width: 650px) {
+    flex-basis: 100% !important;
+    width: 100% !important;
   } 
 `;
 
@@ -45,6 +45,7 @@ export const Item = styled.div`
   cursor: pointer;
   position: relative;
   padding: 0 25px;
+  background-color: ${(props) => props.className === 'selected' ? props.theme.selectedConvo : {}}
 `;
 
 export const Avatar = styled.img`
