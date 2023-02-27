@@ -112,14 +112,11 @@ function ChatRoom() {
   const sideBarToggle = (val) => {
     if(width < 700 && val === 'close'){
       setSidebarStatus(val);
-      console.log(val);
     }else {
-      console.log('here')
       if(sidebarStatus === 'close') setSidebarStatus('open');
       else setSidebarStatus('close');
 
     }
-    console.log('toggled');
   }
 
   return (
@@ -127,7 +124,7 @@ function ChatRoom() {
       <Container>
         {loading ? <CenteredContent className="loading"><Spinner color="#358bd0"/></CenteredContent>:
           <>
-            {width >= 700 || ( sidebarStatus === 'open') ? <Sidebar width={width} user={user} conversations={conversations} setConversations={setConversations} setChatId={setChatId} createChat={createConversation} /> : <></>}
+            {width >= 700 || ( sidebarStatus === 'open') ? <Sidebar width={width} user={user} conversations={conversations} setConversations={setConversations} setChatId={setChatId} createChat={createConversation} setSidebarStatus={setSidebarStatus} /> : <></>}
             {chatData._id &&
             <LoadScript googleMapsApiKey={constants.maps_api}>
               {width > 950 || !profile ? <Chat

@@ -2,10 +2,13 @@ const router = require('express').Router();
 const User = require('../../models/User');
 const auth = require('../auth');
 const {ErrorHandler} = require('../../config/error');
-const {getNotNullFields} = require('../../utils');
+const {getNotNullFields, translateText, welcomeMessage} = require('../../utils');
 const {upload, getImageName} = require('../../config/storage');
 const s3 = require('../../config/s3');
 const qr = require('qrcode');
+const Conversation = require('../../models/Conversation');
+const Message = require('../../models/Message');
+
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
@@ -20,27 +23,53 @@ const create = async (req, res, next) => {
     if (missingFields.length > 0)
       return new ErrorHandler(400, "Missing fields: " + missingFields.toString(), missingFields, res);
 
-    const type = phone ? 'phone' : 'email';
-    const query = type === 'phone' ? {phone} : {email};
-    const alreadyHave = await User.findOne({...query});
-    if (alreadyHave)
-      return new ErrorHandler(409, `This ${type} already taken. Please try with a different ${type}`, [], res);
+    const alreadyExists = await User.findOne({
+     $or: [
+            { email },
+            { phone }
+          ]
+   });
+    if (alreadyExists)
+      return new ErrorHandler(409, `Either Email or Phone already exist. Please enter a different email address or phone number.`, [], res);
 
-    const user = {...query, name, password, language};
+    const user = {email, phone, name, password, language};
     const finalUser = new User(user);
     finalUser.setPassword(user.password);
-
-    return finalUser
-      .save()
-      .then(async data => {
-        const userWithToken = {...data.toJSON()};
-        delete userWithToken['password'];
-        userWithToken.token = finalUser.generateJWT();
-        return res.status(200).json(userWithToken);
-      })
-      .catch(async e => {
+    finalUser.save(async (err, newUser) => {
+      if (err)
         return new ErrorHandler(400, "An error occurred during user creation, please try again later.", [], res);
+      const userWithToken = { ...newUser.toJSON() };
+      delete userWithToken['password'];
+      userWithToken.token = finalUser.generateJWT();
+      const adminUser = await User.findOne({ email: 'teamgibber@test.com' });
+      const newConversation = new Conversation({
+        users: [adminUser._id, newUser._id]
       });
+      // creating coversation with Team account
+      await newConversation.save( async (err, newConv) => {
+        if (err)
+          return new ErrorHandler(404, "Failed to create conversation with team account", [], res);
+        await User.updateOne({ _id: adminUser._id }, { $addToSet: { contacts: newUser._id } });
+        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
+
+        // creating reply from Team account
+        const translated = await translateText(welcomeMessage, 'en', newUser.language);
+        let textArr;
+        if(newUser.language === 'en'){
+          textArr = [{language: newUser.language, text: translated}];
+        }else {
+          textArr = [{language: newUser.language, text: translated}, {language: 'en', text: welcomeMessage}];
+        }
+        const reply = new Message({conversationId: newConv._id, user: adminUser._id, createdAt: new Date(), originalLang: 'en', text: textArr, originalText: welcomeMessage });
+        reply.save(async function (err, reply) {
+          if (err) return new ErrorHandler(404, "Failed to create message from team account", [], res);
+          else {
+            const msg = await Message.populate(reply, {path:"user", select: 'name , avatar'});
+            res.status(200).json(userWithToken);
+          }
+        });
+      });
+    });
   } catch (e) {
     next(e);
   }
