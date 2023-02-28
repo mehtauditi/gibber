@@ -5,16 +5,39 @@ import {theme as themes} from '../../../config/theme';
 import FileUpload from "../../FileUpload";
 import {useOutsideAlerter} from "../../../utils/useOutsideAlerter";
 import Api from "../../../config/axios";
+import axios from 'axios'
 
-const ChatInput = ({value, onChange, onSend, appendMessage, chatId, ...props}) => {
+const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...props}) => {
   const [actionsVisible, setActionsVisible] = React.useState(false);
   const theme = themes[props.mode];
   const actionsRef = React.useRef(null);
   useOutsideAlerter(actionsRef, () => setActionsVisible(false));
 
+
+  const translateText = async (text, tarLang) => {
+    try{
+      const options = {
+        method: 'POST',
+        url: 'https://nlp-translation.p.rapidapi.com/v1/translate',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+          'X-RapidAPI-Host': 'nlp-translation.p.rapidapi.com'
+        },
+        data: {text: text, to: tarLang}
+      };
+
+      const resp =  await axios.request(options);
+      return resp.data.translated_text[tarLang];
+    }catch(e){
+      throw new Error(e);
+    }
+  }
+
   const submit = React.useCallback(async () => {
     if (value) {
-      sendMessage({text: value});
+      const translatedText = await translateText(value, "ko");
+      sendMessage({text: translatedText});
       onChange('');
     }
   }, [value]);
