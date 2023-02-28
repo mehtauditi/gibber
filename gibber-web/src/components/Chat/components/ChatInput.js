@@ -36,7 +36,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
 
   const submit = React.useCallback(async () => {
     if (value) {
-      const translatedText = await translateText(value, "ko");
+      const translatedText = await translateText(value, user.language);
       sendMessage({text: translatedText});
       onChange('');
     }

@@ -187,7 +187,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           }}
           renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
-          renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} />}
+          renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} user={user} />}
           renderMessageVideo={props => <VideoMessage src={props.currentMessage.video}/>}
           listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           extraData={[mode]}
