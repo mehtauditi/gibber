@@ -2,12 +2,13 @@ const router = require('express').Router();
 const User = require('../../models/User');
 const auth = require('../auth');
 const {ErrorHandler} = require('../../config/error');
-const {getNotNullFields, translateText, welcomeMessage} = require('../../utils');
+const {getNotNullFields, welcomeMessage} = require('../../utils');
 const {upload, getImageName} = require('../../config/storage');
 const s3 = require('../../config/s3');
 const qr = require('qrcode');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
+const {translatedWelcomeMsgs} = require('../../config/translatedWelcomeMsgs');
 
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
@@ -53,12 +54,11 @@ const create = async (req, res, next) => {
         await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
 
         // creating reply from Team account
-        const translated = await translateText(welcomeMessage, 'en', newUser.language);
         let textArr;
-        if(newUser.language === 'en'){
-          textArr = [{language: newUser.language, text: translated}];
+        if(newUser.language === adminUser.language){
+          textArr = [{language: newUser.language, text: translatedWelcomeMsgs.find((e) => e.language === newUser.language).message}];
         }else {
-          textArr = [{language: newUser.language, text: translated}, {language: 'en', text: welcomeMessage}];
+          textArr = [{language: newUser.language, text: translatedWelcomeMsgs.find((e) => e.language === newUser.language).message}, {language: 'en', text: welcomeMessage}];
         }
         const reply = new Message({conversationId: newConv._id, user: adminUser._id, createdAt: new Date(), originalLang: 'en', text: textArr, originalText: welcomeMessage });
         reply.save(async function (err, reply) {
