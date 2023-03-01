@@ -8,6 +8,7 @@ const s3 = require('../../config/s3');
 const qr = require('qrcode');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
+const translatedWelcome = require('../../config/translatedWelcomeMsgs');
 
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
@@ -55,8 +56,9 @@ const create = async (req, res, next) => {
         // creating reply from Team account
         const translated = await translateText(welcomeMessage, 'en', newUser.language);
         let textArr;
-        if(newUser.language === 'en'){
-          textArr = [{language: newUser.language, text: translated}];
+        if(newUser.language === translatedWelcome.name){
+          console.log(translatedMessage.message)
+          // textArr = [{language: newUser.language, text: translatedWelcome.message}];
         }else {
           textArr = [{language: newUser.language, text: translated}, {language: 'en', text: welcomeMessage}];
         }
