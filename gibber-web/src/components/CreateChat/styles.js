@@ -6,11 +6,14 @@ export const Container = styled.div`
   top: 0; left: 0; right: 0; bottom: 0;
   background-color: ${({theme}) => theme.bg};
   padding: 15px 0;
+  transition: all 0.3s ease-in;
   .subTxt {
+    color: ${({theme}) => theme.txt};
     opacity: 0.7;
   }
   svg {
     fill: ${({theme}) => theme.txt};
+    transition: all 0.3s ease-in;
   }
   .searchContainer {
     position: relative;

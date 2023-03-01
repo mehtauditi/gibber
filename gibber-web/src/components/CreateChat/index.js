@@ -41,7 +41,7 @@ function CreateChat({close, user, ...props}) {
     <Item onClick={() => onClick(item)} key={item._id}>
       <Row>
         <Avatar src={getAvatarPath(item.avatar)} />
-        <div>
+        <div className="subtxt-container">
           <UserName>{item.name}</UserName>
           <div className="subTxt">{item.phone || item.email}</div>
         </div>
