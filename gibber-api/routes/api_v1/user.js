@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../../models/User');
 const auth = require('../auth');
 const {ErrorHandler} = require('../../config/error');
-const {getNotNullFields, translateText, welcomeMessage} = require('../../utils');
+const {getNotNullFields, welcomeMessage} = require('../../utils');
 const {upload, getImageName} = require('../../config/storage');
 const s3 = require('../../config/s3');
 const qr = require('qrcode');
@@ -54,8 +54,6 @@ const create = async (req, res, next) => {
         await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
 
         // creating reply from Team account
-        console.log('translated msg', translatedWelcomeMsgs)
-        // const translated = await translateText(welcomeMessage, 'en', newUser.language);
         let textArr;
         if(newUser.language === adminUser.language){
           textArr = [{language: newUser.language, text: translatedWelcomeMsgs.find((e) => e.language === newUser.language).message}];
