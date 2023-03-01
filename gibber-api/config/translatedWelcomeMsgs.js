@@ -1,4 +1,4 @@
-export const transledWelcomeMsgs = [
+exports.translatedWelcomeMsgs = [
     {
         language: 'ar',
         name: 'Arabic',
