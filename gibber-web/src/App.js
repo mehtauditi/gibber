@@ -7,10 +7,13 @@ import {Layout} from "./components";
 import 'react-toastify/dist/ReactToastify.css';
 import MyProfile from './pages/MyProfile';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as Realm from "realm-web";
 
 
 function App() {
   const {height} = useDimensions();
+
+  const app = new Realm.App({ id: 'gibber-chat-yahnd' });
 
   return (
     <div className="App" style={{height}}>
@@ -18,7 +21,7 @@ function App() {
         <Routes>
           <Route index element={<Home/>}/>
           <Route path="app" element={<Layout/>}>
-            <Route path="login" element={<Login/>}/>
+            <Route mongoApp={app} path="login" element={<Login/>}/>
             <Route path="chat" element={<ChatRoom/>}/>
             <Route exact path="myprofile" element={<MyProfile/>}/>
           </Route>

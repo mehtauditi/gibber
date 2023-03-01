@@ -13,7 +13,7 @@ import PasswordChecklist from 'react-password-checklist';
 import 'react-phone-input-2/lib/style.css'
 import './index.css';
 
-function Login() {
+function Login(props) {
   const [loginType, setLoginType] = React.useState(0);
   const [name, setName] = React.useState('');
   const [lang, setLang] = React.useState('');
@@ -22,6 +22,13 @@ function Login() {
   const [password, setPassword] = React.useState('');
   // const [qrCode, setQrCode] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
+
+  // useState for forgot password feature
+  const [newPassword, setNewPassword] = React.useState('');
+  const [token, setToken] = React.useState('');
+  const [tokenId, setTokenId] = React.useState('');
+  const [securityAnswer1, setSecurityAnswer] = React.useState('');
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -87,6 +94,7 @@ function Login() {
   }, [name, email, password, lang, phone, navigate, isValid]);
 
 
+  
   return (
     <div className="container">
       <Link to="/"><Logo/></Link>
@@ -107,6 +115,14 @@ function Login() {
             <Divider/>
           </Row>
           <Button className='login-btn' onClick={() => setLoginType(3)} width={350}>Sign Up</Button>
+          <Button className='forgot-btn' 
+            style={{marginTop: '1.25em'}} 
+            width={300} 
+            onClick={async () => {
+             await props.mongoApp.emailPasswordAuth.sendResetPasswordEmail({ email: 'joki9448@gmail.com' });
+            }}>
+              Forgot Password?
+          </Button>
         </CenteredContent>
         :
         loginType !== 3 ?
