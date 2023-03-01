@@ -7,6 +7,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${({mode}) => mode === 'dark' ? '#242a34' : 'transparent'};
+  transition: background-color 0.3s ease-in;
 `;
 
 export const Corner = styled.img.attrs({src: require('../../images/corner.png')})`
