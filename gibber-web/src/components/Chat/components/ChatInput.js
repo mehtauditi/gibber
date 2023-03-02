@@ -89,12 +89,12 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
           value={value}
           placeholder={"Message"}
           onChange={e => !translateInProg && onChange(e.target.value)}
-          onKeyDown={e => !translateInProg && e.key === 'Enter' && submit()}
+          onKeyDown={e => !translateInProg ? e.key === 'Enter' && submit() : undefined}
         />
         {value?.trim().length === 0 && props.sidebarStatus === 'close' && false ? <IconBtn onClick={() => setActionsVisible(true)}>
           <Icon size={21} name="attach-outline" color={theme.gray} />
         </IconBtn>: <></>}
-        <IconContainer onClick={!translateInProg && submit}>
+        <IconContainer onClick={() => !translateInProg ? submit() : undefined}>
           <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
         </IconContainer>
       </InputContainer>
