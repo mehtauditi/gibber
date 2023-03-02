@@ -40,6 +40,11 @@ exports.translatedWelcomeMsgs = [
         message: "Hey! Wir freuen uns, dass Sie hier sind! Wir melden uns heute, um ein Gespräch zu beginnen, damit Sie die Leistungsfähigkeit unserer App sehen! Antworten Sie in jeder Sprache, in der Sie sich wohlfühlen, und überzeugen Sie sich von der Kraft der Übersetzung. Zu Ihrer Information, wenn Sie Feedback oder Fehler haben, sind wir offen dafür, davon zu hören! Aufgeregt, mit Ihnen zu sprechen!"
     },
     {
+        language: 'gu',
+        name: 'Gujarati',
+        message: "અરે! અમે ઉત્સાહિત છીએ કે તમે અહીં છો! અમે વાતચીત શરૂ કરવા માટે આજે સંપર્ક કરી રહ્યાં છીએ જેથી તમે અમારી એપ્લિકેશનની શક્તિ જોઈ શકો! તમને અનુકૂળ લાગે તેવી કોઈપણ ભાષામાં જવાબ આપો અને અનુવાદની શક્તિ જુઓ. FYI જો તમારી પાસે કોઈ પ્રતિસાદ અથવા ભૂલો હોય, તો અમે તેમના વિશે સાંભળવા માટે તૈયાર છીએ! તમારી સાથે વાત કરવા માટે ઉત્સાહિત!"
+    },
+    {
         language: 'hi',
         name: 'Hindi',
         message: "अरे! हम उत्साहित हैं कि आप यहां हैं! हम आज बातचीत शुरू करने के लिए पहुंच रहे हैं ताकि आप हमारे ऐप की ताकत देख सकें! जिस भी भाषा में आप सहज महसूस करते हैं, उसमें उत्तर दें और अनुवाद की शक्ति देखें। FYI करें यदि आपके पास कोई प्रतिक्रिया या बग है, तो हम उनके बारे में सुनने के लिए तैयार हैं! आपसे बात करने के लिए उत्साहित!"
