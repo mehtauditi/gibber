@@ -18,7 +18,8 @@ const LinkWeb = () => {
 
   return (
     <>
-      <Header title="Link Web" showBack />
+      {/* Temporarily disabled because clicking the QR code button currently shuts down the app */}
+      {/* <Header title="Link Web" showBack />
       <View style={{flex: 1, paddingHorizontal: 15}}>
         <View style={{alignItems: 'center', marginBottom: 15}}>
           <MonitorIcon />
@@ -41,7 +42,7 @@ const LinkWeb = () => {
           <Header title="Scan QR Code" noFont showBack onBack={() => setModalVisible(false)} titleStyle={{fontSize: 18}} />
           <QRCodeScanner onRead={onScan} />
         </View>
-      </Modal>
+      </Modal> */}
     </>
   )
 };
