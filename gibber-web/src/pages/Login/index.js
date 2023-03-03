@@ -130,7 +130,6 @@ function Login() {
           <CenteredContent>
             <h3>Sign Up</h3>
             <TextInput placeholder="Name" value={name} onChange={setName} />
-            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
             <PhoneInput
               className="text-field"
