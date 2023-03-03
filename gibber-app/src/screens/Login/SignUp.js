@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, SafeAreaView, Keyboard} from 'react-native';
 import {Button, Header, Input, Text as TextComp} from "../../components";
-import {LanguageSelect} from '../../screens/Login/LanguageSelect';
+import {LanguageSelectModal} from "./styles";
+// import {LanguageSelect} from '../../screens/Login/LanguageSelect';
 import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './styles';
 import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
@@ -50,7 +51,13 @@ const SignUp = (props) => {
             <Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" />
             <Input label="Email" value={email} onChange={setEmail} keyboardType="email-address" autoCapitalize={"none"} />
             <Input label="Password" value={password} onChange={setPassword} secureTextEntry />
-            <Button label="Choose Your Language" value={lang} style={{marginTop: "10%"}} onPress={() => {return <LanguageSelect/>}}/>
+            <Button 
+              title="Choose Your Language" 
+              value={lang} 
+              lang={lang} 
+              setLang={setLang}
+              style={{marginTop: "10%", marginBottom: "10%"}} 
+              onPress={() => {return <ContentContainer><View><LanguageSelectModal/></View></ContentContainer>}} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
         </Animatable.View>
