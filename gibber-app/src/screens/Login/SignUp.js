@@ -31,12 +31,12 @@ const SignUp = (props) => {
 
   return (
     <>
-      <Header {...props} title="Gibber" hideRight />
+      <Header {...props} title="gibber" hideRight />
       {!loginType ?
         <ContentContainer>
           <LoginImg/>
-          <TextComp size="big" weight="900">Gibber Sign Up</TextComp>
-          <TextComp noFont>Lorem ipsum dolor sit amet</TextComp>
+          <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "2%"}}>gibber | sign up</TextComp>
+          <TextComp noFont>Expand your reach of communication today.</TextComp>
           <Button title="Sign up with phone" style={{marginTop: 35}} onPress={() => setLoginType(1)} />
           <Button title="Sign up with email" style={{marginVertical: 15}} onPress={() => setLoginType(2)} />
         </ContentContainer>
