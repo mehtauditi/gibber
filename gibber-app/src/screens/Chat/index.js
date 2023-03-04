@@ -13,6 +13,11 @@ import {checkRecipientOnline, subscribeToOffline, subscribeToOnline, subscribeTo
 import {getAvatarPath, mapMessageData} from "../../utils/helpers";
 import {Content, Name, Avatar as HeaderAvatar, StatusTxt} from "../../components/Header/styles";
 import {LoadBtn, LoadBtnTxt} from "./styles";
+import mobileAds from 'react-native-google-mobile-ads';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds } from 'react-native-google-mobile-ads';
+
+
 let timeout;
 
 const Chat = (props) => {
@@ -45,6 +50,36 @@ const Chat = (props) => {
   ], [isGroup, recipient, conversationId, isMuted]);
   const user = useSelector(state => state.main.user.data);
   const sentMessage = useSelector(state => state.main.sentMessage);
+
+  // Code for Google Ad Mob - still need to render ads
+
+  // mobileAds()
+  // .initialize()
+  // .then(adapterStatuses => {
+  //   // Initialization complete!
+  // });
+  
+  // Code for requesting App Tracking Transparency authorization (iOS)
+  // const result = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+  // if (result === RESULTS.DENIED) {
+  //   // The permission has not been requested, so request it.
+  //   await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+  // }
+  // const adapterStatuses = await mobileAds().initialize();
+  // const adapterStatuses = await mobileAds().initialize();
+
+  // Code for admob test ads (do not use production ads from Google admob account)
+  //   # App Open
+  // AppOpenAd.createForAdRequest(TestIds.APP_OPEN);
+
+  // # Interstitial
+  // InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+
+  // # Rewarded
+  // RewardedAd.createForAdRequest(TestIds.REWARDED);
+
+  // # Banners
+  // <BannerAd unitId={TestIds.BANNER} />
 
   React.useEffect(() => {
     const conversation = props.route.params?.conversation;
