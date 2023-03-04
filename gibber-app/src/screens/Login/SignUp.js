@@ -29,7 +29,24 @@ const SignUp = (props) => {
   }, []);
 
   const signUp = React.useCallback(() => {
-    dispatch(register({name, email, phone, password, lang}))
+    if (!(email.length > 0 && phone.length > 4)) {
+      // React Native version of Toastify is currently buggy
+      alert('Please enter an email and phone number!')
+    }
+    if (!name) {
+      alert('Please enter your name!')
+    }
+    if (!password) {
+      alert('Please enter a password!')
+    }
+    try {
+      dispatch(register({name, email, phone, password, lang}))
+    } catch (e) {
+      console.log(e.response.data.message)
+    }
+    // if (!isValid) {
+    //   alert('Password is not valid!)
+    // }
   },[name, email, phone, password, lang]);
 
   return (
@@ -38,8 +55,8 @@ const SignUp = (props) => {
       {!loginType ?
         <ContentContainer>
           <LoginImg/>
-          <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "2%"}}>gibber | sign up</TextComp>
-          <TextComp noFont>Expand your reach of communication today.</TextComp>
+          <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "2%"}}>Sign Up</TextComp>
+          <TextComp noFont>Simplying Communication</TextComp>
           <Button title="Create Your Account" style={{marginTop: 35,}} onPress={() => setLoginType(1)} />
           {/* <Button title="Sign up with email" style={{marginVertical: 15}} onPress={() => setLoginType(2)} /> */}
         </ContentContainer>
