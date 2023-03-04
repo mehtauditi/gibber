@@ -2,11 +2,11 @@ import React from 'react';
 import {View, SafeAreaView, Keyboard} from 'react-native';
 import {Button, Header, Input, Text as TextComp} from "../../components";
 import {LanguageSelectModal} from "./styles";
-// import {LanguageSelect} from '../../screens/Login/LanguageSelect';
 import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './styles';
 import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/actions";
+// import ToastManager, {Toast} from "toastify-react-native";
 
 const SignUp = (props) => {
   const [loginType, setLoginType] = React.useState('');
@@ -16,6 +16,7 @@ const SignUp = (props) => {
   const [password, setPassword] = React.useState('');
   const [lang, setLang] = React.useState('');
   const [footerVisible, setFooterVisible] = React.useState(true);
+  const [isValid, setIsValid] = React.useState('');
 
   const dispatch = useDispatch();
 
@@ -28,25 +29,28 @@ const SignUp = (props) => {
     }
   }, []);
 
+  React.useEffect(() => {
+    const hasDigit = /\d/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    setIsValid(hasDigit && hasUppercase && password.length >= 8);
+  }, [password])
+
   const signUp = React.useCallback(() => {
     if (!(email.length > 0 && phone.length > 4)) {
-      // React Native version of Toastify is currently buggy
+      // React Native version of Toastify is currently buggy?
       alert('Please enter an email and phone number!')
     }
     if (!name) {
       alert('Please enter your name!')
     }
-    if (!password) {
-      alert('Please enter a password!')
+    if (!password || !isValid) {
+      alert('Please enter a valid password!')
     }
     try {
       dispatch(register({name, email, phone, password, lang}))
     } catch (e) {
       console.log(e.response.data.message)
     }
-    // if (!isValid) {
-    //   alert('Password is not valid!)
-    // }
   },[name, email, phone, password, lang]);
 
   return (
