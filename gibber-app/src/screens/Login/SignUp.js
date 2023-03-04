@@ -66,10 +66,6 @@ const SignUp = (props) => {
     }
   },[name, email, phone, password, lang]);
 
-  // const renderLangs = () => {
-  //   languages.forEach(l => console.log('langs', languages))
-  // }
-
   return (
     <>
       <Header {...props} title="gibber" hideRight/>
@@ -94,7 +90,7 @@ const SignUp = (props) => {
               lang={lang} 
               setLang={setLang}
               style={{marginTop: "10%", marginBottom: "10%"}} 
-              onPress={renderLangs} />
+              onPress={console.log('hi')} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
           {/* PasswordChecklist doesn't seem to like React Native? */}
