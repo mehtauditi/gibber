@@ -66,9 +66,9 @@ const SignUp = (props) => {
     }
   },[name, email, phone, password, lang]);
 
-  const renderLangs = () => {
-    languages.forEach(l => console.log('langs', languages))
-  }
+  // const renderLangs = () => {
+  //   languages.forEach(l => console.log('langs', languages))
+  // }
 
   return (
     <>
