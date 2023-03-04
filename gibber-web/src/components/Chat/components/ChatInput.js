@@ -54,30 +54,31 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     return res.data.path;
   }, []);
 
-  const sendPicOrVideo = React.useCallback(async (source) => {
-    const uri = URL.createObjectURL(source);
-    setActionsVisible(false);
-    const type = source.type.includes('image') ? 'image' : 'video';
-    let data = {[type]: uri};
-    appendMessage(data);
-    data[type] = await uploadFile(source);
-    onSend(chatId, data);
-  }, []);
-  const sendAudio = React.useCallback(async (source) => {
-    setActionsVisible(false);
-    const uri = URL.createObjectURL(source);
-    appendMessage({audio: uri});
-    setActionsVisible(false);
-    const data = await uploadFile(source);
-    onSend(chatId, {audio: data});
-  }, []);
+  // Media functionality temporarily disabled until bugs are fixed
+  // const sendPicOrVideo = React.useCallback(async (source) => {
+  //   const uri = URL.createObjectURL(source);
+  //   setActionsVisible(false);
+  //   const type = source.type.includes('image') ? 'image' : 'video';
+  //   let data = {[type]: uri};
+  //   appendMessage(data);
+  //   data[type] = await uploadFile(source);
+  //   onSend(chatId, data);
+  // }, []);
+  // const sendAudio = React.useCallback(async (source) => {
+  //   setActionsVisible(false);
+  //   const uri = URL.createObjectURL(source);
+  //   appendMessage({audio: uri});
+  //   setActionsVisible(false);
+  //   const data = await uploadFile(source);
+  //   onSend(chatId, {audio: data});
+  // }, []);
 
-  const sendLocation = React.useCallback(async () => {
-    await navigator.geolocation.getCurrentPosition(
-      position => sendMessage({location: {latitude: position.coords.latitude, longitude: position.coords.longitude}}),
-    );
-    setActionsVisible(false)
-  }, []);
+  // const sendLocation = React.useCallback(async () => {
+  //   await navigator.geolocation.getCurrentPosition(
+  //     position => sendMessage({location: {latitude: position.coords.latitude, longitude: position.coords.longitude}}),
+  //   );
+  //   setActionsVisible(false)
+  // }, []);
 
   return (
     <InputWrapper>
@@ -95,7 +96,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
           <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
         </IconContainer>
       </InputContainer>
-      {actionsVisible &&
+      {/* {actionsVisible &&
       <ActionsContainer ref={actionsRef}>
         <Row>
           <FileUpload accept="image/*,video/*" onChange={sendPicOrVideo}>
@@ -116,7 +117,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
           </RowItem>
         </Row>
       </ActionsContainer>
-      }
+      } */}
     </InputWrapper>
   )
 };

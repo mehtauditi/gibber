@@ -15,6 +15,9 @@ import {Spinner, Switch} from '../index'
 import Icon from '../Icon';
 import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
+import mobileAds from 'react-native-google-mobile-ads';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds } from 'react-native-google-mobile-ads';
 let timeout;
 
 function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
@@ -33,6 +36,35 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [isOnline, setIsOnline] = React.useState(false);
   const [recipientTyping, setRecipientTyping] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
+
+  // Google Admob Code
+  
+  mobileAds()
+  .initialize()
+  .then(adapterStatuses => {
+    // Initialization complete!
+  });
+
+  // To request the App Tracking Transparency authorization
+  // const result = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+  // if (result === RESULTS.DENIED) {
+  //   // The permission has not been requested, so request it.
+  //   await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+  // }
+  // const adapterStatuses = await mobileAds().initialize();
+  // Now ads can be loaded.
+
+  //   # App Open
+  // AppOpenAd.createForAdRequest(TestIds.APP_OPEN);
+
+  // # Interstitial
+  // InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+
+  // # Rewarded
+  // RewardedAd.createForAdRequest(TestIds.REWARDED);
+
+  // # Banners
+  // <BannerAd unitId={TestIds.BANNER} />
 
   React.useEffect(() => {
     setIsReady(false);
