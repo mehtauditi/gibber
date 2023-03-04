@@ -9,14 +9,6 @@ const LoginImg = styled.Image.attrs(({theme}) => ({
   margin-top: -150px;
 `;
 
-const LanguageSelectModal = styled.View`
-  display: flex;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background-color: pink;
-`;
-
 const FooterTextBtn = styled.TouchableOpacity`
   position: absolute;
   bottom: 10px;
@@ -47,4 +39,4 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
 `;
 
-export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageSelectModal};
+export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB};
