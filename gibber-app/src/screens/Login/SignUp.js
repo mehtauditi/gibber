@@ -19,6 +19,8 @@ const SignUp = (props) => {
   const [lang, setLang] = React.useState('');
   const [footerVisible, setFooterVisible] = React.useState(true);
   const [isValid, setIsValid] = React.useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   const dispatch = useDispatch();
   // const navigate = useNavigate();
@@ -90,7 +92,7 @@ const SignUp = (props) => {
               lang={lang} 
               setLang={setLang}
               style={{marginTop: "10%", marginBottom: "10%"}} 
-              onPress={console.log('hi')} />
+              onPress={setModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
           {/* PasswordChecklist doesn't seem to like React Native? */}
@@ -100,6 +102,7 @@ const SignUp = (props) => {
                 minLength={8}
                 value={password}/>
           </View> */}
+          {modalVisible ? <LangModal setModalVisible={setModalVisible} modalVisible={modalVisible}/> : null}
         </Animatable.View>
       }
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
