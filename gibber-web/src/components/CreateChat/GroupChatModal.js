@@ -32,6 +32,7 @@ function GroupChatModal({ show, handleClose }) {
       console.log(groupChat);
       handleClose();
       setSelectedUsers([]);
+      setSelectedNames([]);
       setGroupChatName("");
     } catch (error) {
       console.warn(error);
@@ -41,6 +42,7 @@ function GroupChatModal({ show, handleClose }) {
   const handleModalClose = () => {
     setGroupChatName("");
     setSelectedUsers([]);
+    setSelectedNames([]);
     handleClose();
   };
 
