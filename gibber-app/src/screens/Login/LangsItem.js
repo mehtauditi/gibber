@@ -3,9 +3,18 @@ import {View, Text} from "react-native";
 
 function LangsItem({languages}) {
     return (
-        <View>
-            <Text>{languages}</Text>
-            {/* <Text style={{color: "white"}}>Hi from LangsItem</Text> */}
+        <View style={{
+            display: "flex",
+            flexDirection: "column",
+            position: "relative",
+            overflow: "scroll"
+        }}>
+            <Text style={{
+            color: "white",
+            fontWeight: "600",
+            marginTop: "15%",
+            textAlign: "center"
+            }}>{languages}</Text>
         </View>
     )
 }
