@@ -48,7 +48,7 @@ function GroupChatModal({ show, handleClose }) {
 
   const fetchAllUsers = async () => {
     try {
-      const res = await Api.get("/user/all");
+      const res = await Api.get('/user/allUsers');
       setAllUsers(res.data);
     } catch (error) {
       console.log(error);

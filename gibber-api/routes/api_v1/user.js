@@ -118,6 +118,15 @@ const get = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const data = await User.find({});
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+}
+
 const getProfile = async (req, res, next) => {
   try {
     const data = await User.findOne({_id: req.payload.id}, {password: 0})
@@ -129,15 +138,6 @@ const getProfile = async (req, res, next) => {
     next(e);
   }
 };
-
-const getAllUsers = async (req, res, next) => {
-  try {
-    const data = await User.find();
-    res.json(data);
-  } catch (e) {
-    next(e);
-  }
-}
 
 const update = async (req, res, next) => {
   try {
@@ -234,8 +234,8 @@ router.post("/qr", generateQr);
 router.put("/device", auth.required, addDevice);
 router.get("/", auth.required, getProfile);
 router.get("/search", auth.required, search);
+router.get("/allUsers", auth.required, getAllUsers);
 router.get("/:id", auth.required, get);
-router.get("/all", auth.required, getAllUsers);
 router.put("/", auth.required, update);
 router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);
