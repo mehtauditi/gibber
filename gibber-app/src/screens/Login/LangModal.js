@@ -6,13 +6,16 @@ import {Alert,
         Text, 
         Pressable, 
         View,
+        Button
     } from 'react-native';
-import {LanguageModal} from './styles';
+import {LanguageModal, CloseBtn} from './styles';
 
-function LangModal({ visible, close, animationType }) {
+function LangModal({ setLangModalVisible, visible, close, animationType }) {
     return (
         <Modal visible={visible} close={close} animationType={animationType}>
-            <LanguageModal></LanguageModal>
+            <LanguageModal>
+                <CloseBtn title="Return" value="Return" onPress={close}/>
+            </LanguageModal>
         </Modal>
     )
 }

@@ -11,11 +11,19 @@ const LoginImg = styled.Image.attrs(({theme}) => ({
 
 const LanguageModal = styled.View`
   display: flex;
-  position: fixed;
   height: 100%;
   width: 100%;
-  background: linear-gradient(45deg, #378fd3, #fff);
-  opacity: 0.2;
+  opacity: 0.8;
+  color: white;
+  background: #378fd3;
+`
+
+const CloseBtn = styled.TouchableOpacity`
+  position: absolute;
+  color: white;
+  border: 1px solid white;
+  height: 10%;
+  width: 10%;
 `
 
 const FooterTextBtn = styled.TouchableOpacity`
@@ -48,4 +56,4 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
 `;
 
-export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal};
+export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal, CloseBtn};

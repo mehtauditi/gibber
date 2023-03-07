@@ -80,6 +80,7 @@ const SignUp = (props) => {
         </ContentContainer>
         :
         <Animatable.View animation="fadeIn" style={{flex: 1}}>
+          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide'/>
           <View style={{padding: 20}}>
             <Input label="Name" value={name} onChange={setName} />
             <Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" />
@@ -89,7 +90,7 @@ const SignUp = (props) => {
             <Button 
               title="Choose Your Language" 
               value={lang} 
-              lang={lang} 
+              // lang={lang} 
               setLang={setLang}
               style={{marginTop: "10%", marginBottom: "10%"}} 
               onPress={() => setLangModalVisible(true)} />
@@ -97,7 +98,6 @@ const SignUp = (props) => {
           </View>
         </Animatable.View>
       }
-      <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide'/>
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
         <SafeAreaView>
           <FooterText><TextB>Have an account?</TextB> Login</FooterText>
