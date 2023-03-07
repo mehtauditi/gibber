@@ -135,6 +135,16 @@ const uploadMessageFile = async (req, res, next) => {
   }
 };
 
+const getMessageFile = async (req, res, next) => {
+  try {
+    const msgFile = await s3.get(req.body.path);
+    console.log("GETTING FILE: ",msgFile );
+    res.status(200).json({msg: msgFile});
+  } catch (e) {
+    next(e);
+  }
+};
+
 const setSeenMessages = async (req, res, next) => {
   try {
     await Message.updateMany({_id: {$in: req.body.messageIds}}, {$push: {seenBy: req.payload.id}});
@@ -244,6 +254,7 @@ router.put("/conversation/group/:conversation", auth.required, updateGroup);
 router.put("/conversation/group/:conversation/remove/:user", auth.required, removeGroupUser);
 router.put("/conversation/:conversation/muteUnmute", auth.required, muteUnmute);
 router.post("/file", [auth.required, upload.single('file')], uploadMessageFile);
+router.post("/getFile", auth.required, getMessageFile);
 router.get("/:conversation/media", auth.required, getMedia);
 router.delete("/conversation/:conversation", auth.required, deleteConversation);
 router.delete("/conversation/message/:message", auth.required, deleteMessage);
