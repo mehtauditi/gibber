@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/actions";
 import LangModal from "./LangModal";
-import languages from '../../utils/languages';
 // import PasswordChecklist from 'react-password-checklist';
 // import ToastManager, {Toast} from "toastify-react-native";
 

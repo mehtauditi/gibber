@@ -13,7 +13,6 @@ const LanguageModal = styled.View`
   display: flex;
   height: 100%;
   width: 100%;
-  opacity: 0.8;
   color: white;
   background: #378fd3;
 `
@@ -22,8 +21,10 @@ const CloseBtn = styled.TouchableOpacity`
   position: absolute;
   color: white;
   border: 1px solid white;
-  height: 10%;
-  width: 10%;
+  margin-top: 15%;
+  height: 1%;
+  width: 15%;
+
 `
 
 const FooterTextBtn = styled.TouchableOpacity`
