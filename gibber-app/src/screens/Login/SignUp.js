@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, SafeAreaView, Keyboard} from 'react-native';
+import {View, SafeAreaView, Keyboard, RCTView, RNSScreen, AnimatedComponent} from 'react-native';
 import {Button, Header, Input, Text as TextComp} from "../../components";
 import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './styles';
 import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/actions";
+import {LangModal} from "./LangModal";
 import DropDownPicker from 'react-native-dropdown-picker';
 import languages from '../../utils/languages';
 // import PasswordChecklist from 'react-password-checklist';
@@ -102,9 +103,12 @@ const SignUp = (props) => {
                 minLength={8}
                 value={password}/>
           </View> */}
-          {/* {modalVisible ? <LangModal setModalVisible={setModalVisible} modalVisible={modalVisible}/> : null} */}
         </Animatable.View>
+        
       }
+      {modalVisible ? <RCTView><RNSScreen><AnimatedComponent>
+        <LangModal setModalVisible={setModalVisible} modalVisible={modalVisible}/>
+        </AnimatedComponent></RNSScreen></RCTView> : null}
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
         <SafeAreaView>
           <FooterText><TextB>Have an account?</TextB> Login</FooterText>
