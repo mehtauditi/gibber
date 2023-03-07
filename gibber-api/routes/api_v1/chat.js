@@ -138,7 +138,6 @@ const uploadMessageFile = async (req, res, next) => {
 const getMessageFile = async (req, res, next) => {
   try {
     const msgFile = await s3.get(req.body.path);
-    console.log("GETTING FILE: ",msgFile );
     res.status(200).json({msg: msgFile});
   } catch (e) {
     next(e);
