@@ -8,10 +8,12 @@ import {Alert,
         View,
     } from 'react-native';
 
-function LangModal({ setModalVisible, visible, close }) {
+function LangModal({ visible, close, animationType }) {
     return (
-        <Modal>
-            <Text style={{color: "pink"}}>Hi From LangModal</Text>
+        <Modal visible={visible} close={close} animationType={animationType}>
+            <View>
+                <Text>Hi From LangModal</Text>
+            </View>
         </Modal>
     
     )

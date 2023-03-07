@@ -5,7 +5,7 @@ import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './st
 import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/actions";
-import {LangModal} from "./LangModal";
+import LangModal from "./LangModal";
 import DropDownPicker from 'react-native-dropdown-picker';
 import languages from '../../utils/languages';
 // import PasswordChecklist from 'react-password-checklist';
@@ -106,7 +106,7 @@ const SignUp = (props) => {
         </Animatable.View>
 
       }
-      {langModalVisible ? <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide'/> : null}
+      <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide'/>
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
         <SafeAreaView>
           <FooterText><TextB>Have an account?</TextB> Login</FooterText>
