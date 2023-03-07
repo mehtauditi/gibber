@@ -7,15 +7,13 @@ import {Alert,
         Pressable, 
         View,
     } from 'react-native';
+import {LanguageModal} from './styles';
 
 function LangModal({ visible, close, animationType }) {
     return (
         <Modal visible={visible} close={close} animationType={animationType}>
-            <View>
-                <Text>Hi From LangModal</Text>
-            </View>
+            <LanguageModal></LanguageModal>
         </Modal>
-    
     )
 }
 

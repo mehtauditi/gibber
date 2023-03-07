@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/actions";
 import LangModal from "./LangModal";
-import DropDownPicker from 'react-native-dropdown-picker';
 import languages from '../../utils/languages';
 // import PasswordChecklist from 'react-password-checklist';
 // import ToastManager, {Toast} from "toastify-react-native";
@@ -96,15 +95,7 @@ const SignUp = (props) => {
               onPress={() => setLangModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
-          {/* PasswordChecklist doesn't seem to like React Native? */}
-          {/* <View>
-                <PasswordChecklist
-                rules={["minLength", "number","capital"]}
-                minLength={8}
-                value={password}/>
-          </View> */}
         </Animatable.View>
-
       }
       <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide'/>
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
