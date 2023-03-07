@@ -49,16 +49,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIAppFonts</key>
-    <array>
-    	<string>Martel-Black.ttf</string>
-		<string>Martel-Bold.ttf</string>
-		<string>Martel-ExtraBold.ttf</string>
-		<string>Martel-ExtraLight.ttf</string>
-		<string>Martel-Light.ttf</string>
-		<string>Martel-Regular.ttf</string>
-		<string>Martel-SemiBold.ttf</string>
-    </array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
