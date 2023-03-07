@@ -14,7 +14,8 @@ const LanguageModal = styled.View`
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: pink;
+  background: linear-gradient(45deg, #378fd3, #fff);
+  opacity: 0.2;
 `
 
 const FooterTextBtn = styled.TouchableOpacity`
