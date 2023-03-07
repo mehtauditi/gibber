@@ -47,7 +47,7 @@ const create = async (req, res, next) => {
         if (err)
           return new ErrorHandler(404, "Failed to create conversation with team account", [], res);
         await User.updateOne({ _id: adminUser._id }, { $addToSet: { contacts: newUser._id } });
-        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
+        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } });
 
         // creating reply from Team account
         const translated = await translateText(welcomeMessage, 'en', newUser.language);
@@ -121,6 +121,15 @@ const getProfile = async (req, res, next) => {
     next(e);
   }
 };
+
+const getAllUsers = async (req, res, next) => {
+  try {
+    const data = await User.find();
+    res.json(data);
+  } catch (e) {
+    next(e);
+  }
+}
 
 const update = async (req, res, next) => {
   try {
@@ -218,6 +227,7 @@ router.put("/device", auth.required, addDevice);
 router.get("/", auth.required, getProfile);
 router.get("/search", auth.required, search);
 router.get("/:id", auth.required, get);
+router.get("/all", auth.required, getAllUsers);
 router.put("/", auth.required, update);
 router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);

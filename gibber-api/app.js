@@ -25,7 +25,7 @@ app.use(cors({
 
 const mongoUri = process.env.MONGO_URI;
 mongoose.connect(mongoUri, {
-  dbName: 'gibber',
+  dbName: 'gibber-test',
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
