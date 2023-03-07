@@ -1,9 +1,21 @@
 import styled  from "styled-components";
 
+export const ImgMessage = styled.img`
+  margin-top: 15px;
+  max-width: 300px;
+  max-height: 300px;
+
+  @media screen and (max-width: 350px) {
+    max-width: 200px;
+    max-height: 200px
+  }
+`;
+
 export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${({theme}) => theme.bg};
+  transition: all 0.3s ease-in;
 `;
 export const ChatContent = styled.div`
   height: calc(100% - 100px);
@@ -56,6 +68,7 @@ export const InputWrapper = styled.div`
 `;
 export const InputContainer = styled.div`
   background-color: ${({theme}) => theme.inputBg};
+  transition: all 0.3s ease-in;
   margin: 0 20px;
   border-radius: 30px;
   align-items: center;
@@ -90,10 +103,12 @@ export const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${({theme}) => theme.mode === 'dark' ? '#465265' : '#fff'};
+  transition: all 0.3s ease-in;
 `;
 export const ActionsContainer = styled.div`
   height: 120px;
   background-color: ${({theme}) => theme.bg2};
+  transition: all 0.3s ease-in;
   padding-top: 25px;
   position: absolute;
   bottom: 50px;
@@ -129,6 +144,7 @@ export const Btn = styled.div`
 `;
 export const MessageText = styled.div`
   color: ${({theme, right}) => right ? '#fff' : theme.txt};
+  transition: all 0.3s ease-in;
   margin: 13px;
   font-size: 14px;
   margin-left: 17px;

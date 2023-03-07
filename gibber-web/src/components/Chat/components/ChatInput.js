@@ -9,6 +9,7 @@ import axios from 'axios'
 
 const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...props}) => {
   const [actionsVisible, setActionsVisible] = React.useState(false);
+  const [translateInProg, setTranslateInProg] = React.useState(false);
   const theme = themes[props.mode];
   const actionsRef = React.useRef(null);
   useOutsideAlerter(actionsRef, () => setActionsVisible(false));
@@ -35,10 +36,12 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
   }
 
   const submit = React.useCallback(async () => {
-    if (value) {
-      const translatedText = await translateText(value, "ko");
+    if (value && !translateInProg) {
+      setTranslateInProg(true);
+      const translatedText = await translateText(value, user.language);
       sendMessage({text: translatedText});
       onChange('');
+      setTranslateInProg(false);
     }
   }, [value]);
 
@@ -85,13 +88,13 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
         <Input
           value={value}
           placeholder={"Message"}
-          onChange={e => onChange(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && submit()}
+          onChange={e => !translateInProg && onChange(e.target.value)}
+          onKeyDown={e => !translateInProg ? e.key === 'Enter' && submit() : undefined}
         />
-        {value?.trim().length === 0 && props.sidebarStatus === 'close' && false ? <IconBtn onClick={() => setActionsVisible(true)}>
+        {value?.trim().length === 0 && props.sidebarStatus === 'close' ? <IconBtn onClick={() => setActionsVisible(true)}>
           <Icon size={21} name="attach-outline" color={theme.gray} />
         </IconBtn>: <></>}
-        <IconContainer onClick={submit}>
+        <IconContainer onClick={() => !translateInProg ? submit() : undefined}>
           <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
         </IconContainer>
       </InputContainer>

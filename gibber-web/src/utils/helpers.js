@@ -17,10 +17,10 @@ export function sortConversations(a, b) {
 export const mapMessageData = messages => {
   return messages.map(msg => ({
     ...msg,
-    ...(msg.image ? {image: fixImgPath(msg.image)} : {}),
-    ...(msg.video ? {video: fixImgPath(msg.video)} : {}),
-    ...(msg.audio ? {audio: fixImgPath(msg.audio)} : {}),
-    user: {...msg.user, ...(msg.user.avatar ? {avatar: fixImgPath(msg.user.avatar)} : {})}
+    ...(msg.image ? {image: msg.image} : {}),
+    ...(msg.video ? {video: msg.video} : {}),
+    ...(msg.audio ? {audio: msg.audio} : {}),
+    user: {...msg.user, ...(msg.user.avatar ? {avatar: msg.user.avatar} : {})}
   }));
 };
 
