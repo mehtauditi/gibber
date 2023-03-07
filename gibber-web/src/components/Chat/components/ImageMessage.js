@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Api from "../../../config/axios";
+import {ImgMessage} from '../styles';
 
 
 function ImageMessage({src}) {
@@ -13,10 +14,9 @@ function ImageMessage({src}) {
 
   return (
     <div style={{marginBottom: 15}}>
-      <img
+      <ImgMessage
         src={url}
         controls
-        style={{ marginTop: 15, maxHeight: 300, maxWidth: 300}} 
       />
     </div>
   )
