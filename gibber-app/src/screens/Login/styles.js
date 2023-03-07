@@ -15,15 +15,19 @@ const LanguageModal = styled.View`
   width: 100%;
   color: white;
   background: #378fd3;
+  box-shadow: 25px 25px;
 `
 
 const CloseBtn = styled.TouchableOpacity`
   position: absolute;
   color: white;
   border: 1px solid white;
+  box-shadow: 0px 0px 2px white;
   margin-top: 15%;
+  right: 0;
+  margin-right: 3%;
   height: 1%;
-  width: 15%;
+  width: 13%;
 
 `
 
