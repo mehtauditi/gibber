@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import ReactPlayer from 'react-player';
 import Api from "../../../config/axios";
 
-function VideoMessage({src}) {
+
+function ImageMessage({src}) {
+
   const [url, setUrl] = useState();
 
   useEffect(async () => {
@@ -11,8 +12,14 @@ function VideoMessage({src}) {
   }, [src, url])
 
   return (
-    <ReactPlayer url={url} controls width={250} height={170} style={{marginTop: 15}}/>
+    <div style={{marginBottom: 15}}>
+      <img
+        src={url}
+        controls
+        style={{ marginTop: 15, maxHeight: 300, maxWidth: 300}} 
+      />
+    </div>
   )
 }
 
-export default VideoMessage;
+export default ImageMessage;
