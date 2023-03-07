@@ -121,6 +121,11 @@ function ChatRoom() {
 
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
+      <header style={{display: "flex", justifyContent: "flex-end"}}>
+        <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
+        <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
+        <a href='/' style={{ fontSize: 14, marginTop: 5, marginRight:25, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
+      </header>
       <Container>
         {loading ? <CenteredContent className="loading"><Spinner color="#358bd0"/></CenteredContent>:
           <>
@@ -144,11 +149,6 @@ function ChatRoom() {
           </>
         }
       </Container>
-      <footer style={{ display: "flex", justifyContent: "flex-end" }}>
-          <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
-          <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
-          <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
-      </footer>
     </ThemeProvider>
   )
 }
