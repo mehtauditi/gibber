@@ -45,7 +45,7 @@ const Login = (props) => {
         <ContentContainer>
           <LoginImg/>
           <TextComp size="big" weight="900">Gibber Login</TextComp>
-          <TextComp noFont>Lorem ipsum dolor sit amet</TextComp>
+          <TextComp noFont>Simplifying Communication</TextComp>
           <Button title="Login with phone" style={{marginTop: 35}} onPress={() => setLoginType(1)} />
           <Button title="Login with email" style={{marginVertical: 15}} onPress={() => setLoginType(2)} />
         </ContentContainer>

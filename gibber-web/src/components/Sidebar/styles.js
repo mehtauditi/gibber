@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SidebarContainer = styled.div`
   background-color: ${({theme}) => theme.bg};
+  transition: all 0.3s ease-in;
   width: 340px;
   flex-basis: 340px;
   flex-grow: 0;
@@ -40,12 +41,14 @@ export const Item = styled.div`
   flex-direction: row;
   height: 80px;
   border-bottom: 1px solid ${({theme}) => theme.border};
+  transition: all 0.3s ease-in;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   position: relative;
   padding: 0 25px;
-  background-color: ${(props) => props.className === 'selected' ? props.theme.selectedConvo : {}}
+  background-color: ${(props) => props.className === 'selected' ? props.theme.selectedConvo : {}};
+  
 `;
 
 export const Avatar = styled.img`
@@ -88,6 +91,7 @@ export const Msg = styled.div`
   display: flex;
   align-items: center;
   opacity: ${({theme}) => theme.mode === 'light' ? 0.6 : 1};
+  transition: all 0.3s ease-in;
 `;
 
 export const UnseenCount = styled.div`
