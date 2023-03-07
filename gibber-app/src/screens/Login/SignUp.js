@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView, Keyboard, RCTView, RNSScreen, AnimatedComponent} from 'react-native';
+import {View, SafeAreaView, Keyboard, Modal} from 'react-native';
 import {Button, Header, Input, Text as TextComp} from "../../components";
 import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './styles';
 import * as Animatable from 'react-native-animatable';
@@ -20,7 +20,7 @@ const SignUp = (props) => {
   const [lang, setLang] = React.useState('');
   const [footerVisible, setFooterVisible] = React.useState(true);
   const [isValid, setIsValid] = React.useState('');
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [langModalVisible, setLangModalVisible] = React.useState(false);
 
 
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ const SignUp = (props) => {
               lang={lang} 
               setLang={setLang}
               style={{marginTop: "10%", marginBottom: "10%"}} 
-              onPress={() => setModalVisible(true)} />
+              onPress={() => setLangModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
           {/* PasswordChecklist doesn't seem to like React Native? */}
@@ -104,11 +104,9 @@ const SignUp = (props) => {
                 value={password}/>
           </View> */}
         </Animatable.View>
-        
+
       }
-      {modalVisible ? <RCTView><RNSScreen><AnimatedComponent>
-        <LangModal setModalVisible={setModalVisible} modalVisible={modalVisible}/>
-        </AnimatedComponent></RNSScreen></RCTView> : null}
+      {langModalVisible ? <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide'/> : null}
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
         <SafeAreaView>
           <FooterText><TextB>Have an account?</TextB> Login</FooterText>

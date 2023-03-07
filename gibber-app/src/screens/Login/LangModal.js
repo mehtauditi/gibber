@@ -1,23 +1,19 @@
+import React from 'react';
 import languages from '../../utils/languages';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {Alert,
+        Modal, 
+        StyleSheet, 
+        Text, 
+        Pressable, 
+        View,
+    } from 'react-native';
 
-function LangModal({ setModalVisible, modalVisible }) {
+function LangModal({ setModalVisible, visible, close }) {
     return (
-        <View style={{
-            display: "flex",
-            backgroundColor: "pink",
-            height: "100%",
-            width: "100%"
-        }}>
-            {/* <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-            setModalVisible(!modalVisible);
-            }}></Modal> */}
-            <Text>Hi From LangModal</Text>
-        </View>
+        <Modal>
+            <Text style={{color: "pink"}}>Hi From LangModal</Text>
+        </Modal>
+    
     )
 }
 
