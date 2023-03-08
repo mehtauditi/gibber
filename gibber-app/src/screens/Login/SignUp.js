@@ -52,9 +52,11 @@ const SignUp = (props) => {
     setIsValid(hasDigit && hasUppercase && password.length >= 8);
   }, [password])
 
-  const navLog = () => {
-    props.navigation.navigate('Home')
-  }
+  // const navLog = () => {
+  //   if ()
+  //   props.navigation.navigate('Home')
+  //   alert(`Welcome ${name} !`)
+  // }
 
   const signUp = React.useCallback(() => {
     if (!(email.length > 0 && phone.length > 4)) {
@@ -73,7 +75,6 @@ const SignUp = (props) => {
     try {
       dispatch(register({name, email, phone, password, lang}));
       navLog();
-      alert(`Welcome ${name}!`)
     } catch (e) {
       console.log(e.response.data.message)
     }
@@ -87,7 +88,7 @@ const SignUp = (props) => {
       {!loginType ?
         <ContentContainer>
           <LoginImg style={{bottom: "7%"}}/>
-          <TextComp size="big" weight="900" style={{top: "-3.5%", paddingBottom: "-15%"}}>Sign Up</TextComp>
+          <TextComp size="big" weight="900" style={{top: "-3.5%"}}>Sign Up</TextComp>
           <TextComp noFont>Simplying Communication</TextComp>
           <Button title="Create Your Account" style={{marginTop: 35,}} onPress={() => setLoginType(1)} />
         </ContentContainer>
@@ -105,7 +106,7 @@ const SignUp = (props) => {
               onPress={() => setLangModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
-          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='fade' setLang={setLang}/>
+          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide' setLang={setLang}/>
         </Animatable.View>
       }
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>

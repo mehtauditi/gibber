@@ -35,7 +35,8 @@ const Login = (props) => {
   }, []);
 
   const loginReq = React.useCallback(() => {
-    dispatch(login({email, phone, password}))
+    dispatch(login({email, phone, password}));
+    props.navigation.navigate('Home');
   },[email, phone, password]);
 
   return (

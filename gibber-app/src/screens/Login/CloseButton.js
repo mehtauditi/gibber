@@ -17,7 +17,7 @@ function CloseButton({close}) {
                     marginRight: "5%",
                     fontSize: 50,
                     backgroundColor: "#378fd3",
-                    zIndex: 10
+                    zIndex: 10,
                 }}
             >X</Text>
         </>

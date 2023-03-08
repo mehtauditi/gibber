@@ -9,14 +9,15 @@ function LangsItem({languages, setLang}) {
                 flexDirection: "column",
                 position: "relative",
                 paddingBottom: "35%",
-                top: "3%",
+                top: "4%",
             }}>
                 <Text style={{
                     color: "white",
                     fontWeight: "600",
-                    marginTop: "10%",
                     textAlign: "center",
-                    fontSize: 25
+                    fontSize: 30,
+                    // backgroundColor: "white",
+                    // height: "20%"
                 }}
                 onPress={() => {
                     setLang(languages);
