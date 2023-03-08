@@ -127,6 +127,7 @@ function ChatRoom() {
         <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
         <a href='/' style={{ fontSize: 14, marginTop: 5, marginRight:25, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
       </Header>
+
       <Container>
         {loading ? <CenteredContent className="loading"><Spinner color="#358bd0"/></CenteredContent>:
           <>
