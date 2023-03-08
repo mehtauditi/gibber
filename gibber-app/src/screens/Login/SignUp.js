@@ -90,8 +90,6 @@ const SignUp = (props) => {
 
             <Button 
               title="Choose Your Language" 
-              value={lang} 
-              // lang={lang} 
               style={{marginTop: "10%", marginBottom: "10%"}} 
               onPress={() => setLangModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
