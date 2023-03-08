@@ -18,7 +18,7 @@ export const GoogleAd = createReactClass({
   },
   render: function() {
     return (
-      <div >
+      <div style={{width: '50%'}} >
         <div className='advertisement'>
           <div dangerouslySetInnerHTML={{__html: this.googleScript()}}></div> 
         </div>
