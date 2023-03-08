@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/actions";
 import LangModal from "./LangModal";
+import {useNavigate, Router} from "react-router-dom";
 // import PasswordChecklist from 'react-password-checklist';
 // import ToastManager, {Toast} from "toastify-react-native";
 
@@ -19,16 +20,18 @@ const SignUp = (props) => {
   const [footerVisible, setFooterVisible] = React.useState(true);
   const [isValid, setIsValid] = React.useState('');
   const [langModalVisible, setLangModalVisible] = React.useState(false);
-
+  // console.log('local', localStorage)
 
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
 
   // React.useEffect(() => {
-  //   const token = localStorage.getItem('token');
+       // useNavigate() can't be outside this useEffect or else throws error
+  //   const navigate = useNavigate();
+  //   // const token = localStorage.getItem('token');
+    
   //   if (token) {
   //     Api.setToken(token);
-  //     navigate('/app/chat');
+  //     return <Router>{navigate('/app/chat')}</Router>;
   //   }
   //   // getQrCode();
   // }, [navigate]);
@@ -49,6 +52,10 @@ const SignUp = (props) => {
     setIsValid(hasDigit && hasUppercase && password.length >= 8);
   }, [password])
 
+  // const navLog = () => {
+  //   props.navigation.navigate('Login')
+  // }
+
   const signUp = React.useCallback(() => {
     if (!(email.length > 0 && phone.length > 4)) {
       // React Native version of Toastify is currently buggy?
@@ -64,11 +71,15 @@ const SignUp = (props) => {
       alert('Please select your language!')
     }
     try {
-      dispatch(register({name, email, phone, password, lang}))
+      dispatch(register({name, email, phone, password, lang}));
+      // navLog();
+      
     } catch (e) {
       console.log(e.response.data.message)
     }
   },[name, email, phone, password, lang]);
+
+
 
   return (
     <>
