@@ -1,20 +1,12 @@
 
 import React, {useState} from 'react';
 import {languages} from '../../utils/languages';
-import {Alert,
-        Modal, 
-        StyleSheet, 
-        Text, 
-        Pressable, 
-        View,
-        Button
-    } from 'react-native';
+import {Modal, ScrollView} from 'react-native';
 import {LanguageModal, CloseBtn} from './styles';
 import LangsItem from './LangsItem';
 
-function LangModal({ visible, close, animationType }) {
+function LangModal({ visible, close, animationType, setLang }) {
     const [langNames, setLangNames] = useState([]);
-    const [selectedLang, setSelectedLang] = useState('');
     const renderLangs = () => {
         if(langNames.length === 0 || langNames.length < 20){
                 languages.filter(e => {
@@ -26,11 +18,13 @@ function LangModal({ visible, close, animationType }) {
     
     return (
         <Modal visible={visible} close={close} animationType={animationType}>
-            <LanguageModal>
-                {
-                    langNames.map((e, i) => {return <LangsItem key={i} languages={e} setSelectedLang={setSelectedLang}/>})
-                }
-            </LanguageModal>
+            <ScrollView>
+                <LanguageModal>
+                    {
+                        langNames.map((e, i) => {return <LangsItem key={i} languages={e} setLang={setLang}/>})
+                    }
+                </LanguageModal>
+            </ScrollView>
             <CloseBtn title="Return" value="Return" onPress={close}/>
         </Modal>
     )

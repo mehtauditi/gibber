@@ -60,6 +60,9 @@ const SignUp = (props) => {
     if (!password || !isValid) {
       alert('Please enter a valid password! \nMust have a minimum of 8 characters, including 1 number, and 1 capitalized letter.')
     }
+    if (!lang) {
+      alert('Please select your language!')
+    }
     try {
       dispatch(register({name, email, phone, password, lang}))
     } catch (e) {
@@ -89,12 +92,11 @@ const SignUp = (props) => {
               title="Choose Your Language" 
               value={lang} 
               // lang={lang} 
-              setLang={setLang}
               style={{marginTop: "10%", marginBottom: "10%"}} 
               onPress={() => setLangModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
-          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='fade'/>
+          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='fade' setLang={setLang}/>
         </Animatable.View>
       }
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>

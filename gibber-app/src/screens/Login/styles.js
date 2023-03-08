@@ -24,9 +24,9 @@ const CloseBtn = styled.TouchableOpacity`
   box-shadow: 0px 0px 2px white;
   margin-top: 15%;
   right: 0;
-  margin-right: 3%;
+  margin-right: 5%;
   height: 1%;
-  width: 13%;
+  width: 10%;
 
 `
 
