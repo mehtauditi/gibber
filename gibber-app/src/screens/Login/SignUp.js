@@ -52,9 +52,9 @@ const SignUp = (props) => {
     setIsValid(hasDigit && hasUppercase && password.length >= 8);
   }, [password])
 
-  // const navLog = () => {
-  //   props.navigation.navigate('Login')
-  // }
+  const navLog = () => {
+    props.navigation.navigate('Login')
+  }
 
   const signUp = React.useCallback(() => {
     if (!(email.length > 0 && phone.length > 4)) {
@@ -72,7 +72,7 @@ const SignUp = (props) => {
     }
     try {
       dispatch(register({name, email, phone, password, lang}));
-      // navLog();
+      navLog();
       
     } catch (e) {
       console.log(e.response.data.message)
