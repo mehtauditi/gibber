@@ -75,8 +75,8 @@ const SignUp = (props) => {
       <Header {...props} title="gibber" hideRight/>
       {!loginType ?
         <ContentContainer>
-          <LoginImg/>
-          <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "2%"}}>Sign Up</TextComp>
+          <LoginImg style={{bottom: "7%"}}/>
+          <TextComp size="big" weight="900" style={{top: "-3.5%", paddingBottom: "-15%"}}>Sign Up</TextComp>
           <TextComp noFont>Simplying Communication</TextComp>
           <Button title="Create Your Account" style={{marginTop: 35,}} onPress={() => setLoginType(1)} />
         </ContentContainer>
