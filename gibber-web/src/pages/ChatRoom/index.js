@@ -12,7 +12,7 @@ import Spinner from "../../components/Spinner";
 import useDimensions from "../../utils/useDimensions";
 import {CenteredContent} from "../../utils/sharedStyles";
 import {useBeforeunload} from 'react-beforeunload';
-import {AmazonAd} from "../../utils/AmazonAd.js";
+import {GoogleAd} from "../../utils/GoogleAd.js";
 
 function ChatRoom() {
   const { width } = useDimensions();
@@ -145,8 +145,7 @@ function ChatRoom() {
         }
       </Container>
       <footer style={{ display: "flex", justifyContent: "flex-end" }}>
-        <AmazonAd/>
-      <iframe title="amazon-ad" src="/amazon-ad.html"></iframe>
+        <GoogleAd/>
           <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
           <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
           <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
