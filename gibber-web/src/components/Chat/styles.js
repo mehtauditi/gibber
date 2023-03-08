@@ -112,12 +112,13 @@ export const ActionsContainer = styled.div`
   padding-top: 25px;
   position: absolute;
   bottom: 50px;
-  width: 500px;
+  width: 60%;
   right: 60px;
   border-radius: 10px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   display: flex;
+  flex-direction: column;
   z-index: 2;
   color: ${({theme}) => theme.txt};
 `;
