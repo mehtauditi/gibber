@@ -16,7 +16,7 @@ function LangsItem({languages, setLang}) {
                     fontWeight: "600",
                     marginTop: "10%",
                     textAlign: "center",
-                    fontSize: 30
+                    fontSize: 25
                 }}
                 onPress={() => {
                     setLang(languages);
