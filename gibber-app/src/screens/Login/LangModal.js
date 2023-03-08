@@ -14,7 +14,7 @@ import LangsItem from './LangsItem';
 
 function LangModal({ visible, close, animationType }) {
     const [langNames, setLangNames] = useState([]);
-    console.log('langNames', langNames)
+    const [selectedLang, setSelectedLang] = useState('');
     const renderLangs = () => {
         if(langNames.length === 0 || langNames.length < 20){
                 languages.filter(e => {
@@ -28,7 +28,7 @@ function LangModal({ visible, close, animationType }) {
         <Modal visible={visible} close={close} animationType={animationType}>
             <LanguageModal>
                 {
-                    langNames.map(e => {return <LangsItem key={e.id} languages={e}/>})
+                    langNames.map((e, i) => {return <LangsItem key={i} languages={e} setSelectedLang={setSelectedLang}/>})
                 }
             </LanguageModal>
             <CloseBtn title="Return" value="Return" onPress={close}/>

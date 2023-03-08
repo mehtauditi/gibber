@@ -15,7 +15,6 @@ const LanguageModal = styled.View`
   width: 100%;
   color: white;
   background: #378fd3;
-  box-shadow: 25px 25px;
 `
 
 const CloseBtn = styled.TouchableOpacity`
