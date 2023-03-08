@@ -53,7 +53,7 @@ const SignUp = (props) => {
   }, [password])
 
   const navLog = () => {
-    props.navigation.navigate('Login')
+    props.navigation.navigate('Home')
   }
 
   const signUp = React.useCallback(() => {
@@ -73,7 +73,7 @@ const SignUp = (props) => {
     try {
       dispatch(register({name, email, phone, password, lang}));
       navLog();
-      
+      alert(`Welcome ${name}!`)
     } catch (e) {
       console.log(e.response.data.message)
     }
