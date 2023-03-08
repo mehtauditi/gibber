@@ -17,18 +17,20 @@ const LanguageModal = styled.View`
   background: #378fd3;
 `
 
-const CloseBtn = styled.TouchableOpacity`
-  position: absolute;
-  color: white;
-  border: 1px solid white;
-  box-shadow: 0px 0px 2px white;
-  margin-top: 15%;
-  right: 0;
-  margin-right: 5%;
-  height: 1%;
-  width: 10%;
-
-`
+// const CloseBtn = styled.TouchableOpacity`
+//   position: absolute;
+//   background-color: white;
+//   border: 1px solid white;
+//   box-shadow: 0px 0px 2px white;
+//   margin-top: 15%;
+//   right: 0;
+//   margin-right: 5%;
+//   height: 1%;
+//   width: 10%;
+//   border-radius: 200;
+//   content: x;
+//   color: #378fd3;
+// `
 
 const FooterTextBtn = styled.TouchableOpacity`
   position: absolute;
@@ -60,4 +62,4 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
 `;
 
-export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal, CloseBtn};
+export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal};

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {View, Text} from "react-native";
 
 function LangsItem({languages, setLang}) {
-    const [langSelected, setLangSelected] = useState(false)
+    const [langSelected, setLangSelected] = useState(false);
     return (
             <View style={{
                 display: "flex",
