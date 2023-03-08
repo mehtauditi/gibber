@@ -9,9 +9,15 @@ function CloseButton({close}) {
                 onPress={close}
                 style={{
                     display: "flex",
-                    marginRight: "1%",
-                    height: "10%",
-                    width: "10%"
+                    flexDirection: "column",
+                    position: "absolute",
+                    color: "white",
+                    marginLeft: "85%",
+                    marginTop: "25%",
+                    marginRight: "5%",
+                    fontSize: 50,
+                    backgroundColor: "#378fd3",
+                    zIndex: 10
                 }}
             >X</Text>
         </>

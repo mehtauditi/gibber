@@ -22,8 +22,8 @@ function LangModal({ visible, close, animationType, setLang }) {
     return (
         <Modal visible={visible} close={close} animationType={animationType}>
             <ScrollView>
-                <CloseButton close={close} visible={visible}/>
                 <LanguageModal>
+                    <CloseButton close={close} visible={visible}/>
                     {
                         langNames.map((e, i) => {return <LangsItem key={i} languages={e} setLang={setLang}/>})
                     }

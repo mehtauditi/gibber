@@ -11,27 +11,13 @@ const LoginImg = styled.Image.attrs(({theme}) => ({
 
 const LanguageModal = styled.View`
   display: flex;
-  height: 100%;
+  height: 105%;
   width: 100%;
+  top: -1%;
+  bottom: 5%;
   color: white;
   background: #378fd3;
 `
-
-// const CloseBtn = styled.TouchableOpacity`
-//   position: absolute;
-//   background-color: white;
-//   border: 1px solid white;
-//   box-shadow: 0px 0px 2px white;
-//   margin-top: 15%;
-//   right: 0;
-//   margin-right: 5%;
-//   height: 1%;
-//   width: 10%;
-//   border-radius: 200;
-//   content: x;
-//   color: #378fd3;
-// `
-
 const FooterTextBtn = styled.TouchableOpacity`
   position: absolute;
   bottom: 10px;
