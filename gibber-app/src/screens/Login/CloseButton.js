@@ -2,11 +2,17 @@ import React, {useState} from "react";
 import {Text} from "react-native";
 
 function CloseButton({close}) {
+    const [pressed, setPressed] = useState(false);
 
+    const handlePress = () => {
+        setPressed(true)
+    }
     return (
         <>
             <Text 
                 onPress={close}
+                onStartShouldSetResponder={() => true}
+                onResponderStart={handlePress}
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -15,8 +21,9 @@ function CloseButton({close}) {
                     marginLeft: "85%",
                     marginTop: "25%",
                     marginRight: "5%",
-                    fontSize: 50,
-                    backgroundColor: "#378fd3",
+                    fontSize: pressed ? 43 : 50,
+                    background: "none",
+                    // backgroundColor: "#378fd3",
                     zIndex: 10,
                 }}
             >X</Text>
