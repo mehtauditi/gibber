@@ -16,7 +16,7 @@ const SignUp = (props) => {
   const [email, setEmail] = React.useState('');
   const [name, setName] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [lang, setLang] = React.useState('');
+  const [language, setLanguage] = React.useState('');
   const [footerVisible, setFooterVisible] = React.useState(true);
   const [isValid, setIsValid] = React.useState('');
   const [langModalVisible, setLangModalVisible] = React.useState(false);
@@ -69,16 +69,16 @@ const SignUp = (props) => {
     if (!password || !isValid) {
       alert('Please enter a valid password! \nMust have a minimum of 8 characters, including 1 number, and 1 capitalized letter.')
     }
-    if (!lang) {
+    if (!language) {
       alert('Please select your language!')
     }
     try {
-      dispatch(register({name, email, phone, password, lang}));
-      navLog();
+      dispatch(register({name, email, phone, password, language}));
+      // navLog();
     } catch (e) {
       console.log(e.response.data.message)
     }
-  },[name, email, phone, password, lang]);
+  },[name, email, phone, password, language]);
 
 
 
@@ -106,7 +106,7 @@ const SignUp = (props) => {
               onPress={() => setLangModalVisible(true)} />
             <Button title="Sign Up" onPress={signUp} style={{marginTop: 25}} />
           </View>
-          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide' setLang={setLang}/>
+          <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide' setLang={setLanguage}/>
         </Animatable.View>
       }
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>

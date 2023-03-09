@@ -35,6 +35,12 @@ const Login = (props) => {
   }, []);
 
   const loginReq = React.useCallback(() => {
+    if (!email || !phone) {
+      alert('Please enter your email or phone number!')
+    }
+    if (!password) {
+      alert('Please enter your password!')
+    }
     dispatch(login({email, phone, password}));
     props.navigation.navigate('Home');
   },[email, phone, password]);

@@ -18,6 +18,19 @@ const LanguageModal = styled.View`
   color: white;
   background: #378fd3;
 `
+
+const LanguageItem = styled.TouchableOpacity`
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   top: 4%;
+   padding: 50px;
+   background-color: ${(props) => 
+      props.className === 'selectedClass' ? "white" : "#378fd3"
+    };
+
+`
+
 const FooterTextBtn = styled.TouchableOpacity`
   position: absolute;
   bottom: 10px;
@@ -48,4 +61,4 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
 `;
 
-export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal};
+export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal, LanguageItem};

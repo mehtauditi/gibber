@@ -23,7 +23,6 @@ function CloseButton({close}) {
                     marginRight: "5%",
                     fontSize: pressed ? 43 : 50,
                     background: "none",
-                    // backgroundColor: "#378fd3",
                     zIndex: 10,
                 }}
             >X</Text>
