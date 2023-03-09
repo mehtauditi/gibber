@@ -31,4 +31,5 @@ export const Content = styled.div`
   background-color: #fff;
   border-radius: 30px;
   box-shadow: 0 5px 22px -1px rgb(0 0 0 / 10%);
+  z-index: 100;
 `;

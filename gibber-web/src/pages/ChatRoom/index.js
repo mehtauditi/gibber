@@ -13,7 +13,7 @@ import Spinner from "../../components/Spinner";
 import useDimensions from "../../utils/useDimensions";
 import {CenteredContent} from "../../utils/sharedStyles";
 import {useBeforeunload} from 'react-beforeunload';
-
+import {GoogleAd} from "../../utils/GoogleAd.js";
 
 function ChatRoom() {
   const { width } = useDimensions();
