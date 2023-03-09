@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route index element={<Home/>}/>
           <Route path="app" element={<Layout/>}>
-            <Route mongoApp={app} path="login" element={<Login/>}/>
+            <Route path="login" element={<Login mongoApp={app}/>}/>
             <Route path="chat" element={<ChatRoom/>}/>
             <Route exact path="myprofile" element={<MyProfile/>}/>
           </Route>
