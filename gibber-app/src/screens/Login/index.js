@@ -55,7 +55,7 @@ const Login = (props) => {
           <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "5%"}}>Gibber Login</TextComp>
           <TextComp noFont>Simplifying Communication</TextComp>
           <Button title='Login with email' style={{marginTop: 35}} onPress={() => setLoginType(1)} />
-          <Button title="Login with email" style={{marginVertical: 15}} onPress={() => setLoginType(2)} />
+          <Button title="Login with phone" style={{marginVertical: 15}} onPress={() => setLoginType(2)} />
         </ContentContainer>
         :
         <Animatable.View animation="fadeIn" style={{flex: 1}}>
