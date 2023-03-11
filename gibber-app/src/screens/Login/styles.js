@@ -11,24 +11,19 @@ const LoginImg = styled.Image.attrs(({theme}) => ({
 
 const LanguageModal = styled.View`
   display: flex;
-  height: 105%;
+  height: 120%;
   width: 100%;
-  top: -1%;
-  bottom: 5%;
   color: white;
   background: #378fd3;
-`
+  padding-top: 15%;
+`        
 
 const LanguageItem = styled.TouchableOpacity`
    display: flex;
    flex-direction: column;
    position: relative;
-   top: 4%;
-   padding: 50px;
-   background-color: ${(props) => 
-      props.className === 'selectedClass' ? "white" : "#378fd3"
-    };
-
+   padding: 25px;
+   background-color: ${(props) => props.className === 'selectedClass' ? "white" : "#378fd3"};
 `
 
 const FooterTextBtn = styled.TouchableOpacity`

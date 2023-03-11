@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView, Keyboard} from 'react-native';
+import {View, Text, SafeAreaView, Keyboard} from 'react-native';
 import {Button, Header, Input, Text as TextComp} from "../../components";
 import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './styles';
 import * as Animatable from 'react-native-animatable';
@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {login} from "../../redux/actions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Api} from "../../config";
+import {Icon} from 'react-native-vector-icons/Fontisto';
 
 const Login = (props) => {
   const [loginType, setLoginType] = React.useState('');
@@ -42,7 +43,7 @@ const Login = (props) => {
       alert('Please enter your password!')
     }
     dispatch(login({email, phone, password}));
-    props.navigation.navigate('Home');
+    // props.navigation.navigate('Home');
   },[email, phone, password]);
 
   return (
@@ -53,7 +54,7 @@ const Login = (props) => {
           <LoginImg/>
           <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "5%"}}>Login</TextComp>
           <TextComp noFont>Simplifying Communication</TextComp>
-          <Button title="Login with phone" style={{marginTop: 35}} onPress={() => setLoginType(1)} />
+          <Button title='Login with email' style={{marginTop: 35}} onPress={() => setLoginType(1)} />
           <Button title="Login with email" style={{marginVertical: 15}} onPress={() => setLoginType(2)} />
         </ContentContainer>
         :

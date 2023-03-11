@@ -1,27 +1,39 @@
-import React, {useState} from "react";
-import {View, Text} from "react-native";
+import React from "react";
+import {Text, View, StyleSheet} from "react-native";
 import {LanguageItem} from "./styles";
 
-function LangsItem({languages, setLang, id}) {
-    const [langSelected, setLangSelected] = useState(false);
+function LangsItem({languages, setLang, langSelected, setLangSelected, id}) {
+    
     const handlePress = () => {
-        setLangSelected(true);
-        setLang(languages);
+        setLang(id);
+        setLangSelected(id);
     }
     return (
-        <LanguageItem
-            onPress={handlePress}
-            className={langSelected ? "selectedClass" : ""} 
-            // id={langSelected ? 'selectedId' : id}
-        >
-            <Text style={{
-                color: langSelected ? "#378fd3" : "white",
-                fontWeight: "600",
-                textAlign: "center",
-                fontSize: 30,
-            }}
-            >{languages}</Text>
-        </LanguageItem>
+        <View>
+            <LanguageItem
+                onPress={handlePress}
+                className={langSelected === id ? "selectedClass" : ""} 
+                id={id}
+            >
+                <Text style={{
+                    fontWeight: "600",
+                    textAlign: "center",
+                    fontSize: 28,
+                    color: langSelected === id ? "#378fd3" : "white",
+                }}
+                >{languages}
+                </Text>
+            </LanguageItem>
+            <View
+                style={{
+                display: "flex",
+                flexDirection: "column",
+                borderBottomColor: 'white',
+                position: "relative",
+                borderBottomWidth: StyleSheet.hairlineWidth,
+                }}
+            />
+        </View>
     )
 }
 

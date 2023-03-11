@@ -19,13 +19,13 @@ function CloseButton({close}) {
                     position: "absolute",
                     color: "white",
                     marginLeft: "85%",
-                    marginTop: "25%",
+                    marginTop: "15%",
                     marginRight: "5%",
-                    fontSize: pressed ? 43 : 50,
-                    background: "none",
+                    fontSize: pressed ? 45 : 50,
+                    background: "transparent",
                     zIndex: 10,
                 }}
-            >X</Text>
+            >x</Text>
         </>
     )
 }
