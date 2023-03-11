@@ -13,10 +13,9 @@ import Spinner from "../../components/Spinner";
 import useDimensions from "../../utils/useDimensions";
 import {CenteredContent} from "../../utils/sharedStyles";
 import {useBeforeunload} from 'react-beforeunload';
-import {GoogleAd} from "../../utils/GoogleAd.js";
 
 function ChatRoom() {
-  const { width } = useDimensions();
+  const {width} = useDimensions();
   const [loading, setLoading] = React.useState(true);
   const [mode, setMode] = useOutletContext();
   const [user, setUser] = React.useState({});
@@ -31,6 +30,7 @@ function ChatRoom() {
     fetchData();
     return () => {disconnectSocket()}
   }, []);
+
   const fetchData = React.useCallback(async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -51,7 +51,6 @@ function ChatRoom() {
   }, []);
 
   useBeforeunload(() => {setOffline(user._id)});
-
 
   const fetchChatData = React.useCallback(async () => {
     if (chatId) {
@@ -98,7 +97,6 @@ function ChatRoom() {
     localStorage.setItem('mode', val);
   }, []);
 
-
   const handleLogout = () => {
     localStorage.removeItem("token")
     navigate('/')
@@ -108,7 +106,6 @@ function ChatRoom() {
     event.preventDefault();
     navigate(`/app/myprofile`, { state: user })
   }
-
 
   const sideBarToggle = (val) => {
     if(width < 700 && val === 'close'){
@@ -156,5 +153,3 @@ function ChatRoom() {
 }
 
 export default ChatRoom;
-
-
