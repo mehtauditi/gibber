@@ -16,6 +16,7 @@ const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 const create = async (req, res, next) => {
   try {
     const {name, phone, email, password, language} = req.body;
+    console.log('language', language)
     const missingFields = [];
     if (!name) missingFields.push('Name');
     if (!password) missingFields.push('Password');
