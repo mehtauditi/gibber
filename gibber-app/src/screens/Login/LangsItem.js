@@ -3,6 +3,7 @@ import {Text, View, StyleSheet} from "react-native";
 import {LanguageItem} from "./styles";
 
 function LangsItem({languages, setLang, langSelected, setLangSelected, id}) {
+    console.log('langselected', langSelected)
     
     const handlePress = () => {
         setLang(id);

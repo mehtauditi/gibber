@@ -48,11 +48,11 @@ const Login = (props) => {
 
   return (
     <>
-      <Header {...props} title="gibber" hideRight />
+      {/* <Header {...props} hideRight /> */}
       {!loginType ?
         <ContentContainer>
           <LoginImg/>
-          <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "5%"}}>Login</TextComp>
+          <TextComp size="big" weight="900" style={{marginTop: "8%", marginBottom: "5%"}}>Gibber Login</TextComp>
           <TextComp noFont>Simplifying Communication</TextComp>
           <Button title='Login with email' style={{marginTop: 35}} onPress={() => setLoginType(1)} />
           <Button title="Login with email" style={{marginVertical: 15}} onPress={() => setLoginType(2)} />
@@ -60,7 +60,7 @@ const Login = (props) => {
         :
         <Animatable.View animation="fadeIn" style={{flex: 1}}>
           <View style={{padding: 20}}>
-            <TextComp size="larger" weight="900">Login with {loginType === 1 ?'phone' : 'email'}</TextComp>
+            <TextComp size="larger" weight="900">Login with {loginType === 1 ? 'phone' : 'email'}</TextComp>
             {loginType === 1 ?
               <Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" />
               :

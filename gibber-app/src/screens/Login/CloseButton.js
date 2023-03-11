@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Text} from "react-native";
 
-function CloseButton({close}) {
+function CloseButton({close, langSelected}) {
     const [pressed, setPressed] = useState(false);
 
     const handlePress = () => {
@@ -17,7 +17,7 @@ function CloseButton({close}) {
                     display: "flex",
                     flexDirection: "column",
                     position: "absolute",
-                    color: "white",
+                    color: langSelected === 'ar' ? "#378fd3" : "white",
                     marginLeft: "85%",
                     marginTop: "15%",
                     marginRight: "5%",

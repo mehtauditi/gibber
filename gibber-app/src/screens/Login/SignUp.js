@@ -20,7 +20,6 @@ const SignUp = (props) => {
   const [footerVisible, setFooterVisible] = React.useState(true);
   const [isValid, setIsValid] = React.useState('');
   const [langModalVisible, setLangModalVisible] = React.useState(false);
-  // console.log('local', localStorage)
 
   const dispatch = useDispatch();
 
@@ -52,15 +51,8 @@ const SignUp = (props) => {
     setIsValid(hasDigit && hasUppercase && password.length >= 8);
   }, [password])
 
-  // const navLog = () => {
-  //   if ()
-  //   props.navigation.navigate('Home')
-  //   alert(`Welcome ${name} !`)
-  // }
-
   const signUp = React.useCallback(() => {
     if (!(email.length > 0 && phone.length > 4)) {
-      // React Native version of Toastify is currently buggy?
       alert('Please enter an email and phone number!')
     }
     if (!name) {
@@ -74,27 +66,24 @@ const SignUp = (props) => {
     }
     try {
       dispatch(register({name, email, phone, password, language}));
-      // navLog();
     } catch (e) {
       console.log(e.response.data.message)
     }
   },[name, email, phone, password, language]);
 
-
-
   return (
     <>
-      <Header {...props} title="gibber" hideRight/>
+      {/* <Header {...props} title="gibber" hideRight/> */}
       {!loginType ?
         <ContentContainer>
           <LoginImg style={{bottom: "7%"}}/>
-          <TextComp size="big" weight="900" style={{top: "-3.5%"}}>Sign Up</TextComp>
+          <TextComp size="big" weight="900" style={{top: "-2%"}}>Gibber Sign Up</TextComp>
           <TextComp noFont>Simplying Communication</TextComp>
           <Button title="Create Your Account" style={{marginTop: 35,}} onPress={() => setLoginType(1)} />
         </ContentContainer>
         :
         <Animatable.View animation="fadeIn" style={{flex: 1}}>
-          <View style={{padding: 20}}>
+          <View style={{padding: 20, marginTop: "15%"}}>
             <Input label="Name" value={name} onChange={setName} />
             <Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" />
             <Input label="Email" value={email} onChange={setEmail} keyboardType="email-address" autoCapitalize={"none"} />

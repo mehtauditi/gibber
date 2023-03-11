@@ -6,7 +6,7 @@ const LoginImg = styled.Image.attrs(({theme}) => ({
   width: 250px;
   height: 210px;
   resize-mode: contain;
-  margin-top: -150px;
+  margin-top: -50px;
 `;
 
 const LanguageModal = styled.View`
@@ -23,7 +23,9 @@ const LanguageItem = styled.TouchableOpacity`
    flex-direction: column;
    position: relative;
    padding: 25px;
-   background-color: ${(props) => props.className === 'selectedClass' ? "white" : "#378fd3"};
+   background-color: ${(props) => 
+    props.className === 'selectedClass' ? "white" : "#378fd3"
+    };
 `
 
 const FooterTextBtn = styled.TouchableOpacity`
