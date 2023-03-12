@@ -59,7 +59,7 @@ const Login = (props) => {
         </ContentContainer>
         :
         <Animatable.View animation="fadeIn" style={{flex: 1}}>
-          <View style={{padding: 20}}>
+          <View style={{padding: 20, marginTop: "20%"}}>
             <TextComp size="larger" weight="900">Login with {loginType === 1 ? 'phone' : 'email'}</TextComp>
             {loginType === 1 ?
               <Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" />
