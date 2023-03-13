@@ -115,14 +115,6 @@ function Login(props) {
             <Divider/>
           </Row>
           <Button className='login-btn' onClick={() => setLoginType(3)} width={350}>Sign Up</Button>
-          <Button className='forgot-btn' 
-            style={{marginTop: '1.25em'}} 
-            width={300} 
-            onClick={async () => {
-             await props.mongoApp.emailPasswordAuth.sendResetPasswordEmail({ email: 'joki9448@gmail.com' });
-            }}>
-              Forgot Password?
-          </Button>
         </CenteredContent>
         :
         loginType !== 3 ?
