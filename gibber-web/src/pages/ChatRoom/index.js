@@ -3,6 +3,7 @@ import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import {Chat, Profile, Sidebar} from "../../components";
 import {Container} from "./styles";
+import {Header} from "./styles";
 import {useNavigate, useOutletContext} from "react-router-dom";
 import Api from "../../config/axios";
 import {LoadScript} from "@react-google-maps/api";
@@ -12,7 +13,7 @@ import Spinner from "../../components/Spinner";
 import useDimensions from "../../utils/useDimensions";
 import {CenteredContent} from "../../utils/sharedStyles";
 import {useBeforeunload} from 'react-beforeunload';
-
+import {GoogleAd} from "../../utils/GoogleAd.js";
 
 function ChatRoom() {
   const { width } = useDimensions();
@@ -121,6 +122,12 @@ function ChatRoom() {
 
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
+      <Header style={{display: "flex", justifyContent: "flex-end"}}>
+        <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
+        <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
+        <a href='/' style={{ fontSize: 14, marginTop: 5, marginRight:25, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
+      </Header>
+
       <Container>
         {loading ? <CenteredContent className="loading"><Spinner color="#358bd0"/></CenteredContent>:
           <>
@@ -144,11 +151,6 @@ function ChatRoom() {
           </>
         }
       </Container>
-      <footer style={{ display: "flex", justifyContent: "flex-end" }}>
-          <a href={`/app/myprofile`} style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleProfileClick}>My Profile</a>
-          <span style={{marginLeft: 5, marginRight: 5, marginTop: 5, color: 'gray'}}>|</span>
-          <a href='/' style={{ fontSize: 14, marginTop: 5, color: 'royalblue'}} onClick={handleLogout}>Logout</a>
-      </footer>
     </ThemeProvider>
   )
 }

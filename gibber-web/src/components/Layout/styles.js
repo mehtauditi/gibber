@@ -27,7 +27,9 @@ export const CornerBot = styled.img.attrs({src: require('../../images/corner.png
 export const Content = styled.div`
   width: 93%;
   height: 92%;
+  margin-bottom: 30px;
   background-color: #fff;
   border-radius: 30px;
   box-shadow: 0 5px 22px -1px rgb(0 0 0 / 10%);
+  z-index: 100;
 `;
