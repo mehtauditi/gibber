@@ -43,7 +43,6 @@ const Login = (props) => {
       alert('Please enter your password!')
     }
     dispatch(login({email, phone, password}));
-    // props.navigation.navigate('Home');
   },[email, phone, password]);
 
   return (

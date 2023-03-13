@@ -100,8 +100,13 @@ function Home(props) {
 
   return (
     <View style={{flex: 1}}>
-      <Header title="Messages" menuItems={menuItems} titleStyle={{fontSize: 25}} />
-      <View style={theme.body}>
+      <Header title="Messages" menuItems={menuItems} titleStyle={{fontSize: 25, marginTop: -10}}/>
+      <View style={{
+        flex: 1,
+        marginTop: "5%",
+        position: "relative",
+        backgroundColor: "pink"
+      }}>
         {conversations.loading || conversations.data.length > 0 ?
           <FlatList
             data={getListData().slice().sort(sortConversations)}

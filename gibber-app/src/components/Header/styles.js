@@ -7,7 +7,7 @@ const barHeight = getStatusBarHeight();
 
 const HeaderContainer = styled.View`
   backgroundColor: ${({theme}) => theme.headerBg};
-  height: ${90 + (IS_IPHONE_X ? barHeight : IS_IOS ? 0 : -20)};
+  height: ${73 + (IS_IPHONE_X ? barHeight : IS_IOS ? 0 : -20)};
   padding-top: ${IS_IOS ? barHeight : 0};
 `;
 
@@ -17,6 +17,7 @@ const Header = styled.SafeAreaView`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: relative;
   z-index: 9999;
 `;
 
@@ -59,6 +60,7 @@ const RightIcon = styled.View`
   justify-content: center;
   width: 50px;
   height: 50px;
+  margin-bottom: 30%;
   z-index: 999;
 `;
 
