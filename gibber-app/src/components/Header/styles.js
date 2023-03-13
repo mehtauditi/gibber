@@ -60,7 +60,7 @@ const RightIcon = styled.View`
   justify-content: center;
   width: 50px;
   height: 50px;
-  margin-bottom: 30%;
+  margin-bottom: 28%;
   z-index: 999;
 `;
 

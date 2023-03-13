@@ -16,7 +16,7 @@ const HeaderComp = ({title, chatTitle, menuItems, showBack, onBack, titleStyle})
             :
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               {showBack ? <TouchableOpacity onPress={onBack || goBack} style={{left: 10, top: IS_IOS ? -1 : 0, marginRight: -5}}>
-                <Icon size={33} height={40} name="chevron-left-outline" />
+                <Icon size={33} height={40} name="chevron-left-outline"/>
               </TouchableOpacity> : null}
               <Title style={titleStyle}>{title}</Title>
             </View>
