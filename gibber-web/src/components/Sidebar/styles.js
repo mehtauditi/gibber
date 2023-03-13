@@ -14,8 +14,10 @@ export const SidebarContainer = styled.div`
   color: ${({theme}) => theme.txt};
   border-right: 1px solid ${({theme}) => theme.border};
   position: relative;
+  overflow-y: hidden;
   .head {
     padding: 0 25px;
+    overflow-y: hidden;
     color: ${({theme}) => theme.txt};
     svg {
       fill: ${({theme}) => theme.txt}
@@ -31,7 +33,7 @@ export const SidebarContainer = styled.div`
 `;
 
 export const ChatList = styled.div`
-  margin-top: 25px;
+  padding: inherit;
   height: 100%;
   overflow-y: auto;
 `;
