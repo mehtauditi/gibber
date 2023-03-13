@@ -83,10 +83,11 @@ const ModalContent = styled.View`
 
 const CreateHeader = styled.View`
   background-color: ${({theme}) => theme.bg};
-  height: 50px;
+  height: 35px;
   flex-direction: row;
   align-items: center;
   padding-horizontal: 15px;
+  bottom: 5px;
 `;
 const HeaderShadow = styled.Image.attrs({source: require('../../images/shadow.png'), resizeMode: 'stretch'})`
   position: absolute;
@@ -100,6 +101,8 @@ const Row = styled.View`
   padding-horizontal: 25px;
   padding-top: ${IS_IOS ? 7 : 9};
   margin-bottom: ${IS_IOS ? 20 : 0};
+  bottom: 10px;
+  left: 5px;
 `;
 
 const Msg = styled.View`

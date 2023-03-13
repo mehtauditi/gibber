@@ -25,7 +25,7 @@ const HeaderComp = ({title, chatTitle, menuItems, showBack, onBack, titleStyle})
             <MenuPopup
               triggerButton={<RightIcon><Icon size={22} name="more-vertical-outline" /></RightIcon>}
               items={menuItems}
-              optionsContainerStyle={{maxWidth: 170, marginLeft: -35}}
+              optionsContainerStyle={{maxWidth: 170, marginLeft: -35, marginBottom: 40}}
             />
             : null}
         </Header>

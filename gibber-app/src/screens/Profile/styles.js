@@ -6,6 +6,7 @@ const Avatar = styled.Image`
   border-radius: 100px;
   margin-bottom: 15px;
 `;
+
 const AvatarContainer = styled.View`
   width: 130px;
   height: 130px;
@@ -14,6 +15,7 @@ const AvatarContainer = styled.View`
 const Head = styled.View`
   align-items: center;
   margin-bottom: 45px;
+  top: 25px;
 `;
 
 const IconBtn = styled.TouchableOpacity`
@@ -31,6 +33,7 @@ const IconBtn = styled.TouchableOpacity`
 const Row = styled.View`
   flex-direction: row;
   margin-bottom: 15px;
+  top: 50px;
 `;
 
 const InputContainer = styled.View`
@@ -43,6 +46,7 @@ const LogoutBtn = styled.Text`
   margin-top: 30px;
   text-align: center;
   color: ${({theme}) => theme.danger};
+  top: 50px;
 `;
 
 export {Avatar, Head, IconBtn, Row, InputContainer, AvatarContainer, LogoutBtn};

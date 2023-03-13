@@ -104,7 +104,7 @@ const CreateChat = ({visible, close, navigate}) => {
             </CreateHeader>
           </SafeAreaView>
           <Row>
-            <LeftText>To</LeftText>
+            <LeftText>To:</LeftText>
             <Input placeholder="Type a name, phone or email" value={search} onChangeText={handleChange}/>
           </Row>
           <HeaderShadow/>

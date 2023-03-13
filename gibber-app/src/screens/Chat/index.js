@@ -230,7 +230,7 @@ const Chat = (props) => {
       <Header {...props} chat menuItems={menuItems} chatData={isGroup ? {name: groupName, avatar: groupImage} : recipient} isGroup={isGroup}
         chatTitle={
           <Content>
-            <TouchableOpacity onPress={() => props.navigation.goBack()} style={{marginBottom: 15}}>
+            <TouchableOpacity onPress={() => props.navigation.goBack()} style={{marginBottom: 30}}>
               <Icon size={33} height={40} name="chevron-left-outline" />
             </TouchableOpacity>
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginBottom: 15}} onPress={navigateProfile}>

@@ -18,6 +18,7 @@ const Header = styled.SafeAreaView`
   justify-content: space-between;
   align-items: center;
   position: relative;
+  bottom: -8;
   z-index: 9999;
 `;
 
@@ -33,7 +34,8 @@ const Avatar = styled(FastImage)`
   height: 35px;
   border-radius: 20px;
   margin-horizontal: 15px;
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-bottom: 15px;
 `;
 
 const Content = styled.View`
@@ -45,6 +47,7 @@ const Content = styled.View`
 const Name = styled(Text)`
   color: ${({theme}) => theme.title};
   font-size: 17px;
+  height: 30px;
 `;
 
 const StatusTxt = styled.Text`
@@ -60,7 +63,7 @@ const RightIcon = styled.View`
   justify-content: center;
   width: 50px;
   height: 50px;
-  margin-bottom: 28%;
+  margin-bottom: 30%;
   z-index: 999;
 `;
 
