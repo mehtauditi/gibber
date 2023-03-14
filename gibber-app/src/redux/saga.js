@@ -56,7 +56,7 @@ export function* loginRequest(action) {
     replace('Home');
     setNotificationUserId(res.data._id);
   } catch (e) {
-    alert(e.response.data.message);
+    alert(e);
     yield put(loginError(e));
   }
 }
