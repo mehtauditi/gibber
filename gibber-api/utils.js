@@ -1,7 +1,6 @@
 const _ = require("lodash");
 const axios = require('axios');
 const { Translate } = require('@google-cloud/translate').v2;
-require('dotenv').config();
 
 exports.getNotNullFields = function(data) {
   const out = {};

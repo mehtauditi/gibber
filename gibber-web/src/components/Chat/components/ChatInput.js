@@ -5,7 +5,7 @@ import {theme as themes} from '../../../config/theme';
 import FileUpload from "../../FileUpload";
 import {useOutsideAlerter} from "../../../utils/useOutsideAlerter";
 import Api from "../../../config/axios";
-import axios from 'axios'
+
 
 const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...props}) => {
   const [actionsVisible, setActionsVisible] = React.useState(false);
