@@ -4,6 +4,7 @@ import {Icon} from "../../index";
 import {theme as themes} from '../../../config/theme';
 import FileUpload from "../../FileUpload";
 import {useOutsideAlerter} from "../../../utils/useOutsideAlerter";
+import { translateText } from '../../../utils/helpers';
 import Api from "../../../config/axios";
 
 
@@ -18,7 +19,8 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
   const submit = React.useCallback(async () => {
     if (value && !translateInProg) {
       setTranslateInProg(true);
-      sendMessage({text: value});
+      const translatedText = await translateText(value, user.language);
+      sendMessage({text: translatedText});
       onChange('');
       setTranslateInProg(false);
     }
