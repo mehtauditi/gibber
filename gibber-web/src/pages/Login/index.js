@@ -79,6 +79,9 @@ function Login() {
     if (!(email.length > 0 && phone.length > 4)) {
       return toast.warn('Phone and email required!')
     }
+    if(!(/\S+@\S+\.\S+/.test(email))){
+      return toast.warn('Valid email is required!')
+    }
     if (!isValid) {
       return toast.warn('Password is not valid!');
     }
