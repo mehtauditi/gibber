@@ -7,7 +7,7 @@ export const Container = styled.div`
   transition: all 0.3s ease-in;
   z-index: 2;
   border-radius: 0px 0px 25px 25px;
-  background-color: ${({theme}) => theme.mode === 'dark' ? theme.bg : '#fff'};
+  background-color: ${({theme}) => theme.bg};
   display: flex;
   overflow: hidden;
   audio::-webkit-media-controls-panel {
@@ -29,11 +29,10 @@ export const Container = styled.div`
 
 export const Header = styled.header`
   width: 100%;
-  height: 5%;
   position: relative;
   z-index: 2;
   border-radius: 25px 25px 0px 0px;
-  background-color: ${({theme}) => theme.mode === 'dark' ? theme.bg : '#fff'};
+  background-color: ${({theme}) => theme.bg};
   display: flex;
   transition: all 0.3s ease-in;
   overflow: hidden;
