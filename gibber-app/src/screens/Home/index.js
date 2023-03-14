@@ -103,7 +103,7 @@ function Home(props) {
       <Header title="Messages" menuItems={menuItems} titleStyle={{fontSize: 25, marginTop: -10}}/>
       <View style={{
         flex: 1,
-        marginTop: "4%",
+        marginTop: "5%",
         position: "relative",
       }}>
         {conversations.loading || conversations.data.length > 0 ?
