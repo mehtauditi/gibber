@@ -3,7 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import Api from "../../config/axios";
 import { toast } from "react-toastify";
 
-function GroupChatModal({ show, handleClose }) {
+function GroupChatModal({ user, show, handleClose }) {
   const [groupChatName, setGroupChatName] = useState("");
   const [allUsers, setAllUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -49,7 +49,7 @@ function GroupChatModal({ show, handleClose }) {
   const fetchAllUsers = async () => {
     try {
       const res = await Api.get('/user/allUsers');
-      setAllUsers(res.data);
+      setAllUsers(res.data.filter(u => u.email !== 'teamgibber@test.com' && u.email !== user.email));
     } catch (error) {
       console.log(error);
     }

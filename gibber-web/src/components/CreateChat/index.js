@@ -87,7 +87,7 @@ function CreateChat({close, user, ...props}) {
         {!search && user.contacts.map(renderItem)}
         {!!users.length && users.map(renderItem)}
       </ChatList>
-      <GroupChatModal show={showModal} handleClose={handleClose} />
+      <GroupChatModal user={user} show={showModal} handleClose={handleClose} />
     </Container>
   )
 }
