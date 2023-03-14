@@ -152,19 +152,19 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
                 <Row>
                   <RowItem onPress={sendImage}>
                     <Btn style={{backgroundColor: '#0984e3'}}><Icon name="image" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Gallery</Text>
+                    <Text noFont weight={400}>Gallery</Text>
                   </RowItem>
                   <RowItem onPress={sendAudio}>
                     <Btn style={{backgroundColor: '#00b894'}}><Icon name="headphones" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Sound</Text>
+                    <Text noFont weight={400}>Sound</Text>
                   </RowItem>
                   <RowItem onPress={() => setLocModalVisible(true)}>
                     <Btn style={{backgroundColor: '#e17055'}}><Icon name="pin" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Location</Text>
+                    <Text noFont weight={400}>Location</Text>
                   </RowItem>
                   <RowItem onPress={sendFromCamera}>
                     <Btn style={{backgroundColor: '#fdcb6e'}}><Icon name="camera" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Camera</Text>
+                    <Text noFont weight={400}>Camera</Text>
                   </RowItem>
                 </Row>
               </ActionsContainer>
