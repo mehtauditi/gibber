@@ -78,10 +78,10 @@ function Home(props) {
       <Item onPress={() => props.navigation.navigate('Chat', {conversation: item})} unseen={unseenMessage}>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => onItemClick(item)}>
-            <Avatar source={getAvatarPath(!item.isGroup ? recipient.avatar : item.image, item.isGroup)} />
+            <Avatar source={getAvatarPath(!item.isGroup ? recipient?.avatar : item.image, item.isGroup)} />
           </TouchableOpacity>
           <View>
-            <UserName unseen={unseenMessage}>{!item.isGroup ? recipient.name : item.name}</UserName>
+            <UserName unseen={unseenMessage}>{!item.isGroup ? recipient?.name : item.name}</UserName>
             {text}
           </View>
         </View>
