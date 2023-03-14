@@ -38,9 +38,9 @@ const theme = {
     border: '#EBEBEB',
     danger: '#e74c3c'
   },
-  // body: {
-  //     flex: 1,
-  // }
+  body: {
+      flex: 1,
+  }
 };
 
 const sharedStyles = {

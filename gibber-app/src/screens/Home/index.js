@@ -105,6 +105,7 @@ function Home(props) {
         flex: 1,
         marginTop: "5%",
         position: "relative",
+        bottom: 5
       }}>
         {conversations.loading || conversations.data.length > 0 ?
           <FlatList
