@@ -15,31 +15,10 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
   useOutsideAlerter(actionsRef, () => setActionsVisible(false));
 
 
-  const translateText = async (text, tarLang) => {
-    try{
-      const options = {
-        method: 'POST',
-        url: 'https://nlp-translation.p.rapidapi.com/v1/translate',
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-          'X-RapidAPI-Host': 'nlp-translation.p.rapidapi.com'
-        },
-        data: {text: text, to: tarLang}
-      };
-
-      const resp =  await axios.request(options);
-      return resp.data.translated_text[tarLang];
-    }catch(e){
-      throw new Error(e);
-    }
-  }
-
   const submit = React.useCallback(async () => {
     if (value && !translateInProg) {
       setTranslateInProg(true);
-      const translatedText = await translateText(value, user.language);
-      sendMessage({text: translatedText});
+      sendMessage({text: value});
       onChange('');
       setTranslateInProg(false);
     }
