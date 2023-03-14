@@ -9,6 +9,8 @@ const qr = require('qrcode');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
 const {translatedWelcomeMsgs} = require('../../config/translatedWelcomeMsgs');
+const Realm = require('realm-web');
+const realmApp = new Realm.App({id : process.env.REALM_ID});
 
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
@@ -39,6 +41,9 @@ const create = async (req, res, next) => {
     finalUser.save(async (err, newUser) => {
       if (err)
         return new ErrorHandler(400, "An error occurred during user creation, please try again later.", [], res);
+      const realmCreds = await Realm.Credentials.emailPassword(newUser.email, newUser.password);
+      const regRealmUser = await realmApp.emailPasswordAuth.registerUser({email: newUser.email, password: newUser.password});
+      const loggedInRealm = await realmApp.logIn(realmCreds);
       const userWithToken = { ...newUser.toJSON() };
       delete userWithToken['password'];
       userWithToken.token = finalUser.generateJWT();
@@ -83,6 +88,8 @@ const login = async (req, res, next) => {
       const user = await User.findOne(query);
       if (!user || !user.validatePassword(password)) return new ErrorHandler(400, (email ? 'email':'phone') + " or password is invalid", [], res);
       const finalData = {token: await user.generateJWT(), ...user.toJSON()};
+      const realmCreds = await Realm.Credentials.emailPassword(finalData.email, finalData.password);
+      const loggedInRealm = await realmApp.logIn(realmCreds);
       delete finalData['password'];
       res.status(200).json(finalData);
     } else
