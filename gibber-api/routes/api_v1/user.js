@@ -12,6 +12,8 @@ const {translatedWelcomeMsgs} = require('../../config/translatedWelcomeMsgs');
 const Realm = require('realm-web');
 const realmApp = new Realm.App({id : process.env.REALM_ID});
 
+const s3_dir = 'test/'; // 'prod/' for production
+
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
@@ -162,7 +164,7 @@ const update = async (req, res, next) => {
 
 const updateAvatar = async (req, res, next) => {
   try {
-    const uploaded = await s3.upload(req.file, 'user', getImageName(req.file, req.payload.id));
+    const uploaded = await s3.upload(req.file, s3_dir + 'user', getImageName(req.file, req.payload.id));
     await User.updateOne({_id: req.payload.id}, {$set: {avatar: uploaded.key}});
     res.status(200).json({path: uploaded.key});
   } catch (e) {
