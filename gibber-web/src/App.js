@@ -12,7 +12,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const {height} = useDimensions();
 
-
   return (
     <div className="App" style={{height}}>
       <BrowserRouter>

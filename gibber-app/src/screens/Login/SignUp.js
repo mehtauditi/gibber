@@ -14,7 +14,6 @@ const SignUp = (props) => {
   const [password, setPassword] = React.useState('');
   const [footerVisible, setFooterVisible] = React.useState(true);
 
-
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -29,7 +28,6 @@ const SignUp = (props) => {
   const signUp = React.useCallback(() => {
     dispatch(register({name, email, phone, password}))
   },[name, email, phone, password]);
-
 
   return (
     <>
