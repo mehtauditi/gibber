@@ -225,6 +225,7 @@ const Chat = (props) => {
     <LoadBtn onPress={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <ActivityIndicator size="small" color="#fff"/> : <LoadBtnTxt>Load more</LoadBtnTxt> }</LoadBtn>
     : null, [messages, loadingMoreMsg, noMoreMsg, page]);
 
+
   return (
     <>
       <Header {...props} chat menuItems={menuItems} chatData={isGroup ? {name: groupName, avatar: groupImage} : recipient} isGroup={isGroup}
