@@ -15,7 +15,7 @@ const AvatarContainer = styled.View`
 const Head = styled.View`
   align-items: center;
   margin-bottom: 45px;
-  top: 25px;
+  top: 20px;
 `;
 
 const IconBtn = styled.TouchableOpacity`
@@ -33,7 +33,7 @@ const IconBtn = styled.TouchableOpacity`
 const Row = styled.View`
   flex-direction: row;
   margin-bottom: 15px;
-  top: 50px;
+  top: 25px;
 `;
 
 const InputContainer = styled.View`

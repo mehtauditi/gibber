@@ -36,8 +36,11 @@ const Login = (props) => {
   }, []);
 
   const loginReq = React.useCallback(() => {
-    if (!email || !phone) {
-      alert('Please enter your email or phone number!')
+    if (!email) {
+      alert('Please enter your email!')
+    }
+    if (!phone) {
+      alert('Please enter your phone number!')
     }
     if (!password) {
       alert('Please enter your password!')
