@@ -5,10 +5,12 @@ import Icon from "../Icon";
 import {getAvatarPath, sortConversations} from "../../utils/helpers";
 import moment from "../../utils/moment";
 import {CreateChat} from "../index";
+import './styles.css';
 
 function Sidebar({user, conversations, ...props}) {
   const [createVisible, setCreateVisible] = React.useState(false);
   const [convoSelected, setConvoSelected] = React.useState('');
+  const [activeTab, setActiveTab] = React.useState('invitation');
 
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);
@@ -37,9 +39,9 @@ function Sidebar({user, conversations, ...props}) {
           props.setChatId(item._id);
           setConvoSelected(item._id);
           props.setSidebarStatus('close');
-          }} 
+          }}
           className={convoSelected === item._id ? "selected" : ""}
-          unseen={unseenMessage} 
+          unseen={unseenMessage}
           key={item._id}
       >
         <Row>
@@ -69,6 +71,11 @@ function Sidebar({user, conversations, ...props}) {
         </div>
       </Row>
       <ChatList>
+        <div className='tab-container'>
+        <div className={activeTab === 'invitation' ? 'selected' : ''} onClick={() => setActiveTab('invitation')}>Invitation</div>
+          <div className="vertical-line"></div>
+          <div className={activeTab === 'conversation' ? 'selected' : ''} onClick={() => setActiveTab('conversation')}>Conversation</div>
+        </div>
         {getListData().slice().sort(sortConversations).map(renderItem)}
       </ChatList>
       {createVisible && <CreateChat close={() => setCreateVisible(false)} user={user} setChatId={props.setChatId} createChat={props.createChat} />}
