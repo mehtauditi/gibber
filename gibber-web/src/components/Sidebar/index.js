@@ -72,11 +72,44 @@ function Sidebar({user, conversations, ...props}) {
       </Row>
       <ChatList>
         <div className='tab-container'>
-        <div className={activeTab === 'invitation' ? 'selected' : ''} onClick={() => setActiveTab('invitation')}>Invitation</div>
+          <div className={activeTab === 'invitation' ? 'selected' : ''} onClick={() => setActiveTab('invitation')}>Invitation</div>
           <div className="vertical-line"></div>
           <div className={activeTab === 'conversation' ? 'selected' : ''} onClick={() => setActiveTab('conversation')}>Conversation</div>
         </div>
-        {getListData().slice().sort(sortConversations).map(renderItem)}
+        {activeTab === 'invitation' && (
+        <div>
+          <div className="invitation-card">
+            <h5>Test 1 Has Made A Request</h5>
+            <div className="invitation-options">
+              <button className="accept-btn">Accept</button>
+              <button className="decline-btn">Decline</button>
+              <button className="block-btn">Block User</button>
+            </div>
+          </div>
+          <div className="invitation-card">
+            <h5>Test 2 Has Made A Request</h5>
+            <div className="invitation-options">
+              <button className="accept-btn">Accept</button>
+              <button className="decline-btn">Decline</button>
+              <button className="block-btn">Block User</button>
+            </div>
+          </div>
+          <div className="invitation-card">
+            <h5>Test 3 Has Made A Request</h5>
+            <div className="invitation-options">
+              <button className="accept-btn">Accept</button>
+              <button className="decline-btn">Decline</button>
+              <button className="block-btn">Block User</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'conversation' && (
+        <div>
+          {getListData().slice().sort(sortConversations).map(renderItem)}
+        </div>
+      )}
       </ChatList>
       {createVisible && <CreateChat close={() => setCreateVisible(false)} user={user} setChatId={props.setChatId} createChat={props.createChat} />}
     </SidebarContainer>
