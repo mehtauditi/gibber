@@ -53,7 +53,6 @@
     "react-native-textinput-effects": "0.6.2",
     "react-native-vector-icons": "^9.2.0",
     "react-native-video": "5.2.0",
-    "react-password-checklist": "^1.4.3",
     "react-redux": "7.2.6",
     "react-router-dom": "^6.8.2",
     "redux": "^4.1.2",
