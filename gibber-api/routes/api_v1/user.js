@@ -49,7 +49,7 @@ const create = async (req, res, next) => {
       const userWithToken = { ...newUser.toJSON() };
       delete userWithToken['password'];
       userWithToken.token = finalUser.generateJWT();
-      const adminUser = await User.findOne({ email: 'darpan.patel@gibber.chat' });
+      const adminUser = await User.findOne({ email: 'teamgibber@test.com' });
       const newConversation = new Conversation({
         users: [adminUser._id, newUser._id]
       });
