@@ -73,6 +73,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
           onKeyDown={e => !translateInProg ? e.key === 'Enter' && submit() : undefined}
         />
         {value?.trim().length === 0 && props.sidebarStatus === 'close' ? <IconBtn onClick={() => setActionsVisible(true)}>
+
           <Icon size={21} name="attach-outline" color={theme.gray} />
         </IconBtn>: <></>}
         <IconContainer onClick={() => !translateInProg ? submit() : undefined}>

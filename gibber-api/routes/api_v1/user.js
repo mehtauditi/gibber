@@ -12,7 +12,7 @@ const {translatedWelcomeMsgs} = require('../../config/translatedWelcomeMsgs');
 const Realm = require('realm-web');
 const realmApp = new Realm.App({id : process.env.REALM_ID});
 
-const s3_dir = 'test/'; // 'prod/' for production
+const s3_dir = 'prod/'; // 'prod/' for production
 
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
