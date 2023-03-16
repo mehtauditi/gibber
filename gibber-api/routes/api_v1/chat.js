@@ -9,6 +9,8 @@ const s3 = require('../../config/s3');
 const {translateText} = require('../../utils');
 const {sendNotification} = require('../../config/notification');
 
+const s3_dir = 'test/'; // 'prod/' for production
+
 const getConversations = async (req, res, next) => {
   try {
     let allConversations = [];
@@ -128,7 +130,7 @@ const reply = async (req, res, next) => {
 
 const uploadMessageFile = async (req, res, next) => {
   try {
-    const uploaded = await s3.upload(req.file, 'chat', getImageName(req.file));
+    const uploaded = await s3.upload(req.file, s3_dir + 'chat', getImageName(req.file));
     res.status(200).json({path: uploaded.key});
   } catch (e) {
     next(e);
@@ -173,7 +175,7 @@ const addGroupParticipant = async (req, res, next) => {
 
 const updateGroupImage = async (req, res, next) => {
   try {
-    const uploaded = await s3.upload(req.file, 'chat', getImageName(req.file, req.params.conversation));
+    const uploaded = await s3.upload(req.file, s3_dir + 'group', getImageName(req.file, req.params.conversation));
     await Conversation.updateOne({_id: req.params.conversation}, {$set: {image: uploaded.key}});
     res.status(200).json({path: uploaded.key});
   } catch (e) {
