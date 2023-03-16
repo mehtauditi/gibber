@@ -30,7 +30,6 @@ mongoose.connect(mongoUri, {
 });
 
 require('./models/User');
-require("./config/passport");
 
 app.get('/', (req, res, next) => res.status(200).json({hello: 'world'}));
 
