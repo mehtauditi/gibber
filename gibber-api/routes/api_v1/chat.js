@@ -9,7 +9,7 @@ const s3 = require('../../config/s3');
 const {translateText} = require('../../utils');
 const {sendNotification} = require('../../config/notification');
 
-const s3_dir = 'prod/'; // 'prod/' for production
+const s3_dir = 'test/'; // 'prod/' for production
 
 const getConversations = async (req, res, next) => {
   try {
