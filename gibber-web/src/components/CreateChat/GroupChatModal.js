@@ -49,7 +49,7 @@ function GroupChatModal({ user, show, handleClose }) {
   const fetchAllUsers = async () => {
     try {
       const res = await Api.get('/user/allUsers');
-      setAllUsers(res.data.filter(u => u.email !== 'teamgibber@test.com' && u.email !== user.email));
+      setAllUsers(res.data.filter(u => u.email !== 'darpan.patel@gibber.chat' && u.email !== user.email));
     } catch (error) {
       console.log(error);
     }
