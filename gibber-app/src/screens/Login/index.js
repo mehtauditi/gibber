@@ -36,22 +36,20 @@ const Login = (props) => {
   }, []);
 
   const loginReq = React.useCallback(() => {
-    if (!email) {
+    if ((!email) && (loginType === 2)) {
       alert('Please enter your email!')
     }
-    if (!phone) {
+    if ((!phone) && (loginType === 1)) {
       alert('Please enter your phone number!')
     }
     if (!password) {
       alert('Please enter your password!')
     }
     dispatch(login({email, phone, password}));
-    // props.navigation.navigate('Home');
-  },[email, phone, password]);
+  },[email, phone, password, loginType]);
 
   return (
     <>
-      {/* <Header {...props} hideRight /> */}
       {!loginType ?
         <ContentContainer>
           <LoginImg/>

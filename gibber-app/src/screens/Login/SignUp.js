@@ -48,7 +48,7 @@ const SignUp = (props) => {
   React.useEffect(() => {
     const hasDigit = /\d/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
-    setIsValid(hasDigit && hasUppercase && password.length >= 8);
+    setIsValid(hasDigit && hasUppercase && (password.length >= 8));
   }, [password])
 
   const signUp = React.useCallback(() => {
