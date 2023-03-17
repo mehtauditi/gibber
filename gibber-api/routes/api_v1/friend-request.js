@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../../models/User');
+const Conversation = require('../../models/Conversation');
 const auth = require('../auth');
 const {ErrorHandler} = require('../../config/error');
 const FriendRequest = require('../../models/FriendRequest');
@@ -82,6 +83,44 @@ const remove = async (req, res, next) => {
     next(e);
   }
 }
+
+// *** ONLY USE ONCE BEFORE PROD PUSH THEN DELETE *** //
+
+// // ADD to Friends Array
+// const buildAllFriendsList = async (req, res, next) => {
+//   try {
+//     const allUsers = await User.find({});
+//     allUsers.forEach(async u => {
+//       // get conversations each user is in
+//       const convs = await Conversation.find({users: { $in: [u._id]}});
+//       // console.log(convs);
+//       // for each conversation, add user (not teamgibber and not self and not someone who's already in there) to friends array
+//       friendsArr = [];
+//       convs.forEach(conv => {
+//         conv.users.forEach(c_user => {
+//           let uid = c_user.toString();
+//           if(uid !== u._id.toString() && uid !== "641378a933af58d8c66e7406"){ // teamgibber id
+//             friendsArr.push(uid);
+//           }
+//         })
+//       })
+//       // remove duplicates from friendsArr
+//       friendsArr  = [...new Set(friendsArr)]
+//       const addFriends = await User.updateOne({_id: u.id}, {
+//          $set: { friends: friendsArr } 
+//       });
+//     })
+//     const updatedUsers = await User.find({});
+//     console.log(updatedUsers);
+//     res.json(updatedUsers);
+//   } catch (e) {
+//     next(e);
+//   }
+// }
+
+// router.get('/buildFriends', buildAllFriendsList);
+//
+// *** ONLY USE ONCE BEFORE PROD PUSH THEN DELETE *** //
 
 router.post("/", auth.required, create);
 router.post("/accept/:id", auth.required, accept);
