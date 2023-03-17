@@ -5,6 +5,7 @@ import Icon from "../Icon";
 import {getAvatarPath, sortConversations} from "../../utils/helpers";
 import moment from "../../utils/moment";
 import {CreateChat} from "../index";
+import Api from '../../config/axios';
 import './styles.css';
 
 function Sidebar({user, conversations, ...props}) {
@@ -18,6 +19,21 @@ function Sidebar({user, conversations, ...props}) {
     const filter = c => {if (c.isGroup) return true; else return !c.users.find(u => blocked?.includes(u._id)) && !c.users.find(u => blockedFrom?.includes(u._id))};
     return conversations.filter(filter);
   }, [user, conversations]);
+
+  const handleAcceptRequest = async (reqId) => {
+    const res = await Api.post(`/friend-request/accept/${reqId}`);
+    console.log(res);
+  }
+
+  const handleDeclineRequest = async (reqId) => {
+    const res = await Api.post(`/friend-request/decline/${reqId}`);
+    console.log(res);
+  }
+
+  const handleBlock = async (fReq) => {
+    const res = await Api.put(`/user/block/${fReq.sender}`);
+    console.log(res);
+  }
 
 
   const msgText = React.useCallback((icon, text, unseenMessage) => <Msg><Icon name={icon} size={16} /><MessageText unseen={unseenMessage} noFont style={{marginLeft: 4}}>{text}</MessageText></Msg>, []);
