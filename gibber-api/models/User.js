@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   email: String,
   password: String,
   language: String,
+  friends: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   contacts: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blocked: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blockedFrom: [{type: mongoose.Types.ObjectId, ref: 'User'}],
