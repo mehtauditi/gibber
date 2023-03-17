@@ -191,8 +191,8 @@ const updatePassword = async (req, res, next) => {
 
 const block = async (req, res, next) => {
   try {
-    await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}});
-    await User.updateOne({_id: req.payload.id}, {$addToSet: {blocked: req.params.user}, $pull: {contacts: req.params.user}});
+    await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}, $pull: {friends: req.payload.id}});
+    await User.updateOne({_id: req.payload.id}, {$addToSet: {blocked: req.params.user}, $pull: {contacts: req.params.user}, $pull: {friends: req.params.user}});
     res.status(200).json({updated: true});
   } catch (e) {
     next(e);
