@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const axios = require('axios');
 const { Translate } = require('@google-cloud/translate').v2;
+// const CREDENTIALS = require(process.env.CREDENTIALS_PATH); // FOR prod
 
 exports.getNotNullFields = function(data) {
   const out = {};
@@ -11,6 +12,7 @@ exports.getNotNullFields = function(data) {
   });
   return out;
 };
+
 
 const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
 

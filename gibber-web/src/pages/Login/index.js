@@ -70,8 +70,17 @@ function Login() {
   }, [email, phone, password, navigate]);
 
   const signUp = React.useCallback(async () => {
+    if (name.length <= 0) {
+      return toast.warn('Name required!')
+    }
+    if (lang === ""){
+      return toast.warn('Language required!')
+    }
     if (!(email.length > 0 && phone.length > 4)) {
       return toast.warn('Phone and email required!')
+    }
+    if(!(/\S+@\S+\.\S+/.test(email))){
+      return toast.warn('Valid email is required!')
     }
     if (!isValid) {
       return toast.warn('Password is not valid!');
