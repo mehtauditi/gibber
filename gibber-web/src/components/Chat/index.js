@@ -147,13 +147,15 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     const newPage = page + 1;
     setLoadingMoreMsg(true);
     const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
-    setMessages(state => [...state, ...res.data.messages]);
+    //I believe this is where the error might be, changing the code to do 10 messages instead fixes the load more issue
+    setMessages(state => [...state, ...res.data.messages.slice(0, 10)]);
     setLoadingMoreMsg(false);
     setPage(newPage);
-    if (!res.data.messages.length) setNoMoreMsg(true);
-  }, [page]);
-
-  const renderLoadMoreBtn = React.useMemo(() => (messages.length > 19 && !noMoreMsg) ?
+    if (!res.data.messages.length && messages.length > 0) setNoMoreMsg(true);
+  }, [data._id, page, messages]);
+  //Since I changed the code slightly to do 10 messages the load more button logic is changed as well
+  //Now need to fix the rendering of the LoadMoreBtn it shows up for one last click even though there isn't anymore messages to load
+  const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
     <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
     : null, [messages, loadingMoreMsg, noMoreMsg, page]);
 

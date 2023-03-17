@@ -12,11 +12,13 @@ export const ImgMessage = styled.img`
 `;
 
 export const ChatContainer = styled.div`
+overflow-anchor: none;
   width: 100%;
   height: 100%;
   background-color: ${({theme}) => theme.bg};
   transition: all 0.3s ease-in;
 `;
+
 export const ChatContent = styled.div`
   height: calc(100% - 100px);
   & > div {
