@@ -7,6 +7,7 @@ import {Avatar, ChatList, Item, UserName} from "../Sidebar/styles";
 import {getAvatarPath} from "../../utils/helpers";
 import Api from '../../config/axios';
 import GroupChatModal from './GroupChatModal';
+import './index.css'
 
 
 function CreateChat({close, user, ...props}) {
@@ -14,6 +15,8 @@ function CreateChat({close, user, ...props}) {
   const [searchDb, setSearchDb] = React.useState('');
   const [users, setUsers] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
+  const [selectedOption, setSelectedOption] = React.useState('search-email');
+
 
   const debouncedSave = React.useCallback(debounce(nextValue => setSearchDb(nextValue), 1000), []);
   const handleChange = val => {setSearch(val); debouncedSave(val)};
@@ -49,6 +52,10 @@ function CreateChat({close, user, ...props}) {
     setShowModal(false);
   }
 
+  const handleSearch = (event) => {
+    setSelectedOption(event.target.value);
+  }
+
   const renderItem = React.useCallback(item =>
     <Item onClick={() => onClick(item)} key={item._id}>
       <Row>
@@ -70,6 +77,26 @@ function CreateChat({close, user, ...props}) {
       <div className="searchContainer">
         <div className="icon"><Icon name="search" size={21} /></div>
         <Search placeholder="Search" value={search} onChange={e => handleChange(e.target.value)} />
+      </div>
+      <div className="form-check">
+        <div>
+          <input className="form-check-input" type="checkbox" value="search-name" checked={selectedOption === 'search-name'} onChange={handleSearch} />
+          <label className="form-check-label" >
+            Name
+          </label>
+        </div>
+        <div>
+          <input className="form-check-input" type="checkbox" value="search-email" checked={selectedOption === 'search-email'} onChange={handleSearch} />
+          <label className="form-check-label" >
+            Email
+          </label>
+        </div>
+        <div>
+          <input className="form-check-input" type="checkbox" value="search-phone" checked={selectedOption === 'search-phone'} onChange={handleSearch} />
+          <label className="form-check-label" >
+            Phone
+          </label>
+        </div>
       </div>
       <ChatList style={{paddingBottom: 140}}>
         <button onClick={handleOpen} style={{
