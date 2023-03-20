@@ -34,6 +34,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [isOnline, setIsOnline] = React.useState(false);
   const [recipientTyping, setRecipientTyping] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
+  //Testing something out for load more button here
+  const [totalPages, setTotalPages] = React.useState(1);
 
   React.useEffect(() => {
     setIsReady(false);
@@ -143,27 +145,63 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     }
   }, [messages, data._id]);
 
+  // const loadMore = React.useCallback(async () => {
+  //   const newPage = page + 1;
+  //   setLoadingMoreMsg(true);
+  //   await getConvoMessages(newPage);
+  //   setLoadingMoreMsg(false);
+  //   setPage(newPage);
+  //   // const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
+  //   //This fixed the buggy behavior where the chat container would keep trying to render messages and caused the user not to be able to scroll up
+  //   // setMessages(state => [...state, ...res.data.messages]);
+  //   // if (res.data.messages.length === 0) setNoMoreMsg(true);
+  //   // setLoadingMoreMsg(false);
+  //   // setPage(newPage);
+  // }, [page]);
+
+  // // const renderLoadMoreBtn = React.useMemo(() => (!noMoreMsg) ?
+  // //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
+  // //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
+
+
   const loadMore = React.useCallback(async () => {
     const newPage = page + 1;
     setLoadingMoreMsg(true);
+    const resPageCount = await Api.get(`/chat/conversation/${data._id}/messages/totalPages`);
+    const pageCount = resPageCount.data.pageCount - 1;
+
     const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
-    //I believe this is where the error might be, changing the code to do 10 messages instead fixes the load more issue
-    setMessages(state => [...state, ...res.data.messages.slice(0, 10)]);
+    setMessages(state => [...state, ...res.data.messages]);
     setLoadingMoreMsg(false);
     setPage(newPage);
-    if (!res.data.messages.length && messages.length > 0) setNoMoreMsg(true);
-  }, [data._id, page, messages]);
-  //Since I changed the code slightly to do 10 messages the load more button logic is changed as well
-  //Now need to fix the rendering of the LoadMoreBtn it shows up for one last click even though there isn't anymore messages to load
-  const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
-    <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
-    : null, [messages, loadingMoreMsg, noMoreMsg, page]);
+    console.log('Total pages to be loaded: ' + pageCount);
+    console.log('newPage value ' + newPage)
+    console.log(`Number of messages rendered: ${messages.length}`);
+    if(newPage === pageCount) setNoMoreMsg(true);
+  }, [page]);
+  
+  // const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
+  //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
+  //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
+
+    const renderLoadMoreBtn = React.useMemo(() => {
+      console.log('renderLoadMoreBtn');
+    if(messages.length > 19 && !noMoreMsg) {
+      return (
+        <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>
+          {loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load More'}
+        </LoadBtn>
+      );
+    } else {
+      return null;
+    }
+  }, [loadingMoreMsg, messages, loadMore, noMoreMsg]);
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
     <ChatContainer onFocus={() => {
         if(sidebarStatus === 'open') sideBarToggle('close');
-      }}>
+      }}> 
       <Header>
       {width < 700 ? <div onClick={sideBarToggle}><Icon name="menu-outline" color="#848484" /></div>: <></>}
         <Row align="center" onClick={() => !isGroup && props.setProfile(recipient._id)}>

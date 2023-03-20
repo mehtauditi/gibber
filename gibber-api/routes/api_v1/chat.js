@@ -41,7 +41,7 @@ const getConversation = async (req, res, next) => {
 
 const getConversationMessages = async (req, res, next) => {
   try {
-    const {page = 0} = req.query;
+    const { page = 0 } = req.query;
     const messages = await Message.find({conversationId: req.params.id}).sort('-createdAt').populate({path: 'user', select: 'name , avatar'})
       .skip(20 * page).limit(20);
     res.status(200).json({messages});
@@ -238,6 +238,25 @@ const deleteMessage = async (req, res, next) => {
   }
 };
 
+//Trying to get total pages
+const getTotalPages = async (req, res, next) => {
+  try {
+    const {page = 0, pageSize = 20} = req.query;
+    const conversation = await Conversation.findOne({_id: req.params.id}).populate({path: 'users', select: 'name , avatar'});
+    if (!conversation) return new ErrorHandler(404, "Conversation not found", [], res);
+
+    const messageCount = await Message.countDocuments({ conversationId: req.params.id });
+    const pageCount = Math.ceil(messageCount / pageSize);
+
+    const messages = await Message.find({conversationId: req.params.id}).sort('-createdAt').populate({path: 'user', select: 'name , avatar'})
+      .skip(pageSize * page).limit(pageSize);
+
+    res.status(200).json({...conversation.toJSON(), messages, pageCount});
+  } catch (e) {
+    next(e);
+  }
+};
+router.get("/conversation/:id/messages/totalPages", auth.required, getTotalPages);
 router.get("/conversation", auth.required, getConversations);
 router.get("/conversation/:id", auth.required, getConversation);
 router.get("/conversation/:id/messages", auth.required, getConversationMessages);

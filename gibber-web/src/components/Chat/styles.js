@@ -12,15 +12,17 @@ export const ImgMessage = styled.img`
 `;
 
 export const ChatContainer = styled.div`
-overflow-anchor: none;
   width: 100%;
   height: 100%;
   background-color: ${({theme}) => theme.bg};
-  transition: all 0.3s ease-in;
+  
 `;
 
 export const ChatContent = styled.div`
+  
   height: calc(100% - 100px);
+  // height: 100%;
+  margin-top: 10px;
   & > div {
     height: 100%;
   }
@@ -67,6 +69,7 @@ export const StatusTxt = styled.div`
 
 export const InputWrapper = styled.div`
   position: relative;
+  background-color: red;
 `;
 export const InputContainer = styled.div`
   background-color: ${({theme}) => theme.inputBg};
