@@ -6,11 +6,14 @@ import {Row} from "../../utils/sharedStyles";
 import {Avatar, ChatList, Item, UserName} from "../Sidebar/styles";
 import {getAvatarPath} from "../../utils/helpers";
 import Api from '../../config/axios';
+import GroupChatModal from './GroupChatModal';
+
 
 function CreateChat({close, user, ...props}) {
   const [search, setSearch] = React.useState('');
   const [searchDb, setSearchDb] = React.useState('');
   const [users, setUsers] = React.useState([]);
+  const [showModal, setShowModal] = React.useState(false);
 
   const debouncedSave = React.useCallback(debounce(nextValue => setSearchDb(nextValue), 1000), []);
   const handleChange = val => {setSearch(val); debouncedSave(val)};
@@ -18,6 +21,7 @@ function CreateChat({close, user, ...props}) {
   React.useEffect(() => {
     searchUser();
   }, [searchDb]);
+
   const searchUser = React.useCallback(async () => {
     if (searchDb.length > 2) {
       const res = await Api.get('/user/search?q=' + searchDb);
@@ -36,6 +40,14 @@ function CreateChat({close, user, ...props}) {
     }
     close();
   }, []);
+
+  const handleOpen = () => {
+    setShowModal(true);
+  }
+
+  const handleClose = () => {
+    setShowModal(false);
+  }
 
   const renderItem = React.useCallback(item =>
     <Item onClick={() => onClick(item)} key={item._id}>
@@ -60,9 +72,22 @@ function CreateChat({close, user, ...props}) {
         <Search placeholder="Search" value={search} onChange={e => handleChange(e.target.value)} />
       </div>
       <ChatList style={{paddingBottom: 140}}>
+        <button onClick={handleOpen} style={{
+          marginLeft: '85px',
+          backgroundColor: '#338bcf',
+          color: '#fff',
+          padding: '8px 16px',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)'
+        }}>
+          Create Group Chat
+        </button>
         {!search && user.contacts.map(renderItem)}
         {!!users.length && users.map(renderItem)}
       </ChatList>
+      <GroupChatModal user={user} show={showModal} handleClose={handleClose} />
     </Container>
   )
 }

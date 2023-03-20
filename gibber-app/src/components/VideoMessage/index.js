@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal} from "react-native";
-import VideoPlayer from "react-native-video";
+import Video from "react-native-video";
 import {Body, CloseBtn, VideoContainer, Overlay, videoStyle} from "./styles";
 import {Icon} from "../index";
 import {IS_IOS} from "../../config/theme";
@@ -17,7 +17,7 @@ const VideoMessage = ({currentMessage}) => {
   return (
     <>
       <VideoContainer onPress={() => setModalVisible(true)}>
-        <VideoPlayer
+        <Video
           source={{ uri: path }}
           style={{width: 200, height: 140}}
           paused={IS_IOS ? true : paused}
@@ -36,7 +36,7 @@ const VideoMessage = ({currentMessage}) => {
         {modalVisible ? <Body>
           <CloseBtn onPress={() => setModalVisible(false)}><Icon name={"close-outline"} size={30} color="#fff" /></CloseBtn>
           {modalVisible ?
-            <VideoPlayer source={{ uri: path }} style={videoStyle} resizeMode="contain" />
+            <Video source={{ uri: path }} style={videoStyle} resizeMode="contain" />
             : null
           }
         </Body> : null}

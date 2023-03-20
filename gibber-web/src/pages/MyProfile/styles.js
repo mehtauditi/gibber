@@ -7,7 +7,7 @@ export const Container = styled.div`
     margin: 0px;
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
+    border-radius: 25px;
     align-items: center;
     overflow-y: scroll;
     background-color: ${props => props.theme.bg};
