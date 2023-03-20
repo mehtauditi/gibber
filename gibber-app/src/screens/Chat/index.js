@@ -13,6 +13,8 @@ import {checkRecipientOnline, subscribeToOffline, subscribeToOnline, subscribeTo
 import {getAvatarPath, mapMessageData} from "../../utils/helpers";
 import {Content, Name, Avatar as HeaderAvatar, StatusTxt} from "../../components/Header/styles";
 import {LoadBtn, LoadBtnTxt} from "./styles";
+import { CommonActions } from '@react-navigation/native';
+import { goBack } from '../../config/Navigator';
 import mobileAds from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds } from 'react-native-google-mobile-ads';
@@ -45,7 +47,7 @@ const Chat = (props) => {
     {value: 2, label: `${isMuted ? 'Unmute' : 'Mute'} notifications`, onPress: () => {dispatch(muteConversation({conversationId, isMuted}));setIsMuted(!isMuted)}},
     ...(!isGroup ? [
       {value: 3, label: 'Block user', onPress: () => block()},
-      {value: 4, label: 'Delete', onPress: () => {dispatch(deleteConversation(conversationId)); props.navigation.goBack()}},
+      {value: 4, label: 'Delete', onPress: () => {dispatch(deleteConversation(conversationId)); props.navigation.goBack(null)}},
     ] : []),
   ], [isGroup, recipient, conversationId, isMuted]);
   const user = useSelector(state => state.main.user.data);
@@ -132,7 +134,7 @@ const Chat = (props) => {
 
   const block = React.useCallback(() => {
     dispatch(blockUser(recipient));
-    props.navigation.goBack();
+    props.navigation.goBack(null);
   }, [recipient]);
 
   const appendMessage = React.useCallback((message, cb) => {
@@ -231,7 +233,7 @@ const Chat = (props) => {
       <Header {...props} chat menuItems={menuItems} chatData={isGroup ? {name: groupName, avatar: groupImage} : recipient} isGroup={isGroup}
         chatTitle={
           <Content>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Login')} style={{marginBottom: 30}}>
+            <TouchableOpacity onPress={goBack} style={{marginBottom: 30}}>
               <Icon size={33} height={40} name="chevron-left-outline" />
             </TouchableOpacity>
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginBottom: 15}} onPress={navigateProfile}>
