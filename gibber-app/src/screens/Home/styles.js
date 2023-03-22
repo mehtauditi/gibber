@@ -91,7 +91,7 @@ const CreateHeader = styled.View`
 `;
 const HeaderShadow = styled.Image.attrs({source: require('../../images/shadow.png'), resizeMode: 'stretch'})`
   position: absolute;
-  top: ${({noOffset}) => IS_IPHONE_X ? noOffset ? 100 : 143 : IS_IOS ? noOffset ? 90 : 116 : noOffset ? 57 : 107};
+  top: ${({noOffset}) => IS_IPHONE_X ? noOffset ? 100 : 143 : IS_IOS ? noOffset ? 90 : 116 : noOffset ? 57 : 73};
   left: -100px;
   opacity: 0.3;
 `;
