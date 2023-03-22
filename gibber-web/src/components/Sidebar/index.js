@@ -87,11 +87,14 @@ function Sidebar({user, conversations, ...props}) {
         </div>
       </Row>
       <ChatList>
-        <div className='tab-container'>
-          <div className={activeTab === 'invitation' ? 'selected' : ''} onClick={() => setActiveTab('invitation')}>Invitation</div>
-          <div className="vertical-line"></div>
-          <div className={activeTab === 'conversation' ? 'selected' : ''} onClick={() => setActiveTab('conversation')}>Conversation</div>
-        </div>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class={"nav-link" + (activeTab === 'invitation' ? " active" : '')} onClick={() => setActiveTab('invitation')} data-bs-toggle="tab"  type="button" role="tab" aria-controls="home" aria-selected="true">Requests</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class={"nav-link" + (activeTab === 'conversation' ? " active" : '')} onClick={() => setActiveTab('conversation')} data-bs-toggle="tab" type="button" role="tab" aria-controls="contact" aria-selected="false">Conversations</button>
+        </li>
+      </ul>
         {activeTab === 'invitation' && (
         <div>
           <div className="invitation-card">
