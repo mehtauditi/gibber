@@ -9,11 +9,11 @@ const FriendRequest = require('../../models/FriendRequest');
 const create = async (req, res, next) => {
   try {
     const request = new FriendRequest({sender: req.body.sender, receiver: req.body.receiver});
-    request.save(async function (err, reply) {
+    request.save(async function (err, data) {
         if (err) return new ErrorHandler(400, "Request could not be created", [], res);
         else {
             // request created
-            res.status(200).json({message: {...msg.toJSON()}, name: msg.user.name});
+            res.status(200).json(data);
         }
       });
   } catch (e) {
