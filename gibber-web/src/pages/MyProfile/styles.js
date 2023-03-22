@@ -38,4 +38,10 @@ export const TextField = styled.div`
     & input {
         color: ${props => props.theme.title} !important;
     }
-`
+`;
+
+export const AvatarButton = styled.button `
+  height: 175px;
+  width: 175px;
+  border-radius: 100%;
+`;

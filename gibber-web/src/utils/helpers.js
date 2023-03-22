@@ -1,8 +1,13 @@
 import constants from "../config/constants";
 import axios from 'axios';
+import Api from "../config/axios";
 
-export function getAvatarPath(path, isGroup, q) {
-  if (path) return (!path.includes('file') ? constants.bucket_url : '') + path + (q ? '?v=' + new Date() : '');
+export async function getAvatarPath(path, isGroup){
+  if (path) {
+    const data = await Api.post('/user/getFile', {path: path});
+    console.log(path);
+    return data.data.msg;
+  }
   else return isGroup ? require('../images/group.png') : require('../images/user.png');
 }
 

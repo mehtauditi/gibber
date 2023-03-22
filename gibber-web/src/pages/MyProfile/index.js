@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import { useOutletContext} from "react-router-dom";
 import { CenteredContent, Button, Logo } from "../../utils/sharedStyles";
-import { Container, Divider, TextField } from "./styles";
+import {AvatarButton, Container, Divider, TextField} from "./styles";
 import PasswordChecklist from 'react-password-checklist';
 import Api from "../../config/axios";
 import "./index.css";
 import { toast } from "react-toastify";
+import FileUpload from "../../components/FileUpload";
+import {ActionsContainer, Btn, HeaderAvatar, RowItem} from "../../components/Chat/styles";
+import {Icon} from "../../components";
+import {getAvatarPath} from "../../utils/helpers";
+import {Avatar} from "react-native-gifted-chat";
+import fileUpload from "../../components/FileUpload";
+import {type} from "@testing-library/user-event/dist/type";
+import {useOutsideAlerter} from "../../utils/useOutsideAlerter";
 
 function MyProfile(props) {
   const location = useLocation();
   const userData = location.state;
 
+  let [avatar, setAvatar] = useState(userData.avatar);
   let [username, setUsername] = useState(userData.name);
   let [password, setPassword] = useState({
     currentPassword: "",
@@ -21,8 +30,9 @@ function MyProfile(props) {
     confirmPassword: "",
   });
   const [mode, setMode] = useOutletContext();
-
-
+  const [actionsVisible, setActionsVisible] = React.useState(false);
+  const actionsRef = React.useRef(null);
+  useOutsideAlerter(actionsRef, () => setActionsVisible(false));
 
   const handleProfileUpdateSubmit = async () => {
     if (!username || username.trim() === '') {
@@ -65,6 +75,29 @@ function MyProfile(props) {
     setPassword({ ...password, [name]: value });
   };
 
+const handleAvatarChange = (source) => {
+    const uri = URL.createObjectURL(source);
+    let data = {['image']: uri};
+    setAvatar(source);
+    const formData = new FormData();
+    formData.append('file', source);
+    Api.put(`/user/avatar`, formData)
+        .then((res) => {
+          toast.success("Avatar Updated");
+          return res.data.path;
+        })
+        .catch((error) => {
+          toast.error("Error");
+        });
+}
+
+const [url, setUrl] = useState();
+
+useEffect(async () => {
+    const data =  await getAvatarPath(userData.avatar)
+    setUrl(data);
+  }, [userData.avatar, url])
+
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
     <Container>
@@ -73,8 +106,17 @@ function MyProfile(props) {
           Return To Chat
         </NavLink>
       </div>
-      <CenteredContent >
+      <CenteredContent>
         <Logo/>
+
+          <FileUpload accept="image/*" onChange={handleAvatarChange}>
+            <RowItem>
+              <AvatarButton style={{overflow:"hidden"}}>
+                <img src={url} style={{height: "inherit", width: "inherit", position:"revert-layer"}}/>
+              </AvatarButton>
+            </RowItem>
+          </FileUpload>
+
         <h2 style={{ marginTop: "20px", marginBottom: '5px' }}>Account Information</h2>
         <Divider style={{width: '250px', marginBottom: 20}}/>
         <div className="user-container">
