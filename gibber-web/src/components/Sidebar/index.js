@@ -1,11 +1,13 @@
 import React from 'react';
-import {SidebarContainer, ItemRight, Avatar, MessageText, UserName, Time, Item, UnseenCount, Msg, ChatList} from "./styles";
+import {ICard, UList, SidebarContainer, ItemRight, Avatar, MessageText, UserName, Time, Item, UnseenCount, Msg, ChatList} from "./styles";
 import {Row} from "../../utils/sharedStyles";
 import Icon from "../Icon";
 import {getAvatarPath, sortConversations} from "../../utils/helpers";
 import moment from "../../utils/moment";
 import {CreateChat} from "../index";
 import Api from '../../config/axios';
+import {FaCheck} from "react-icons/fa";
+import {ImCross,ImBlocked} from "react-icons/im";
 import './styles.css';
 
 function Sidebar({user, conversations, ...props}) {
@@ -101,40 +103,66 @@ function Sidebar({user, conversations, ...props}) {
         </div>
       </Row>
       <ChatList>
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class={"nav-link" + (activeTab === 'invitation' ? " active" : '')} onClick={() => setActiveTab('invitation')} data-bs-toggle="tab"  type="button" role="tab" aria-controls="home" aria-selected="true">Requests</button>
+      <UList className="nav nav-tabs" id="myTab" role="tablist">
+        <li className="nav-item" role="presentation">
+          <button className={"nav-link" + (activeTab === 'invitation' ? " active" : '')} onClick={() => setActiveTab('invitation')} data-bs-toggle="tab"  type="button" role="tab" aria-controls="home" aria-selected="true">Requests</button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class={"nav-link" + (activeTab === 'conversation' ? " active" : '')} onClick={() => setActiveTab('conversation')} data-bs-toggle="tab" type="button" role="tab" aria-controls="contact" aria-selected="false">Conversations</button>
+        <li className="nav-item" role="presentation">
+          <button className={"nav-link" + (activeTab === 'conversation' ? " active" : '')} onClick={() => setActiveTab('conversation')} data-bs-toggle="tab" type="button" role="tab" aria-controls="contact" aria-selected="false">Conversations</button>
         </li>
-      </ul>
+      </UList>
         {activeTab === 'invitation' && (
         <div>
-          <div className="invitation-card">
-            <h5>Test 1 Has Made A Request</h5>
-            <div className="invitation-options">
-              <button className="accept-btn" onClick={handleAcceptRequest}>Accept</button>
-              <button className="decline-btn" onClick={handleDeclineRequest}>Decline</button>
-              <button className="block-btn" onClick={handleBlock}>Block User</button>
+          <ICard >
+          <Row>
+          <Avatar src={getAvatarPath(![].isGroup ? []?.avatar : [].image, [].isGroup)} />
+            <div className='invitation-details'>
+              <div>
+              <UserName>Test 1</UserName>
+              <div className='invitation-user-details'>+11234567890</div>
+              </div>
+              <div className="invitation-options">
+                <button className="accept-btn"><FaCheck/></button>
+                <button className="decline-btn"><ImCross/></button>
+                <button className="block-btn"><ImBlocked/></button>
+              </div>
             </div>
-          </div>
-          <div className="invitation-card">
-            <h5>Test 2 Has Made A Request</h5>
-            <div className="invitation-options">
-              <button className="accept-btn">Accept</button>
-              <button className="decline-btn">Decline</button>
-              <button className="block-btn">Block User</button>
+          </Row>
+
+          </ICard>
+          <ICard >
+          <Row>
+          <Avatar src={getAvatarPath(![].isGroup ? []?.avatar : [].image, [].isGroup)} />
+            <div className='invitation-details'>
+              <div>
+              <UserName>Test 2</UserName>
+              <div className='invitation-user-details'>+915625675667</div>
+
+              </div>
+              <div className="invitation-options">
+                <button className="accept-btn"><FaCheck/></button>
+                <button className="decline-btn"><ImCross/></button>
+                <button className="block-btn"><ImBlocked/></button>
+              </div>
             </div>
-          </div>
-          <div className="invitation-card">
-            <h5>Test 3 Has Made A Request</h5>
-            <div className="invitation-options">
-              <button className="accept-btn">Accept</button>
-              <button className="decline-btn">Decline</button>
-              <button className="block-btn">Block User</button>
+          </Row>
+          </ICard>
+          <ICard >
+          <Row>
+          <Avatar src={getAvatarPath(![].isGroup ? []?.avatar : [].image, [].isGroup)} />
+            <div className='invitation-details'>
+              <div>
+              <UserName>Test 3</UserName>
+              <div className='invitation-user-details'>+2349983982160</div>
+              </div>
+              <div className="invitation-options">
+                <button className="accept-btn"><FaCheck/></button>
+                <button className="decline-btn"><ImCross/></button>
+                <button className="block-btn"><ImBlocked/></button>
+              </div>
             </div>
-          </div>
+          </Row>
+          </ICard>
         </div>
       )}
 
