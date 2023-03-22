@@ -12,6 +12,15 @@ function Sidebar({user, conversations, ...props}) {
   const [createVisible, setCreateVisible] = React.useState(false);
   const [convoSelected, setConvoSelected] = React.useState('');
   const [activeTab, setActiveTab] = React.useState('invitation');
+  const [receivedInvite, setReceivedInvite] = React.useState([]);
+
+  React.useEffect(() => {
+    try {
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);
@@ -97,9 +106,9 @@ function Sidebar({user, conversations, ...props}) {
           <div className="invitation-card">
             <h5>Test 1 Has Made A Request</h5>
             <div className="invitation-options">
-              <button className="accept-btn">Accept</button>
-              <button className="decline-btn">Decline</button>
-              <button className="block-btn">Block User</button>
+              <button className="accept-btn" onClick={handleAcceptRequest}>Accept</button>
+              <button className="decline-btn" onClick={handleDeclineRequest}>Decline</button>
+              <button className="block-btn" onClick={handleBlock}>Block User</button>
             </div>
           </div>
           <div className="invitation-card">

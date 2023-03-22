@@ -7,7 +7,7 @@ import {Avatar, ChatList, Item, UserName} from "../Sidebar/styles";
 import {getAvatarPath} from "../../utils/helpers";
 import Api from '../../config/axios';
 import GroupChatModal from './GroupChatModal';
-import './index.css'
+import './index.css';
 
 
 function CreateChat({close, user, ...props}) {
@@ -15,7 +15,7 @@ function CreateChat({close, user, ...props}) {
   const [searchDb, setSearchDb] = React.useState('');
   const [users, setUsers] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState('search-email');
+  const [selectedOption, setSelectedOption] = React.useState('search-name');
 
 
   const debouncedSave = React.useCallback(debounce(nextValue => setSearchDb(nextValue), 1000), []);
@@ -56,6 +56,16 @@ function CreateChat({close, user, ...props}) {
     setSelectedOption(event.target.value);
   }
 
+  const handleRequest = async (event) => {
+    try {
+      const sender = user._id, receiver = event.target.value
+      const res = await Api.post('/friend-request', { sender, receiver });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const renderItem = React.useCallback(item =>
     <Item onClick={() => onClick(item)} key={item._id}>
       <Row>
@@ -64,6 +74,7 @@ function CreateChat({close, user, ...props}) {
           <UserName>{item.name}</UserName>
           <div className="subTxt">{item.phone || item.email}</div>
         </div>
+        <button value={item._id} style={{border: 'none', position: 'absolute', top: '50%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>
       </Row>
     </Item>
   , []);
