@@ -15,12 +15,17 @@ function Sidebar({user, conversations, ...props}) {
   const [receivedInvite, setReceivedInvite] = React.useState([]);
 
   React.useEffect(() => {
+      fetchInvite();
+  }, []);
+
+  const fetchInvite = async() => {
     try {
-      
+      const res = await Api.get(`/friend-request/received/${user._id}`);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }
 
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map(b => b._id);

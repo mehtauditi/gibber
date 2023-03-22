@@ -75,7 +75,7 @@ function CreateChat({close, user, ...props}) {
           <UserName>{item.name}</UserName>
           <div className="subTxt">{selectedOption === 'search-phone' ? item.phone : item.email}</div>
         </div>
-        <button value={item._id} style={{border: 'none', position: 'absolute', top: '50%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>
+        <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>
       </Row>
     </Item>
   , [selectedOption]);
