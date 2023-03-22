@@ -107,7 +107,7 @@ const CreateChat = ({visible, close, navigate}) => {
             <LeftText>To:</LeftText>
             <Input placeholder="Type a name, phone or email" value={search} onChangeText={handleChange}/>
           </Row>
-          <HeaderShadow/>
+          <HeaderShadow />
           <View style={{flex: 1, bottom: 40}}>
             {selected.length ?
               <View>

@@ -87,6 +87,7 @@ const CreateHeader = styled.View`
   flex-direction: row;
   align-items: center;
   padding-horizontal: 15px;
+  top: 5px;
   bottom: 5px;
 `;
 const HeaderShadow = styled.Image.attrs({source: require('../../images/shadow.png'), resizeMode: 'stretch'})`
@@ -101,7 +102,7 @@ const Row = styled.View`
   padding-horizontal: 25px;
   padding-top: ${IS_IOS ? 7 : 9};
   margin-bottom: ${IS_IOS ? 20 : 0};
-  bottom: 10px;
+  bottom: 5px;
   left: 5px;
 `;
 
