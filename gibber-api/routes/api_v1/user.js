@@ -103,15 +103,30 @@ const login = async (req, res, next) => {
 
 const search = async (req, res, next) => {
   try {
-    const {q} = req.query;
+    const {q, by} = req.query;
     if (!q) return res.status(404).send("query is required");
     const user = await User.findOne({_id: req.payload.id}, {blocked: 1, blockedFrom: 1});
     const query = {$regex: q, $options: 'i'};
-    const data = await User.find(
-      {$or: [{name: query}, {phone: query}, {email: query}],
-        _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
-      profileFields
-    );
+    let data;
+    if(by === 'search-email'){
+      data = await User.find(
+        {email: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    } else if (by === 'search-phone'){
+      data = await User.find(
+        {phone: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    } else {
+      data = await User.find(
+        {name: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    }
     res.json(data);
   } catch (e) {
     next(e);
