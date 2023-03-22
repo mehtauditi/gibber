@@ -233,10 +233,10 @@ const Chat = (props) => {
       <Header {...props} chat menuItems={menuItems} chatData={isGroup ? {name: groupName, avatar: groupImage} : recipient} isGroup={isGroup}
         chatTitle={
           <Content>
-            <TouchableOpacity onPress={goBack} style={{marginBottom: 30}}>
+            <TouchableOpacity onPress={goBack} style={{marginBottom: 20}}>
               <Icon size={33} height={40} name="chevron-left-outline" />
             </TouchableOpacity>
-            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginBottom: 15}} onPress={navigateProfile}>
+            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}} onPress={navigateProfile}>
               <HeaderAvatar source={getAvatarPath(isGroup ? groupImage : recipient.avatar, isGroup)} />
               <View>
                 <Name noFont>{isGroup ? groupName : recipient.name}</Name>

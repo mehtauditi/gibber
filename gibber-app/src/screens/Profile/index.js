@@ -53,7 +53,7 @@ const Profile = (props) => {
 
   return (
     <View style={{flex: 1}}>
-      <Header title="Profile" showBack/>
+      <Header title="Profile" showBack titleStyle={{top: 1}}/>
       <KeyboardAwareScrollView contentContainerStyle={{padding: 25}}>
         <Head>
           <AvatarContainer>

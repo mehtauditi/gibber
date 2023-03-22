@@ -18,7 +18,7 @@ const Header = styled.SafeAreaView`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  bottom: -8;
+  bottom: -10;
   z-index: 9999;
 `;
 
@@ -47,7 +47,8 @@ const Content = styled.View`
 const Name = styled(Text)`
   color: ${({theme}) => theme.title};
   font-size: 17px;
-  height: 30px;
+  height: 30px;'
+  bottom: 5px;
 `;
 
 const StatusTxt = styled.Text`
