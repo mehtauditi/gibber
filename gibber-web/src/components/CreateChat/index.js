@@ -23,14 +23,14 @@ function CreateChat({close, user, ...props}) {
 
   React.useEffect(() => {
     searchUser();
-  }, [searchDb]);
+  }, [searchDb, selectedOption]);
 
   const searchUser = React.useCallback(async () => {
     if (searchDb.length > 2) {
-      const res = await Api.get('/user/search?q=' + searchDb);
+      const res = await Api.get('/user/search?q=' + searchDb + '&by=' + selectedOption);
       setUsers(res.data);
     }
-  }, [searchDb]);
+  }, [searchDb, selectedOption]);
 
   const onClick = React.useCallback(async (target) => {
     const res = (await Api.get('/chat/conversation-exist/' + target._id)).data;
@@ -54,6 +54,7 @@ function CreateChat({close, user, ...props}) {
 
   const handleSearch = (event) => {
     setSelectedOption(event.target.value);
+    searchUser()
   }
 
   const handleRequest = async (event) => {
@@ -72,12 +73,12 @@ function CreateChat({close, user, ...props}) {
         <Avatar src={getAvatarPath(item.avatar)} />
         <div>
           <UserName>{item.name}</UserName>
-          <div className="subTxt">{item.phone || item.email}</div>
+          <div className="subTxt">{selectedOption === 'search-phone' ? item.phone : item.email}</div>
         </div>
         <button value={item._id} style={{border: 'none', position: 'absolute', top: '50%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>
       </Row>
     </Item>
-  , []);
+  , [selectedOption]);
 
   return (
     <Container>
