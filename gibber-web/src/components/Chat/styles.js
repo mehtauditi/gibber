@@ -15,14 +15,10 @@ export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${({theme}) => theme.bg};
-  
 `;
 
 export const ChatContent = styled.div`
-  
-  height: calc(100% - 100px);
-  // height: 100%;
-  margin-top: 10px;
+  height: 100%;
   & > div {
     height: 100%;
   }
@@ -69,7 +65,7 @@ export const StatusTxt = styled.div`
 
 export const InputWrapper = styled.div`
   position: relative;
-  background-color: red;
+  //right: 10%;
 `;
 export const InputContainer = styled.div`
   background-color: ${({theme}) => theme.inputBg};
@@ -126,7 +122,7 @@ export const ActionsContainer = styled.div`
   flex-direction: column;
   z-index: 2;
   color: ${({theme}) => theme.txt};
-`;
+`; 
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
