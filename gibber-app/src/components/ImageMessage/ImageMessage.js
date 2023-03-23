@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Api from "../../../config/axios";
-import {ImgMessage} from '../styles';
+import Api from "../../config/axios";
+import {ImgMessage} from './styles';
 
 function ImageMessage({src}) {
     

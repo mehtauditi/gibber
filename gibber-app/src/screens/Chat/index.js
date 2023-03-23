@@ -4,6 +4,7 @@ import {GiftedChat, Bubble, Avatar, Message} from 'react-native-gifted-chat'
 import {getTheme} from "../../config/theme";
 import {theme as themeStyle} from "../../config/theme";
 import {AudioPlayer, ChatInput, Header, LocationMessage, Icon, Loading} from "../../components";
+import {ImageMessage} from "../../components/ImageMessage/ImageMessage";
 import {getBubbleProps, renderVideoMessage} from "./config";
 import {useDispatch, useSelector} from "react-redux";
 import {Api} from "../../config";
@@ -274,6 +275,7 @@ const Chat = (props) => {
             }}
             renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
             renderInputToolbar={() => <ChatInput value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} updateMessageData={updateMessageData} />}
+            renderMessageImage={props => <ImageMessage src={props.currentMessage.image} />}
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           />
