@@ -47,7 +47,6 @@ const UserProfile = (props) => {
   }, [user, isUserBlocked]);
 
   return (
-    // Using theme.body will crash the app when trying to go back from the Chat screen to the Home screen
     <View style={{flex: 1}}>
       <ImgBg source={getAvatarPath(user.avatar, false, false)} />
       <Overlay/>
