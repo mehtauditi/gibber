@@ -18,7 +18,7 @@ export const ChatContainer = styled.div`
 `;
 
 export const ChatContent = styled.div`
-  height: 100%;
+  height: 100%;//
   & > div {
     height: 100%;
   }
