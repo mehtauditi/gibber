@@ -237,9 +237,27 @@ const remove = async (req, res, next) => {
   }
 };
 
+const forgotPassword = async (req, res, next) => {
+  try {
+    
+  } catch (e) {
+    next(e);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    
+  } catch (e) {
+    next(e);
+  }
+};
+
 router.post("/", create);
 router.post("/login", login);
 router.post("/qr", generateQr);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 router.put("/device", auth.required, addDevice);
 router.get("/", auth.required, getProfile);
 router.get("/search", auth.required, search);
