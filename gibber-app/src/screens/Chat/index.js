@@ -44,7 +44,7 @@ const Chat = (props) => {
   const conversationId = React.useMemo(() => props.route.params?.conversation._id, []);
   const [currentAudioId, setCurrentAudioId] = React.useState('');
   const menuItems = React.useMemo(() => [
-    {value: 1, label: 'Media', onPress: () => props.navigation.navigate('MediaManager', {conversationId})},
+    // {value: 1, label: 'Media', onPress: () => props.navigation.navigate('MediaManager', {conversationId})},
     {value: 2, label: `${isMuted ? 'Unmute' : 'Mute'} notifications`, onPress: () => {dispatch(muteConversation({conversationId, isMuted}));setIsMuted(!isMuted)}},
     ...(!isGroup ? [
       {value: 3, label: 'Block user', onPress: () => block()},
