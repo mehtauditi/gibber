@@ -1,18 +1,5 @@
 import React from "react";
-import {
-  ICard,
-  UList,
-  SidebarContainer,
-  ItemRight,
-  Avatar,
-  MessageText,
-  UserName,
-  Time,
-  Item,
-  UnseenCount,
-  Msg,
-  ChatList,
-} from "./styles";
+import { ICard, UList, SidebarContainer, ItemRight, Avatar, MessageText, UserName, Time, Item, UnseenCount, Msg, ChatList, } from "./styles";
 import { Row } from "../../utils/sharedStyles";
 import Icon from "../Icon";
 import { getAvatarPath, sortConversations } from "../../utils/helpers";
@@ -34,7 +21,6 @@ function Sidebar({ user, conversations, ...props }) {
   React.useEffect(() => {
     fetchInvite();
     fetchAllUsers();
-    setLoading(false);
   }, []);
 
   const fetchInvite = async () => {
@@ -54,6 +40,7 @@ function Sidebar({ user, conversations, ...props }) {
           (u) => u.email !== "teamgibber@test.com" && u.email !== user.email
         )
       );
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -222,6 +209,9 @@ function Sidebar({ user, conversations, ...props }) {
             {receivedInvite.map((item) => {
               const sender = item.sender;
               const senderUser = allUsers.find((user) => user._id === sender);
+              if (!senderUser) {
+                return null;
+              }
               return (
                 <ICard key={item._id}>
                   <Row>

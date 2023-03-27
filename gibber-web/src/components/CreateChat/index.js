@@ -16,6 +16,7 @@ function CreateChat({close, user, ...props}) {
   const [users, setUsers] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
   const [selectedOption, setSelectedOption] = React.useState('search-name');
+  const [getSent, setGetSent] = React.useState([]);
 
 
   const debouncedSave = React.useCallback(debounce(nextValue => setSearchDb(nextValue), 1000), []);
@@ -24,6 +25,15 @@ function CreateChat({close, user, ...props}) {
   React.useEffect(() => {
     searchUser();
   }, [searchDb, selectedOption]);
+
+  React.useEffect(() => {
+    fetchAllSentInvites();
+  }, []);
+
+  const fetchAllSentInvites = async () => {
+    const res = await Api.get(`/friend-request/sent/${user._id}`);
+    setGetSent(res.data);
+  }
 
   const searchUser = React.useCallback(async () => {
     if (searchDb.length > 2) {
@@ -67,18 +77,28 @@ function CreateChat({close, user, ...props}) {
     }
   }
 
-  const renderItem = React.useCallback(item =>
-    <Item onClick={() => onClick(item)} key={item._id}>
-      <Row>
-        <Avatar src={getAvatarPath(item.avatar)} />
-        <div>
-          <UserName>{item.name}</UserName>
-          <div className="subTxt">{selectedOption === 'search-phone' ? item.phone : item.email}</div>
-        </div>
-        <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>
-      </Row>
-    </Item>
-  , [selectedOption]);
+  const renderItem = React.useCallback(item => {
+    const receiverCheck = getSent && getSent.find((invite) => invite.receiver === item._id);
+    let button = null;
+    if (!receiverCheck) {
+      button = <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>;
+    } else {
+      button = <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} disabled>Requested</button>;
+    }
+
+    return (
+      <Item onClick={() => onClick(item)} key={item._id}>
+        <Row>
+          <Avatar src={getAvatarPath(item.avatar)} />
+          <div>
+            <UserName>{item.name}</UserName>
+            <div className="subTxt">{selectedOption === 'search-phone' ? item.phone : item.email}</div>
+          </div>
+          {button}
+        </Row>
+      </Item>
+    );
+  }, [getSent, selectedOption]);
 
   return (
     <Container>
