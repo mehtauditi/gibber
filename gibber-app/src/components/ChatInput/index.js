@@ -25,6 +25,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
   const [onRec, setOnRec] = React.useState(false);
   const [locModalVisible, setLocModalVisible] = React.useState(false);
   const [recorder, setRecorder] = React.useState();
+  const [sendBtnName, setSendBtnName] = React.useState("");
   const theme = getTheme();
   const audioFileName = React.useMemo(() => {
     const dirs = RNFetchBlob.fs.dirs;
@@ -53,6 +54,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
         await recorder.startRecorder(audioFileName, audioSet);
         setOnRec(true);
       }
+
     } else {
       sendMessage({text: value});
       onChange('');
@@ -142,11 +144,11 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
         {onRec ?
           <View style={{marginRight: -10}} /> :
           <Menu renderer={renderers.SlideInMenu}>
-            <MenuTrigger>
+            {/* <MenuTrigger>
               <View style={{marginRight: 13, transform: [{rotate: '280deg'}]}}>
                 <Icon size={21} name="attach-outline" color={theme.gray} />
               </View>
-            </MenuTrigger>
+            </MenuTrigger> */}
             <MenuOptions>
               <ActionsContainer>
                 <Row>
@@ -175,9 +177,12 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
         <IconContainer onPress={deleteRecord} style={{marginRight: 6}}>
           <Icon size={19} name={"trash-outline"} color={'#e74c3c'} />
         </IconContainer>}
-        <IconContainer onPress={onRec ? stopRecord : submit}>
-          <Icon size={21} name={!value.length ? onRec ? "stop-circle-outline" : "mic-outline" : "paper-plane-outline"} color={onRec ? 'green' : theme.primary} />
-        </IconContainer>
+        {value ? 
+          <IconContainer onPress={onRec ? stopRecord : submit}>
+            <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
+          </IconContainer> 
+        : null}
+        {/* <Icon size={21} name={!value.length ? onRec ? "stop-circle-outline" : "mic-outline" : "paper-plane-outline"} color={onRec ? 'green' : theme.primary} /> */}   
       </InputContainer>
       <LocationModal visible={locModalVisible} close={() => setLocModalVisible(false)} onSend={sendLocation} />
     </>
