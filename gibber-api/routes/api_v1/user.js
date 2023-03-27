@@ -239,7 +239,9 @@ const remove = async (req, res, next) => {
 
 const forgotPassword = async (req, res, next) => {
   try {
-    
+    const {email} = req.body;
+    await realmApp.emailPasswordAuth.resendConfirmationEmail({ email });
+    res.status(200).json("success in sending forgot password email")
   } catch (e) {
     next(e);
   }
@@ -247,7 +249,13 @@ const forgotPassword = async (req, res, next) => {
 
 const resetPassword = async (req, res, next) => {
   try {
-    
+    const {newPassword, token, tokenId} = req.body;
+    await realmApp.emailPasswordAuth.resetPassword({
+      password: newPassword,
+      token,
+      tokenId,
+    });
+    res.status(200).json("success in resetting password")
   } catch (e) {
     next(e);
   }
