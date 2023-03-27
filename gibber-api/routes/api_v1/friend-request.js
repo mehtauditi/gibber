@@ -15,7 +15,7 @@ const create = async (req, res, next) => {
             // request created
             res.status(200).json(data);
         }
-      });
+    });
   } catch (e) {
     next(e);
   }
@@ -107,7 +107,7 @@ const remove = async (req, res, next) => {
 //       // remove duplicates from friendsArr
 //       friendsArr  = [...new Set(friendsArr)]
 //       const addFriends = await User.updateOne({_id: u.id}, {
-//          $set: { friends: friendsArr } 
+//          $set: { friends: friendsArr }
 //       });
 //     })
 //     const updatedUsers = await User.find({});
@@ -125,8 +125,8 @@ const remove = async (req, res, next) => {
 router.post("/", auth.required, create);
 router.post("/accept/:id", auth.required, accept);
 router.post("/decline/:id", auth.required, decline);
-router.get("sent/:id", auth.required, getSent);
-router.get("received/:id", auth.required, getReceived);
+router.get("/sent/:id", auth.required, getSent);
+router.get("/received/:id", auth.required, getReceived);
 router.delete("/:id", auth.required, remove);
 
 module.exports = router;
