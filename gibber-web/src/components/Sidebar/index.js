@@ -15,36 +15,21 @@ function Sidebar({ user, conversations, ...props }) {
   const [convoSelected, setConvoSelected] = React.useState("");
   const [activeTab, setActiveTab] = React.useState("invitation");
   const [receivedInvite, setReceivedInvite] = React.useState([]);
-  const [allUsers, setAllUsers] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     fetchInvite();
-    fetchAllUsers();
   }, []);
 
   const fetchInvite = async () => {
     try {
       const res = await Api.get(`/friend-request/received/${user._id}`);
+      console.log(res.data);
       setReceivedInvite(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchAllUsers = async () => {
-    try {
-      const res = await Api.get("/user/allUsers");
-      setAllUsers(
-        res.data.filter(
-          (u) => u.email !== "teamgibber@test.com" && u.email !== user.email
-        )
-      );
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getListData = React.useCallback(() => {
     const blocked = user?.blocked?.map((b) => b._id);
@@ -159,10 +144,6 @@ function Sidebar({ user, conversations, ...props }) {
     [user._id, msgText, props]
   );
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <SidebarContainer>
       <Row align="center" justify="space-between" className="head">
@@ -206,9 +187,9 @@ function Sidebar({ user, conversations, ...props }) {
         </UList>
         {activeTab === "invitation" && (
           <div>
-            {receivedInvite.map((item) => {
+            {receivedInvite.requests?.map((item) => {
               const sender = item.sender;
-              const senderUser = allUsers.find((user) => user._id === sender);
+              const senderUser = receivedInvite.users.find((user) => user._id === sender);
               if (!senderUser) {
                 return null;
               }
