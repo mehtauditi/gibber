@@ -18,7 +18,8 @@ export const ChatContainer = styled.div`
 `;
 
 export const ChatContent = styled.div`
-  height: 100%;//
+  height: 100%;
+  padding-bottom: 100px;
   & > div {
     height: 100%;
   }

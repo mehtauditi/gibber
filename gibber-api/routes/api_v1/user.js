@@ -131,6 +131,11 @@ const getAllUsers = async (req, res, next) => {
   try {
     const data = await User.find({});
     res.json(data);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+      res.json({ message: 'Instructions to reset your password have been sent to your email or phone number.' });
   } catch (e) {
     next(e);
   }
