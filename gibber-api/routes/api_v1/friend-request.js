@@ -57,8 +57,12 @@ const decline = async (req, res, next) => {
 // GET getSentRequests call
 const getSent = async (req, res, next) => {
   try {
-    const data = await FriendRequest.find({sender: req.params.id});
-    res.json(data);
+    const sentRequests = await FriendRequest.find({sender: req.params.id});
+    const users = await Promise.all(sentRequests.map(async u => {
+      const obj = await User.findById(u.receiver).select('-password');
+      return obj;
+    }));
+    res.json({requests: sentRequests, users: users});
   } catch (e) {
     next(e);
   }
@@ -67,8 +71,12 @@ const getSent = async (req, res, next) => {
 // GET getReceivedRequests call
 const getReceived = async (req, res, next) => {
     try {
-      const data = await FriendRequest.find({receiver: req.params.id});
-      res.json(data);
+      const recievedRequests = await FriendRequest.find({receiver: req.params.id});
+      const users = await Promise.all(recievedRequests.map(async u => {
+        const obj = await User.findById(u.sender).select('-password');
+        return obj;
+      }));
+      res.json({requests: recievedRequests, users: users});
     } catch (e) {
       next(e);
     }
