@@ -53,16 +53,19 @@ const SignUp = (props) => {
 
   const signUp = React.useCallback(() => {
     if (!(email.length > 0 && phone.length > 4)) {
-      alert('Please enter an email and phone number!')
+      return alert('Please enter an email and phone number!')
+    }
+    if(!(/\S+@\S+\.\S+/.test(email))){
+      return alert('Valid email is required!')
     }
     if (!name) {
-      alert('Please enter your name!')
+      return alert('Please enter your name!')
     }
     if (!password || !isValid) {
-      alert('Please enter a valid password! \nMust have a minimum of 8 characters, including 1 number, and 1 capitalized letter.')
+      return alert('Please enter a valid password! \nMust have a minimum of 8 characters, including 1 number, and 1 capitalized letter.')
     }
     if (!language) {
-      alert('Please select your language!')
+      return alert('Please select your language!')
     }
     try {
       dispatch(register({name, email, phone, password, language}));
