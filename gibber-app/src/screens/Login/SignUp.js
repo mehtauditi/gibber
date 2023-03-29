@@ -74,16 +74,9 @@ const SignUp = (props) => {
   return (
     <>
       {/* <Header {...props} title="gibber" hideRight/> */}
-      {!loginType ?
-        <ContentContainer>
-          <LoginImg style={{bottom: "7.5%"}}/>
-          <TextComp size="big" weight="900" style={{top: "-2%"}}>Gibber Sign Up</TextComp>
-          <TextComp noFont>Simplying Communication</TextComp>
-          <Button title="Create Your Account" style={{marginTop: 35,}} onPress={() => setLoginType(1)} />
-        </ContentContainer>
-        :
         <Animatable.View animation="fadeIn" style={{flex: 1}}>
           <View style={{padding: 20, marginTop: "15%"}}>
+          <TextComp size="larger" weight="900">Sign Up</TextComp>
             <Input label="Name" value={name} onChange={setName} />
             <Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" />
             <Input label="Email" value={email} onChange={setEmail} keyboardType="email-address" autoCapitalize={"none"} />
@@ -97,7 +90,7 @@ const SignUp = (props) => {
           </View>
           <LangModal visible={langModalVisible} close={() => setLangModalVisible(false)} animationType='slide' setLang={setLanguage}/>
         </Animatable.View>
-      }
+      
       {footerVisible ? <FooterTextBtn onPress={() => props.navigation.goBack()}>
         <SafeAreaView>
           <FooterText><TextB>Have an account?</TextB> Login</FooterText>
