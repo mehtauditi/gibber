@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const axios = require('axios');
-
+const { Translate } = require('@google-cloud/translate').v2;
+// const CREDENTIALS = require(process.env.CREDENTIALS_PATH); // FOR prod
 
 exports.getNotNullFields = function(data) {
   const out = {};
@@ -12,22 +13,20 @@ exports.getNotNullFields = function(data) {
   return out;
 };
 
+
+const CREDENTIALS = JSON.parse(process.env.CREDENTIALS);
+
+const translate = new Translate({
+  credentials: CREDENTIALS,
+  projectId: CREDENTIALS.project_id
+})
+
+
 exports.translateText = async (text, lang, tarLang) => {
   if(lang === tarLang) return text;
   try{
-    const options = {
-      method: 'POST',
-      url: 'https://nlp-translation.p.rapidapi.com/v1/translate',
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'nlp-translation.p.rapidapi.com'
-      },
-      data: {text: text, from: lang, to: tarLang}
-    };
-
-    const resp =  await axios.request(options);
-    return resp.data.translated_text[tarLang];
+    let [res] = await translate.translate(text, tarLang);
+    return res;
   }catch(e){
     throw new Error(e);
   }

@@ -1,5 +1,16 @@
 import styled  from "styled-components";
 
+export const ImgMessage = styled.img`
+  margin-top: 15px;
+  max-width: 300px;
+  max-height: 300px;
+
+  @media screen and (max-width: 350px) {
+    max-width: 200px;
+    max-height: 200px
+  }
+`;
+
 export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -101,12 +112,13 @@ export const ActionsContainer = styled.div`
   padding-top: 25px;
   position: absolute;
   bottom: 50px;
-  width: 500px;
+  width: 60%;
   right: 60px;
   border-radius: 10px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   display: flex;
+  flex-direction: column;
   z-index: 2;
   color: ${({theme}) => theme.txt};
 `;
@@ -121,6 +133,10 @@ export const RowItem = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 350px) {
+    font-size: 13px
+  }
 `;
 export const Btn = styled.div`
   width: 45px;
@@ -130,6 +146,11 @@ export const Btn = styled.div`
   align-items: center;
   border-radius: 25px;
   margin-bottom: 10px;
+
+  @media screen and (max-width: 350px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 export const MessageText = styled.div`
   color: ${({theme, right}) => right ? '#fff' : theme.txt};

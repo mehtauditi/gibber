@@ -19,7 +19,6 @@ const upload = (file, folder, name) =>
         Body: fs.createReadStream(filePath),
         Key: folder + "/" + name || path.basename(filePath),
         ContentType: file.mimetype
-        // ACL: 'public-read'
       };
       s3.upload(params, function(err, data) {
         if (err) {
@@ -36,6 +35,20 @@ const upload = (file, folder, name) =>
     // }
   });
 
+const get = (filePath) => {
+  return new Promise((resolve, reject) => {
+    const params = {
+      Bucket: BUCKET,
+      Key: filePath,
+      Expires: 3600
+    };
+    s3.getSignedUrl('getObject', params, (err, data) => {
+      if(err) return reject(err);
+      resolve(data);
+    });
+  });
+}
+
 const remove = filePath =>
   new Promise((resolve, reject) => {
     const params = {
@@ -48,4 +61,4 @@ const remove = filePath =>
     });
   });
 
-module.exports = { upload, remove };
+module.exports = { upload, remove, get };

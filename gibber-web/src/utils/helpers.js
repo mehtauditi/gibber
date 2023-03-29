@@ -1,4 +1,5 @@
 import constants from "../config/constants";
+import axios from 'axios';
 
 export function getAvatarPath(path, isGroup, q) {
   if (path) return (!path.includes('file') ? constants.bucket_url : '') + path + (q ? '?v=' + new Date() : '');
@@ -17,10 +18,10 @@ export function sortConversations(a, b) {
 export const mapMessageData = messages => {
   return messages.map(msg => ({
     ...msg,
-    ...(msg.image ? {image: fixImgPath(msg.image)} : {}),
-    ...(msg.video ? {video: fixImgPath(msg.video)} : {}),
-    ...(msg.audio ? {audio: fixImgPath(msg.audio)} : {}),
-    user: {...msg.user, ...(msg.user.avatar ? {avatar: fixImgPath(msg.user.avatar)} : {})}
+    ...(msg.image ? {image: msg.image} : {}),
+    ...(msg.video ? {video: msg.video} : {}),
+    ...(msg.audio ? {audio: msg.audio} : {}),
+    user: {...msg.user, ...(msg.user.avatar ? {avatar: msg.user.avatar} : {})}
   }));
 };
 
@@ -49,6 +50,17 @@ export function detectBrowser() {
   } else {
     return 'Unknown';
   }
+}
+
+export const translateText = async (text, tarLang) => { 
+  const url = new URL("https://translation.googleapis.com/language/translate/v2");
+
+  url.searchParams.set('key',constants.translate_api );
+  url.searchParams.set('q', text);
+  url.searchParams.set('target', tarLang);
+
+  const res = await axios.post(url);
+  return res.data.data.translations[0].translatedText;
 }
 
 export function getOsName() {
