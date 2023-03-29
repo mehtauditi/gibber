@@ -72,7 +72,7 @@ const SignUp = (props) => {
     } catch (e) {
       console.log(e.response.data.message)
     }
-  },[name, email, phone, password, language]);
+  },[name, email, phone, password, language, isValid]);
 
   return (
     <>
