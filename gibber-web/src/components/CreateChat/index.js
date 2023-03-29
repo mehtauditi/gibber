@@ -78,7 +78,7 @@ function CreateChat({close, user, ...props}) {
   }
 
   const renderItem = React.useCallback(item => {
-    const receiverCheck = getSent && getSent.map((invite) => invite.receiver).includes(item._id);
+    const receiverCheck = getSent && getSent.requests?.some((invite) => invite.receiver === item._id);
     let button = null;
     if (!receiverCheck) {
       button = <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>;

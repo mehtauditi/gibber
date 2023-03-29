@@ -189,7 +189,8 @@ function Sidebar({ user, conversations, ...props }) {
           <div>
             {receivedInvite.requests?.map((item) => {
               const sender = item.sender;
-              const senderUser = receivedInvite.users.find((user) => user._id === sender);
+              const senderIndex = receivedInvite.users.findIndex((user) => user._id === sender);
+              const senderUser = senderIndex >= 0 ? receivedInvite.users[senderIndex] : null;
               if (!senderUser) {
                 return null;
               }
