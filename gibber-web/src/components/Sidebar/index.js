@@ -23,7 +23,7 @@ function Sidebar({ user, conversations, ...props }) {
   const fetchInvite = async () => {
     try {
       const res = await Api.get(`/friend-request/received/${user._id}`);
-      console.log(res.data);
+      res.data.requests = res.data.requests.filter((user) => user.status === 'pending');
       setReceivedInvite(res.data);
     } catch (error) {
       console.log(error);
@@ -48,16 +48,19 @@ function Sidebar({ user, conversations, ...props }) {
   const handleAcceptRequest = async (reqId) => {
     const res = await Api.post(`/friend-request/accept/${reqId}`);
     console.log(res);
+    window.location.reload(true);
   };
 
   const handleDeclineRequest = async (reqId) => {
     const res = await Api.post(`/friend-request/decline/${reqId}`);
     console.log(res);
+    window.location.reload(true);
   };
 
   const handleBlock = async (fReq) => {
     const res = await Api.put(`/user/block/${fReq.sender}`);
     console.log(res);
+    window.location.reload(true);
   };
 
   const msgText = React.useCallback(
@@ -189,11 +192,12 @@ function Sidebar({ user, conversations, ...props }) {
           <div>
             {receivedInvite.requests?.map((item) => {
               const sender = item.sender;
-              const senderIndex = receivedInvite.users.findIndex((user) => user._id === sender);
+              const senderIndex = receivedInvite.users.findIndex((user) => user._id === sender && item.status === 'pending');
               const senderUser = senderIndex >= 0 ? receivedInvite.users[senderIndex] : null;
               if (!senderUser) {
                 return null;
               }
+
               return (
                 <ICard key={item._id}>
                   <Row>
@@ -213,17 +217,17 @@ function Sidebar({ user, conversations, ...props }) {
                       <div className="invitation-options">
                         <button
                           className="accept-btn"
-                          onClick={handleAcceptRequest}
+                          onClick={() => handleAcceptRequest(item._id)}
                         >
                           <FaCheck />
                         </button>
                         <button
                           className="decline-btn"
-                          onClick={handleDeclineRequest}
+                          onClick={() => handleDeclineRequest(item._id)}
                         >
                           <ImCross />
                         </button>
-                        <button className="block-btn" onClick={handleBlock}>
+                        <button className="block-btn" onClick={() => handleBlock(item._id)}>
                           <ImBlocked />
                         </button>
                       </div>
