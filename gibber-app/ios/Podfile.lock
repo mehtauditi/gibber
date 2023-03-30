@@ -76,6 +76,7 @@ PODS:
   - Google-Mobile-Ads-SDK (10.2.0):
     - GoogleAppMeasurement (< 11.0, >= 7.0)
     - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleAds-IMA-iOS-SDK (3.18.4)
   - GoogleAppMeasurement (10.7.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
@@ -166,6 +167,8 @@ PODS:
   - Permission-PhotoLibraryAddOnly (3.8.0):
     - RNPermissions
   - PromisesObjC (2.2.0)
+  - PromisesSwift (2.2.0):
+    - PromisesObjC (= 2.2.0)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -425,7 +428,11 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-document-picker (8.1.4):
+  - react-native-config (1.5.0):
+    - react-native-config/App (= 1.5.0)
+  - react-native-config/App (1.5.0):
+    - React-Core
+  - react-native-document-picker (8.2.0):
     - React-Core
   - react-native-image-picker (5.3.1):
     - React-Core
@@ -440,10 +447,13 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-video (5.2.1):
+  - react-native-video (6.0.0-alpha.5):
     - React-Core
-    - react-native-video/Video (= 5.2.1)
-  - react-native-video/Video (5.2.1):
+    - react-native-video/Video (= 6.0.0-alpha.5)
+  - react-native-video/Video (6.0.0-alpha.5):
+    - GoogleAds-IMA-iOS-SDK (~> 3.18.1)
+    - GoogleAds-IMA-tvOS-SDK (~> 4.2)
+    - PromisesSwift
     - React-Core
   - React-perflogger (0.71.3)
   - React-RCTActionSheet (0.71.3):
@@ -543,7 +553,7 @@ PODS:
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNFS (2.20.0):
     - React-Core
-  - RNGoogleMobileAds (10.0.0):
+  - RNGoogleMobileAds (10.0.1):
     - Google-Mobile-Ads-SDK (= 10.2.0)
     - GoogleUserMessagingPlatform (= 2.0.1)
     - React-Core
@@ -625,6 +635,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -671,6 +682,7 @@ SPEC REPOS:
     - FlipperKit
     - fmt
     - Google-Mobile-Ads-SDK
+    - GoogleAds-IMA-iOS-SDK
     - GoogleAppMeasurement
     - GoogleUserMessagingPlatform
     - GoogleUtilities
@@ -680,6 +692,7 @@ SPEC REPOS:
     - OneSignalXCFramework
     - OpenSSL-Universal
     - PromisesObjC
+    - PromisesSwift
     - SDWebImage
     - SDWebImageWebPCoder
     - SocketRocket
@@ -750,6 +763,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
   react-native-image-picker:
@@ -831,6 +846,7 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   Google-Mobile-Ads-SDK: 4cf7100c99e7cfdd97dd9193cc26a13411aa6891
+  GoogleAds-IMA-iOS-SDK: b01284e3bf3d64ba948de6692ffda531452c3713
   GoogleAppMeasurement: fe17c92a32207dd5cdd4e8d742767f2da74857f6
   GoogleUserMessagingPlatform: 5f8b30daf181805317b6b985bb51c1ff3beca054
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
@@ -852,6 +868,7 @@ SPEC CHECKSUMS:
   Permission-PhotoLibrary: 31787bbe77d0d3ae6a5267b8435e4a2e9ef78f1d
   Permission-PhotoLibraryAddOnly: 16c92ad62b802514f3f788e00b298080be996337
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: bec48f07daf7bcdc2655a0cde84e07d24d2a9e2a
   RCTTypeSafety: 171394eebacf71e1cfad79dbfae7ee8fc16ca80a
@@ -867,12 +884,13 @@ SPEC CHECKSUMS:
   React-jsinspector: 9f7c9137605e72ca0343db4cea88006cb94856dd
   React-logger: 957e5dc96d9dbffc6e0f15e0ee4d2b42829ff207
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-document-picker: a9bd26996d1b2e4f412dd186041714c79af381d0
+  react-native-config: 5330c8258265c1e5fdb8c009d2cabd6badd96727
+  react-native-document-picker: 495c444c0c773c6e83a5d91165890ecb1c0a399a
   react-native-image-picker: ec9b713e248760bfa0f879f0715391de4651a7cb
   react-native-maps: 7135a33610202745d08fdf151ce6b0d01952a99c
   react-native-onesignal: 7bd44dbd031d8d57110c0203836ffc37ddead526
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
-  react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
+  react-native-video: a38e0a394fd8884fef4a48d866f1ed9a930f8385
   React-perflogger: af8a3d31546077f42d729b949925cc4549f14def
   React-RCTActionSheet: 57cc5adfefbaaf0aae2cf7e10bccd746f2903673
   React-RCTAnimation: 11c61e94da700c4dc915cf134513764d87fc5e2b
@@ -892,7 +910,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 6bd5a7ba3dde1c3facba418aa273f449bdc5437a
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGoogleMobileAds: ad80332cdfcdc83bdca4a3659c667ffbbbcb73d6
+  RNGoogleMobileAds: d19cad1a07bf49793c8b83a7e6d7c692dd258bb0
   RNPermissions: 215c54462104b3925b412b0fb3c9c497b21c358b
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902
@@ -905,4 +923,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: af0a2270af011387d4023294d88bf0c915d1cf88
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
