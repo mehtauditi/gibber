@@ -10,7 +10,7 @@ import {getImageFromCamera, getImageFromLibrary} from "../../utils/imagePicker";
 import LocationModal from "./LocationModal";
 import {withMenuContext} from 'react-native-popup-menu';
 import androidAudioPermission from "../../utils/androidAudioPermision";
-import {getFileObj, getUploadHeaders} from "../../utils/helpers";
+import {getFileObj, getUploadHeaders, translateText} from "../../utils/helpers";
 import constants from "../../config/constants";
 import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
@@ -21,7 +21,7 @@ import AudioRecorderPlayer, {
 const RNFS = require('react-native-fs');
 
 
-const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
+const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => {
   const [onRec, setOnRec] = React.useState(false);
   const [locModalVisible, setLocModalVisible] = React.useState(false);
   const [recorder, setRecorder] = React.useState();
@@ -41,24 +41,27 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
   }, []);
 
   const submit = React.useCallback(async () => {
-    if (!value) {
-      const permission = await androidAudioPermission();
-      if (permission) {
-        const audioSet = {
-          AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-          AudioSourceAndroid: AudioSourceAndroidType.MIC,
-          AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.medium,
-          AVNumberOfChannelsKeyIOS: 2,
-          AVFormatIDKeyIOS: AVEncodingOption.aac,
-        };
-        await recorder.startRecorder(audioFileName, audioSet);
-        setOnRec(true);
-      }
+    // if (!value) {
+    //   const permission = await androidAudioPermission();
+    //   if (permission) {
+    //     const audioSet = {
+    //       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+    //       AudioSourceAndroid: AudioSourceAndroidType.MIC,
+    //       AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.medium,
+    //       AVNumberOfChannelsKeyIOS: 2,
+    //       AVFormatIDKeyIOS: AVEncodingOption.aac,
+    //     };
+    //     await recorder.startRecorder(audioFileName, audioSet);
+    //     setOnRec(true);
+    //   }
 
-    } else {
-      sendMessage({text: value});
-      onChange('');
-    }
+    // } else {
+      if(value.length > 0){
+        const translatedText = await translateText(value, user.language);
+        sendMessage({text: translatedText});
+        onChange('');
+      }
+    // }
   }, [value, recorder]);
 
   const deleteRecord = React.useCallback(() => {

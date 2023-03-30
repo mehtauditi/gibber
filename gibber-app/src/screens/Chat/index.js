@@ -274,7 +274,7 @@ const Chat = (props) => {
               }
             }}
             renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
-            renderInputToolbar={() => <ChatInput value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} updateMessageData={updateMessageData} />}
+            renderInputToolbar={() => <ChatInput value={message} user={user} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} updateMessageData={updateMessageData} />}
             renderMessageImage={props => <ImageMessage src={props.currentMessage.image} />}
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
