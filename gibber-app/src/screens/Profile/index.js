@@ -1,5 +1,5 @@
-import React from 'react';
-import {Alert, View} from "react-native";
+import React, { useEffect } from 'react';
+import {Alert, View, Text} from "react-native";
 import {Button, Header, Icon, Input} from "../../components";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from "react-redux";
@@ -27,6 +27,15 @@ const Profile = (props) => {
   }, [user]);
 
   const updateProfileData = React.useCallback(() => {
+    if (!(email.length > 0 && phone.length > 4)) {
+      return alert('Please enter an email and phone number!')
+    }
+    if(!(/\S+@\S+\.\S+/.test(email))){
+      return alert('Valid email is required!')
+    }
+    if (!name) {
+      return alert('Please enter your name!')
+    }
     dispatch(updateProfile({name, email, phone}))
   }, [name, email, phone]);
 
@@ -58,7 +67,7 @@ const Profile = (props) => {
         <Head>
           <AvatarContainer>
             <Avatar source={getAvatarPath(avatar)} />
-            <IconBtn onPress={uploadImage}><Icon name="camera-outline" size={20} color="#fff" /></IconBtn>
+            {/* <IconBtn onPress={uploadImage}><Icon name="camera-outline" size={20} color="#fff" /></IconBtn> */}
           </AvatarContainer>
         </Head>
         <Row>
@@ -73,6 +82,8 @@ const Profile = (props) => {
           <Icon name="email" size={25} />
           <InputContainer><Input label="email" value={email} onChange={setEmail} /></InputContainer>
         </Row>
+        <Text style={{marginBottom: 15}}>*Note: To update your password, Go to https://www.gibber.chat</Text>
+        
         <Button onPress={updateProfileData} title="Update" disabled={!name || !email || !phone} />
         <LogoutBtn onPress={useLogout}>Logout</LogoutBtn>
       </KeyboardAwareScrollView>
