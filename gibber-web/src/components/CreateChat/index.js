@@ -85,6 +85,9 @@ function CreateChat({close, user, ...props}) {
     } else {
       button = <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} disabled>Requested</button>;
     }
+    if (user.friends.includes(item._id)) {
+      button = null;
+    }
 
     return (
       <Item onClick={() => onClick(item)} key={item._id}>
