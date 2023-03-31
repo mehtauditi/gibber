@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "AppIcon29x29@2x.png",
+      "filename" : "AppIcon40x40.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
@@ -14,7 +14,7 @@
       "size" : "20x20"
     },
     {
-      "filename" : "AppIcon29x29@2x 2.png",
+      "filename" : "AppIcon57x57.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
@@ -27,6 +27,7 @@
       "size" : "29x29"
     },
     {
+      "filename" : "AppIcon76x76.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
@@ -39,7 +40,7 @@
       "size" : "38x38"
     },
     {
-      "filename" : "AppIcon40x40@2x.png",
+      "filename" : "AppIcon76x76 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
@@ -65,7 +66,7 @@
       "size" : "60x60"
     },
     {
-      "filename" : "AppIcon72x72@2x.png",
+      "filename" : "AppIcon60x60@2x 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
@@ -78,19 +79,20 @@
       "size" : "64x64"
     },
     {
+      "filename" : "AppIcon72x72@2x.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "68x68"
     },
     {
-      "filename" : "AppIcon76x76@2x.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "AppIcon76x76@2x.png",
       "idiom" : "universal",
       "platform" : "ios",
       "scale" : "2x",

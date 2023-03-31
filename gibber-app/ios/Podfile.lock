@@ -562,7 +562,7 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
-  - RNSVG (13.8.0):
+  - RNSVG (13.9.0):
     - React-Core
   - RNVectorIcons (9.2.0):
     - React-Core
@@ -913,7 +913,7 @@ SPEC CHECKSUMS:
   RNGoogleMobileAds: d19cad1a07bf49793c8b83a7e6d7c692dd258bb0
   RNPermissions: 215c54462104b3925b412b0fb3c9c497b21c358b
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
-  RNSVG: c1e76b81c76cdcd34b4e1188852892dc280eb902
+  RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
@@ -923,4 +923,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: af0a2270af011387d4023294d88bf0c915d1cf88
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2
