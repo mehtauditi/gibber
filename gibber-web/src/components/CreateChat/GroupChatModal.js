@@ -29,7 +29,6 @@ function GroupChatModal({ user, show, handleClose }) {
     try {
       const res = await Api.post('/chat/group-conversation/', { participants: selectedUsers, name: groupChatName });
       const groupChat = res.data;
-      console.log(groupChat);
       handleClose();
       setSelectedUsers([]);
       setSelectedNames([]);
