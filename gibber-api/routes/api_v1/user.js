@@ -245,12 +245,9 @@ const remove = async (req, res, next) => {
 const forgotPassword = async (req, res, next) => {
   
   try {
-    const {email} = req.body;
-    //Checking to see if the email exists in the database first
-    
+    const {email} = req.body;    
     await realmApp.emailPasswordAuth.sendResetPasswordEmail({ email });
     res.status(200).json("success in sending forgot password email")
-  
   } catch (e) {
     next(e);
   }
@@ -258,7 +255,6 @@ const forgotPassword = async (req, res, next) => {
 
 const resetPassword = async (req, res, next) => {
   try {
-    console.log("this is req body"+req.body);
     const {newPassword, token, tokenId} = req.body;
     await realmApp.emailPasswordAuth.resetPassword({
       password: newPassword,

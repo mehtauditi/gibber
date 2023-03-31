@@ -35,27 +35,15 @@ export default function ResetPassword() {
             return toast.warning('Passwords do not match! Please try again')
         }
         try {
-            console.log('Password: ' + password);
-            console.log(token);
-            console.log(tokenId);
-            const res = await Api.post('/user/reset-password', {
+            await Api.post('/user/reset-password', {
                 newPassword: password,
                 token,
                 tokenId
             });
-
-            // localStorage.setItem('token', token);
-            // console.log('token set: ' + token);
-            // localStorage.setItem('tokenId', tokenId);
-
-            // console.log('tokenId set: ' + tokenId);
-            // Api.setToken(token);
-            // Api.setTokenId(tokenId);
             toast.success('Your password has been reset!');
             setPasswordChanged(true);
-           
         } catch (e) {
-            toast.warning(e);
+            toast.error("There was an issue resetting your password. You are not authorized!");
         }
     }, [password, confirmPassword, isValid, token, tokenId]);
 
@@ -88,8 +76,8 @@ export default function ResetPassword() {
             <div className="container">
                 <Link to="/"><Logo/></Link>
                 <CenteredContent>
-                    <h3>Click the logo to go back to the home screen!</h3>
-                    <h3>Or click the link below to login!</h3>
+                    <h3>Your Password has been reset!</h3>
+                    <h3></h3>
                 </CenteredContent>
             </div>
         );
