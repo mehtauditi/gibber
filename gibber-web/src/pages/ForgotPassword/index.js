@@ -34,7 +34,9 @@ export default function ForgotPassword() {
         //     return toast.warn('Valid email is required!')
         //   
           try {
-            const res = await Api.get(`/user/allUsers`);
+            const res = await Api.post('/user/forgot-password', {email});
+            localStorage.setItem('token', res.data.token);
+            Api.setToken(res.data.token);
             toast.success('If an account exists with that email it will be sent shortly');
             console.log(res);
           } catch (e) {
