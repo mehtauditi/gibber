@@ -19,7 +19,7 @@ const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
 const create = async (req, res, next) => {
   try {
-    const {name, phone, email, password, language} = req.body;
+    const {name, phone, email, password, language, translateUser} = req.body;
     const missingFields = [];
     if (!name) missingFields.push('Name');
     if (!password) missingFields.push('Password');
@@ -34,11 +34,13 @@ const create = async (req, res, next) => {
             { phone }
           ]
    });
+
     if (alreadyExists)
       return new ErrorHandler(409, `Either Email or Phone already exist. Please enter a different email address or phone number.`, [], res);
 
-    const user = {email, phone, name, password, language};
+    const user = {email, phone, name, password, language, translateUser};
     const finalUser = new User(user);
+    finalUser.translateUser = false;
     finalUser.setPassword(user.password);
     finalUser.save(async (err, newUser) => {
       if (err)
@@ -162,6 +164,15 @@ const update = async (req, res, next) => {
   }
 };
 
+const updateTranslateUser = async (req, res, next) => {
+  try {
+    await User.updateOne({_id: req.payload.id}, {$set: {translateUser: req.body.translateUser}});
+    res.json({updated: true});
+  } catch (e) {
+    next(e);
+  }
+};
+
 const updateAvatar = async (req, res, next) => {
   try {
     const uploaded = await s3.upload(req.file, s3_dir + 'user', getImageName(req.file, req.payload.id));
@@ -246,6 +257,7 @@ router.get("/search", auth.required, search);
 router.get("/allUsers", auth.required, getAllUsers);
 router.get("/:id", auth.required, get);
 router.put("/", auth.required, update);
+router.put("/translateUser", auth.required, updateTranslateUser);
 router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);
 router.put("/block/:user", auth.required, block);

@@ -38,4 +38,9 @@ export const TextField = styled.div`
     & input {
         color: ${props => props.theme.title} !important;
     }
-`
+`;
+
+export const CustomCheckbox = styled.input`
+    margin-left: 10px;
+    margin-right: 10px;
+`;
