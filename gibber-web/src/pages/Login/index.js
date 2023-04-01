@@ -4,6 +4,7 @@ import TextInput from "../../components/TextInput";
 import {useNavigate, Link} from "react-router-dom";
 import Api from '../../config/axios';
 import {toast} from "react-toastify";
+
 // import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
 // import io from "socket.io-client";
 // import constants from "../../config/constants";
@@ -134,6 +135,8 @@ function Login() {
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
             <Button className='login-btn' onClick={login} width={350}>Login</Button>
+            <br></br>
+            <Button className='forgot-passsword' onClick={() => navigate('/app/forgot-password')}>Forgot Password?</Button>
           </CenteredContent>
           :
           <CenteredContent>
@@ -153,7 +156,6 @@ function Login() {
                 minLength={8}
                 value={password}
             />
-            <br/><br/>
             <Button className='login-btn' onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
       }
