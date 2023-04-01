@@ -35,8 +35,6 @@ export default function ForgotPassword() {
         //   
           try {
             const res = await Api.post('/user/forgot-password', {email});
-            localStorage.setItem('token', res.data.token);
-            Api.setToken(res.data.token);
             toast.success('If an account exists with that email it will be sent shortly');
             console.log(res);
           } catch (e) {

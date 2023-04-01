@@ -91,7 +91,7 @@ const login = async (req, res, next) => {
       if (!user || !user.validatePassword(password)) return new ErrorHandler(400, (email ? 'email':'phone') + " or password is invalid", [], res);
       const finalData = {token: await user.generateJWT(), ...user.toJSON()};
       const realmCreds = await Realm.Credentials.emailPassword(finalData.email, finalData.password);
-      const loggedInRealm = await realmApp.logIn(realmCreds);
+      // const loggedInRealm = await realmApp.logIn(realmCreds);
       delete finalData['password'];
       res.status(200).json(finalData);
     } else
@@ -246,7 +246,7 @@ const forgotPassword = async (req, res, next) => {
   
   try {
     const {email} = req.body;    
-    await realmApp.emailPasswordAuth.sendResetPasswordEmail({ email });
+    const resetEmail = await realmApp.emailPasswordAuth.sendResetPasswordEmail({ email });
     res.status(200).json("success in sending forgot password email")
   } catch (e) {
     next(e);
@@ -255,12 +255,12 @@ const forgotPassword = async (req, res, next) => {
 
 const resetPassword = async (req, res, next) => {
   try {
-    const {newPassword, token, tokenId} = req.body;
-    await realmApp.emailPasswordAuth.resetPassword({
-      password: newPassword,
-      token,
-      tokenId
-    });
+    const {newPassword, token, tokenId, email} = req.body;
+    
+    const user = await User.findOne({email});
+    user.setPassword(newPassword);
+    await user.save();
+
     res.status(200).json("success in resetting password")
   } catch (e) {
     console.log(e);

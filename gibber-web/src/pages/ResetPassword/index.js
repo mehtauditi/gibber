@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 export default function ResetPassword() {
     const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [isValid, setIsValid] = React.useState(false);
     const [passwordChanged, setPasswordChanged] = React.useState(false);
@@ -38,7 +39,8 @@ export default function ResetPassword() {
             await Api.post('/user/reset-password', {
                 newPassword: password,
                 token,
-                tokenId
+                tokenId,
+                email
             });
             toast.success('Your password has been reset!');
             setPasswordChanged(true);
@@ -52,6 +54,8 @@ export default function ResetPassword() {
             <div className="container">
                <Link to="/"><Logo/></Link>
                <CenteredContent>
+               <h3>Enter your email</h3>
+                <TextInput type="email" placeholder="Email" value={email} onChange={setEmail}/> <br/><br/>
                 <h3>Enter your new passord</h3>
                 <TextInput type="password" placeholder="New Password" value={password} onChange={setPassword}/>
                 <PasswordChecklist
