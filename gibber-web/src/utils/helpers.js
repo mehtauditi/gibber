@@ -1,9 +1,11 @@
 import constants from "../config/constants";
 import axios from 'axios';
+import GroupImage from "../images/group.png";
+import UserImage from "../images/user.png";
 
-export function getAvatarPath(path, isGroup, q) {
+export function getAvatarPath(path, isGroup, q){
   if (path) return (!path.includes('file') ? constants.bucket_url : '') + path + (q ? '?v=' + new Date() : '');
-  else return isGroup ? require('../images/group.png') : require('../images/user.png');
+  else return isGroup ? GroupImage : UserImage;
 }
 
 export function fixImgPath(path) {
@@ -18,10 +20,10 @@ export function sortConversations(a, b) {
 export const mapMessageData = messages => {
   return messages.map(msg => ({
     ...msg,
-    ...(msg.image ? {image: msg.image} : {}),
-    ...(msg.video ? {video: msg.video} : {}),
-    ...(msg.audio ? {audio: msg.audio} : {}),
-    user: {...msg.user, ...(msg.user.avatar ? {avatar: msg.user.avatar} : {})}
+    ...(msg.image ? {image: fixImgPath(msg.image)} : {}),
+    ...(msg.video ? {video: fixImgPath(msg.video)} : {}),
+    ...(msg.audio ? {audio: fixImgPath(msg.audio)} : {}),
+    user: {...msg.user, ...(msg.user.avatar ? {avatar: fixImgPath(msg.user.avatar)} : {})}
   }));
 };
 

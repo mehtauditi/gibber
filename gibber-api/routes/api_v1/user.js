@@ -291,7 +291,7 @@ router.get("/allUsers", auth.required, getAllUsers);
 router.get("/:id", auth.required, get);
 router.put("/", auth.required, update);
 router.put("/translateUser", auth.required, updateTranslateUser);
-router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
+router.put("/avatar", [auth.required, upload.single('file')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);
 router.put("/block/:user", auth.required, block);
 router.put("/unblock/:user", auth.required, unblock);
