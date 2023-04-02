@@ -228,7 +228,6 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   
             else {
               const allProps = {...props, ...getBubbleProps(theme[mode]), onLongPress: onBubbleLongPress};
-              console.log('isReady?');
               return <Bubble {...allProps} />;
             }
           }}
