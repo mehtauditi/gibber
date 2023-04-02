@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
@@ -10,21 +10,16 @@ import Api from "../../config/axios";
 import "./index.css";
 import { toast } from "react-toastify";
 import FileUpload from "../../components/FileUpload";
-import {ActionsContainer, Btn, HeaderAvatar, RowItem} from "../../components/Chat/styles";
-import {Icon} from "../../components";
+import { RowItem} from "../../components/Chat/styles";
 import {getAvatarPath} from "../../utils/helpers";
-import {Avatar} from "react-native-gifted-chat";
-import fileUpload from "../../components/FileUpload";
-import {type} from "@testing-library/user-event/dist/type";
 import {useOutsideAlerter} from "../../utils/useOutsideAlerter";
 
 function MyProfile(props) {
   const location = useLocation();
   const userData = location.state;
-
-  let [avatar, setAvatar] = useState(userData.avatar);
-  let [username, setUsername] = useState(userData.name);
-  let [password, setPassword] = useState({
+  const [avatar, setAvatar] = useState(getAvatarPath(userData.avatar));
+  const [username, setUsername] = useState(userData.name);
+  const [password, setPassword] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -78,12 +73,12 @@ function MyProfile(props) {
 const handleAvatarChange = (source) => {
     const uri = URL.createObjectURL(source);
     let data = {['image']: uri};
-    setAvatar(source);
     const formData = new FormData();
     formData.append('file', source);
     Api.put(`/user/avatar`, formData)
         .then((res) => {
           toast.success("Avatar Updated");
+          setAvatar(getAvatarPath(res.data.path));
           return res.data.path;
         })
         .catch((error) => {
@@ -91,12 +86,10 @@ const handleAvatarChange = (source) => {
         });
 }
 
-const [url, setUrl] = useState();
-
 useEffect(async () => {
-    const data =  await getAvatarPath(userData.avatar)
-    setUrl(data);
-  }, [userData.avatar, url])
+  let imag = await getAvatarPath(userData.avatar);
+  setAvatar(imag);
+}, [userData.avatar])
 
   return (
     <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>
@@ -107,13 +100,9 @@ useEffect(async () => {
         </NavLink>
       </div>
       <CenteredContent>
-        <Logo/>
-
           <FileUpload accept="image/*" onChange={handleAvatarChange}>
             <RowItem>
-              <AvatarButton style={{overflow:"hidden"}}>
-                <img src={url} style={{height: "inherit", width: "inherit", position:"revert-layer"}}/>
-              </AvatarButton>
+                <AvatarButton src={avatar}/>
             </RowItem>
           </FileUpload>
 
