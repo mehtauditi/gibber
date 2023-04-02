@@ -17,6 +17,7 @@ import {useOutsideAlerter} from "../../utils/useOutsideAlerter";
 function MyProfile(props) {
   const location = useLocation();
   const userData = location.state;
+  const [checkBoxValue, setCheckBoxValue] = useState(false);
   const [avatar, setAvatar] = useState(getAvatarPath(userData.avatar));
   const [username, setUsername] = useState(userData.name);
   const [password, setPassword] = useState({

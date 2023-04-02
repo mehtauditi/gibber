@@ -46,3 +46,8 @@ export const AvatarButton = styled.img`
   border-radius: 50%;
   border: 2px solid grey;
 `;
+
+export const CustomCheckbox = styled.input`
+    margin-left: 10px;
+    margin-right: 10px;
+`;
