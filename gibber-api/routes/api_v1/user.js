@@ -163,22 +163,10 @@ const update = async (req, res, next) => {
 };
 
 const updateAvatar = async (req, res, next) => {
-  console.log("Inside Func")
   try {
-    console.log("req.file"+req.file)
-    console.log('req.payload.id'+req.payload.id)
     const uploaded = await s3.upload(req.file, s3_dir + 'user', getImageName(req.file, req.payload.id));
     await User.updateOne({_id: req.payload.id}, {$set: {avatar: uploaded.key}});
     res.status(200).json({path: uploaded.key});
-  } catch (e) {
-    next(e);
-  }
-};
-
-const getAvatarFile = async (req, res, next) => {
-  try {
-    const msgFile = await s3.get(req.body.path);
-    res.status(200).json({msg: msgFile});
   } catch (e) {
     next(e);
   }
@@ -252,7 +240,6 @@ const remove = async (req, res, next) => {
 router.post("/", create);
 router.post("/login", login);
 router.post("/qr", generateQr);
-router.post("/getFile", auth.required, getAvatarFile);
 router.put("/device", auth.required, addDevice);
 router.get("/", auth.required, getProfile);
 router.get("/search", auth.required, search);
