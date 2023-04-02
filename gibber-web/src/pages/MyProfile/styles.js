@@ -40,9 +40,9 @@ export const TextField = styled.div`
     }
 `;
 
-export const AvatarButton = styled.img `
+export const AvatarButton = styled.img`
   height: 175px;
   width: 175px;
   border-radius: 50%;
-  border: 2px solid black;
+  border: 2px solid grey;
 `;
