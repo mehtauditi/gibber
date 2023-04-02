@@ -119,7 +119,6 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [message]);
 
   const appendMessage = React.useCallback((message) => {
-    console.log('appendMessage');
     setMessages(previousMessages => [{
       _id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10),
       ...message,
