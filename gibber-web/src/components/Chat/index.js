@@ -1,7 +1,7 @@
 import React from 'react';
 import {ChatContainer, ChatContent, Header, HeaderAvatar, LoadBtn, MessageText, StatusTxt} from "./styles";
 import {getAvatarPath, mapMessageData} from "../../utils/helpers";
-import {Avatar, Bubble, GiftedChat} from "react-native-gifted-chat";
+import { Bubble, Avatar, GiftedChat  } from "react-native-gifted-chat";
 import LocationMessage from "./components/LocationMessage";
 import {getBubbleProps} from "./components/bubbleProps";
 import {theme} from "../../config/theme";
@@ -34,6 +34,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [isOnline, setIsOnline] = React.useState(false);
   const [recipientTyping, setRecipientTyping] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
+  //Testing something out for load more button here
+  const [totalPages, setTotalPages] = React.useState(1);
 
   React.useEffect(() => {
     setIsReady(false);
@@ -50,12 +52,14 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     setData();
   }, [data]);
   const setData = React.useCallback(async () => {
+    
     if (data._id) {
       removeListeners(['userOnline', 'userOffline']);
       disconnectSocket();
       initiateSocket(data._id);
       subscribeToChat(data => {
         if (data.message) {
+          
           setMessages(oldChats =>[data.message, ...oldChats]);
           setSeenMessages([data.message._id]);
         }
@@ -115,12 +119,14 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [message]);
 
   const appendMessage = React.useCallback((message) => {
+    console.log('appendMessage');
     setMessages(previousMessages => [{
       _id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10),
       ...message,
       createdAt: new Date(),
       user: {_id: user._id, name: user.name, avatar: user.avatar},
     }, ...previousMessages]);
+
   }, [user, recipients, isGroup, recipient]);
 
   const deleteMessage = React.useCallback(async (message) => {
@@ -130,7 +136,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
       const isLastMsg = messages.findIndex(m => m._id === message._id) === 0;
       if (isLastMsg) props.updateLastMessage(data._id, messages[1]);
     }
-  }, [user._id, messages, data._id]);
+  }, [user._id, messages, data._id, props]);
 
   const onBubbleLongPress = React.useCallback((context, message) => {
     const options = ['Cancel'];
@@ -143,25 +149,63 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     }
   }, [messages, data._id]);
 
+  // const loadMore = React.useCallback(async () => {
+  //   const newPage = page + 1;
+  //   setLoadingMoreMsg(true);
+  //   await getConvoMessages(newPage);
+  //   setLoadingMoreMsg(false);
+  //   setPage(newPage);
+  //   // const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
+  //   //This fixed the buggy behavior where the chat container would keep trying to render messages and caused the user not to be able to scroll up
+  //   // setMessages(state => [...state, ...res.data.messages]);
+  //   // if (res.data.messages.length === 0) setNoMoreMsg(true);
+  //   // setLoadingMoreMsg(false);
+  //   // setPage(newPage);
+  // }, [page]);
+
+  // // const renderLoadMoreBtn = React.useMemo(() => (!noMoreMsg) ?
+  // //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
+  // //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
+
+
   const loadMore = React.useCallback(async () => {
+    console.log('Loading more');
     const newPage = page + 1;
     setLoadingMoreMsg(true);
+    const resPageCount = await Api.get(`/chat/conversation/${data._id}/messages/totalPages`);
+    const pageCount = resPageCount.data.pageCount - 1;
+
     const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
     setMessages(state => [...state, ...res.data.messages]);
     setLoadingMoreMsg(false);
     setPage(newPage);
-    if (!res.data.messages.length) setNoMoreMsg(true);
+    console.log('Total pages to be loaded: ' + pageCount);
+    console.log('newPage value ' + newPage)
+    console.log(`Number of messages rendered: ${messages.length}`);
+    if(newPage === pageCount) setNoMoreMsg(true);
   }, [page]);
+  
+  // const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
+  //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
+  //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
 
-  const renderLoadMoreBtn = React.useMemo(() => (messages.length > 19 && !noMoreMsg) ?
-    <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
-    : null, [messages, loadingMoreMsg, noMoreMsg, page]);
+    const renderLoadMoreBtn = React.useMemo(() => {
+    if(messages.length > 19 && !noMoreMsg) {
+      return (
+        <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>
+          {loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load More'}
+        </LoadBtn>
+      );
+    } else {
+      return null;
+    }
+  }, [loadingMoreMsg, messages, loadMore, noMoreMsg]);
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
     <ChatContainer onFocus={() => {
         if(sidebarStatus === 'open') sideBarToggle('close');
-      }}>
+      }}> 
       <Header>
       {width < 700 ? <div onClick={sideBarToggle}><Icon name="menu-outline" color="#848484" /></div>: <></>}
         <Row align="center" onClick={() => !isGroup && props.setProfile(recipient._id)}>
@@ -179,8 +223,9 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           user={{_id: user._id}}
           minInputToolbarHeight={60}
           renderBubble={props => {
-            if (props.currentMessage.location) return <LocationMessage location={props.currentMessage.location} messagePosition={props.position} />;
-            if (props.currentMessage.audio) return <AudioMessage src={props.currentMessage.audio} />;
+            if (props.currentMessage.location) return <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
+            if (props.currentMessage.audio) return <AudioMessage src={props.currentMessage.audio}/>;
+  
             else {
               const allProps = {...props, ...getBubbleProps(theme[mode]), onLongPress: onBubbleLongPress};
               return <Bubble {...allProps} />;

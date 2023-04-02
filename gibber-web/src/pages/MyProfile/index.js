@@ -4,7 +4,7 @@ import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import { useOutletContext} from "react-router-dom";
 import { CenteredContent, Button, Logo } from "../../utils/sharedStyles";
-import {AvatarButton, Container, Divider, TextField} from "./styles";
+import {AvatarButton, CustomCheckbox, Container, Divider, TextField} from "./styles";
 import PasswordChecklist from 'react-password-checklist';
 import Api from "../../config/axios";
 import "./index.css";
@@ -62,7 +62,12 @@ function MyProfile(props) {
   };
 
   const handleChangeUserName = (event) => {
-    setUsername(event.target.value)
+    setUsername(event.target.value);
+  };
+
+  const handleCheckboxChange = async (event) => {
+    setCheckBoxValue(event.target.checked);
+    await Api.put(`/user/translateUser`, { translateUser: event.target.checked } );
   };
 
   const handlePasswordChange = (event) => {
@@ -109,8 +114,8 @@ useEffect(async () => {
         <h2 style={{ marginTop: "20px", marginBottom: '5px' }}>Account Information</h2>
         <Divider style={{width: '250px', marginBottom: 20}}/>
         <div className="user-container">
-          <TextField>
-            <h4>Display Name:</h4>
+          <h4 style={{ display: "inline-block" }}>Display Name:</h4>
+          <TextField style={{ display: "inline-block" }}>
             <input
               style={{ display: "inline-block" }}
               value={username}
@@ -128,6 +133,12 @@ useEffect(async () => {
           <div className="language-info">
             <h4>Language:</h4>
             <h5 style={{ display: "inline-block" }}>{userData.language}</h5>
+            <div>
+              <h6 style={{marginLeft: '20px'}}>
+              Translate my messages
+              <CustomCheckbox style={{blockSize:'15px', marginLeft:'10px'}} type="checkbox" onChange={handleCheckboxChange} defaultChecked={userData.translateUser}/>
+            </h6>
+            </div>
           </div>
         </div>
         <h2 style={{marginBottom: '5px'}}>Change Password</h2>
