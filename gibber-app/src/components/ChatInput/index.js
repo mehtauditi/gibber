@@ -181,7 +181,8 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
           <Icon size={19} name={"trash-outline"} color={'#e74c3c'} />
         </IconContainer>}
         {value ? 
-          <IconContainer onPress={onRec ? stopRecord : submit}>
+          // <IconContainer onPress={onRec ? stopRecord : submit}>
+          <IconContainer onPress={submit}>
             <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
           </IconContainer> 
         : null}
