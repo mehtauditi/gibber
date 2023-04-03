@@ -81,9 +81,9 @@ function CreateChat({close, user, ...props}) {
     const receiverCheck = getSent && getSent.requests?.some((invite) => invite.receiver === item._id);
     let button = null;
     if (!receiverCheck) {
-      button = <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} onClick={handleRequest}>Request</button>;
+      button = <button value={item._id} className='request-btn' onClick={handleRequest}>Request</button>;
     } else {
-      button = <button value={item._id} style={{border: 'none', position: 'absolute', top: '30%', left: "75%", transform: "translate(-50%, -50%)"}} disabled>Requested</button>;
+      button = <button value={item._id} className="requested-btn"  disabled>Requested</button>;
     }
     if (user.friends.includes(item._id)) {
       button = null;
