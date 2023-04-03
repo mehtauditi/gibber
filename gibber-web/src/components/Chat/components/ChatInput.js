@@ -19,8 +19,13 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
   const submit = React.useCallback(async () => {
     if (value && !translateInProg) {
       setTranslateInProg(true);
-      const translatedText = await translateText(value, user.language);
-      sendMessage({text: translatedText});
+      let textValue;
+      if(user.translateUser) {
+        textValue = await translateText(value, user.language);
+      } else {
+        textValue = value;
+      }
+      sendMessage({text: textValue});
       onChange('');
       setTranslateInProg(false);
     }
@@ -47,6 +52,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     data[type] = await uploadFile(source);
     onSend(chatId, data);
   }, []);
+
   const sendAudio = React.useCallback(async (source) => {
     setActionsVisible(false);
     const uri = URL.createObjectURL(source);

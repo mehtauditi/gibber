@@ -38,4 +38,16 @@ export const TextField = styled.div`
     & input {
         color: ${props => props.theme.title} !important;
     }
-`
+`;
+
+export const AvatarButton = styled.img`
+  height: 175px;
+  width: 175px;
+  border-radius: 50%;
+  border: 2px solid grey;
+`;
+
+export const CustomCheckbox = styled.input`
+    margin-left: 10px;
+    margin-right: 10px;
+`;

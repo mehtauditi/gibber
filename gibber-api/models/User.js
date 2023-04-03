@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const {User} = require("realm-web");
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -10,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
   language: String,
   friends: [{type: mongoose.Types.ObjectId, ref: 'User'}],
+  translateUser: Boolean,
   contacts: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blocked: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blockedFrom: [{type: mongoose.Types.ObjectId, ref: 'User'}],
