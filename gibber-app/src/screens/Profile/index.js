@@ -45,7 +45,7 @@ const Profile = (props) => {
     if (imageFile.uri) {
       setAvatar(imageFile.uri);
       let data = new FormData();
-      data.append('avatar', getFileObj(imageFile));
+      data.append('file', getFileObj(imageFile));
       let obj = {method: 'PUT', headers: await getUploadHeaders(), body: data};
       const res = await (await fetch(constants.base_url + '/api/v1/user/avatar', obj)).json();
       dispatch(updateAvatarSuccess(res.path));
@@ -67,7 +67,7 @@ const Profile = (props) => {
         <Head>
           <AvatarContainer>
             <Avatar source={getAvatarPath(avatar)} />
-            {/* <IconBtn onPress={uploadImage}><Icon name="camera-outline" size={20} color="#fff" /></IconBtn> */}
+            <IconBtn onPress={uploadImage}><Icon name="camera-outline" size={20} color="#fff" /></IconBtn>
           </AvatarContainer>
         </Head>
         <Row>
