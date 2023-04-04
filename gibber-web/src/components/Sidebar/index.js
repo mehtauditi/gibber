@@ -13,7 +13,7 @@ import "./styles.css";
 function Sidebar({ user, conversations, ...props }) {
   const [createVisible, setCreateVisible] = React.useState(false);
   const [convoSelected, setConvoSelected] = React.useState("");
-  const [activeTab, setActiveTab] = React.useState("invitation");
+  const [activeTab, setActiveTab] = React.useState("conversation");
   const [receivedInvite, setReceivedInvite] = React.useState([]);
 
   React.useEffect(() => {
