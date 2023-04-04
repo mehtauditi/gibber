@@ -36,7 +36,9 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Gibber needs permission to get your location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Gibber needs permission to record your audio</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Martel-Black.ttf</string>
