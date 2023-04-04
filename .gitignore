@@ -4,4 +4,4 @@
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 
-gibber-app
+gibber-app/.env
