@@ -41,27 +41,31 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
   }, []);
 
   const submit = React.useCallback(async () => {
-    // if (!value) {
-    //   const permission = await androidAudioPermission();
-    //   if (permission) {
-    //     const audioSet = {
-    //       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
-    //       AudioSourceAndroid: AudioSourceAndroidType.MIC,
-    //       AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.medium,
-    //       AVNumberOfChannelsKeyIOS: 2,
-    //       AVFormatIDKeyIOS: AVEncodingOption.aac,
-    //     };
-    //     await recorder.startRecorder(audioFileName, audioSet);
-    //     setOnRec(true);
-    //   }
+    if (!value) {
+      const permission = await androidAudioPermission();
+      if (permission) {
+        const audioSet = {
+          AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+          AudioSourceAndroid: AudioSourceAndroidType.MIC,
+          AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.medium,
+          AVNumberOfChannelsKeyIOS: 2,
+          AVFormatIDKeyIOS: AVEncodingOption.aac,
+        };
+        await recorder.startRecorder(audioFileName, audioSet);
+        setOnRec(true);
+      }
 
-    // } else {
+    } else {
+      console.log('submitting');
       if(value.length > 0){
+        console.log(value);
         const translatedText = await translateText(value, user.language);
+        console.log('translated:', translatedText );
         sendMessage({text: translatedText});
+        console.log('sending');
         onChange('');
       }
-    // }
+    }
   }, [value, recorder]);
 
   const deleteRecord = React.useCallback(() => {
@@ -131,6 +135,7 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
 
   const sendLocation = React.useCallback(async (location) => {
     setLocModalVisible(false);
+    console.log('sendLocation func: ', location)
     if (location.latitude && location.longitude)
       sendMessage({location: {latitude: location.latitude, longitude: location.longitude}});
     await props.ctx.menuActions.closeMenu();
@@ -147,11 +152,11 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
         {onRec ?
           <View style={{marginRight: -10}} /> :
           <Menu renderer={renderers.SlideInMenu}>
-            {/* <MenuTrigger>
+            { <MenuTrigger>
               <View style={{marginRight: 13, transform: [{rotate: '280deg'}]}}>
                 <Icon size={21} name="attach-outline" color={theme.gray} />
               </View>
-            </MenuTrigger> */}
+            </MenuTrigger> }
             <MenuOptions>
               <ActionsContainer>
                 <Row>
@@ -180,13 +185,9 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
         <IconContainer onPress={deleteRecord} style={{marginRight: 6}}>
           <Icon size={19} name={"trash-outline"} color={'#e74c3c'} />
         </IconContainer>}
-        {value ? 
-          // <IconContainer onPress={onRec ? stopRecord : submit}>
-          <IconContainer onPress={submit}>
-            <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
-          </IconContainer> 
-        : null}
-        {/* <Icon size={21} name={!value.length ? onRec ? "stop-circle-outline" : "mic-outline" : "paper-plane-outline"} color={onRec ? 'green' : theme.primary} /> */}   
+        <IconContainer onPress={onRec ? stopRecord : submit}>
+          <Icon size={21} name={!value.length ? onRec ? "stop-circle-outline" : "mic-outline" : "paper-plane-outline"} color={onRec ? 'green' : theme.primary} />
+        </IconContainer>
       </InputContainer>
       <LocationModal visible={locModalVisible} close={() => setLocModalVisible(false)} onSend={sendLocation} />
     </>
