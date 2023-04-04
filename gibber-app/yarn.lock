@@ -3028,9 +3028,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.4.284:
-  version "1.4.350"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.350.tgz#11aae65e0d8b49626c7f298ac577b7b350b007ae"
-  integrity sha512-XnXcWpVnOfHZ4C3NPiL+SubeoGV8zc/pg8GEubRtc1dPA/9jKS2vsOPmtClJHhWxUb2RSGC1OBLCbgNUJMtZPw==
+  version "1.4.351"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.351.tgz#949144993f3ed5c18601e37c786bb72540dbf9e9"
+  integrity sha512-W35n4jAsyj6OZGxeWe+gA6+2Md4jDO19fzfsRKEt3DBwIdlVTT8O9Uv8ojgUAoQeXASdgG9zMU+8n8Xg/W6dRQ==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -6594,9 +6594,9 @@ react-native-gifted-chat@^2.0.0:
     uuid "3.4.0"
 
 react-native-google-mobile-ads@^10.0.0:
-  version "10.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-google-mobile-ads/-/react-native-google-mobile-ads-10.0.1.tgz#724b42bf951e59033014bfb06f774426017e30e2"
-  integrity sha512-0boeKtexEnWBE10ZRl/X4CzuKEy7fBpZZ+WVrbRG5Dl876PAnYBIWMbtx15dEbIEB+strdXI3iAcaymquEr0uw==
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-google-mobile-ads/-/react-native-google-mobile-ads-10.1.0.tgz#307b19126e600ebef336def716993412aceac36a"
+  integrity sha512-gadr2DAo5hC4OIPRgTOGdZOmp0Ma+Jz9WTL0zP83mCzRuae8DdpZEYNmu5PvP9l0Z1PGG6BM4D3bBs68xRQrWA==
   dependencies:
     "@iabtcf/core" "^1.5.3"
     use-deep-compare-effect "^1.8.1"
