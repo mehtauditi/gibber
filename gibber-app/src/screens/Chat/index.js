@@ -248,7 +248,7 @@ const Chat = (props) => {
         }
       />
       {loading ? <Loading/> :
-        <View style={themeStyle.body}>
+        <View style={[themeStyle.body, {marginTop: 15}]}>
           <GiftedChat
             messages={messagesData}
             user={{_id: user._id}}
