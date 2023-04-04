@@ -4,7 +4,6 @@ import {GiftedChat, Bubble, Avatar, Message} from 'react-native-gifted-chat'
 import {getTheme} from "../../config/theme";
 import {theme as themeStyle} from "../../config/theme";
 import {AudioPlayer, ChatInput, Header, LocationMessage, Icon, Loading} from "../../components";
-import {ImageMessage} from "../../components/ImageMessage/ImageMessage";
 import {getBubbleProps, renderVideoMessage} from "./config";
 import {useDispatch, useSelector} from "react-redux";
 import {Api} from "../../config";
@@ -228,7 +227,6 @@ const Chat = (props) => {
     <LoadBtn onPress={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <ActivityIndicator size="small" color="#fff"/> : <LoadBtnTxt>Load more</LoadBtnTxt> }</LoadBtn>
     : null, [messages, loadingMoreMsg, noMoreMsg, page]);
 
-
   return (
     <>
       <Header {...props} chat menuItems={menuItems} chatData={isGroup ? {name: groupName, avatar: groupImage} : recipient} isGroup={isGroup}
@@ -275,7 +273,6 @@ const Chat = (props) => {
             }}
             renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
             renderInputToolbar={() => <ChatInput value={message} user={user} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} updateMessageData={updateMessageData} />}
-            renderMessageImage={props => <ImageMessage src={props.currentMessage.image} />}
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           />
