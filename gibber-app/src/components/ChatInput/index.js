@@ -135,7 +135,6 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
 
   const sendLocation = React.useCallback(async (location) => {
     setLocModalVisible(false);
-    console.log('sendLocation func: ', location)
     if (location.latitude && location.longitude)
       sendMessage({location: {latitude: location.latitude, longitude: location.longitude}});
     await props.ctx.menuActions.closeMenu();
