@@ -43,7 +43,7 @@ const getConversation = async (req, res, next) => {
 
 const getConversationMessages = async (req, res, next) => {
   try {
-    const {page = 0} = req.query;
+    const { page = 0 } = req.query;
     const messages = await Message.find({conversationId: req.params.id}).sort('-createdAt').populate({path: 'user', select: 'name , avatar'})
       .skip(20 * page).limit(20);
     res.status(200).json({messages});
@@ -138,14 +138,6 @@ const uploadMessageFile = async (req, res, next) => {
   }
 };
 
-const getMessageFile = async (req, res, next) => {
-  try {
-    const msgFile = await s3.get(req.body.path);
-    res.status(200).json({msg: msgFile});
-  } catch (e) {
-    next(e);
-  }
-};
 
 const setSeenMessages = async (req, res, next) => {
   try {
@@ -241,6 +233,25 @@ const deleteMessage = async (req, res, next) => {
   }
 };
 
+//Trying to get total pages
+const getTotalPages = async (req, res, next) => {
+  try {
+    const {page = 0, pageSize = 20} = req.query;
+    const conversation = await Conversation.findOne({_id: req.params.id}).populate({path: 'users', select: 'name , avatar'});
+    if (!conversation) return new ErrorHandler(404, "Conversation not found", [], res);
+
+    const messageCount = await Message.countDocuments({ conversationId: req.params.id });
+    const pageCount = Math.ceil(messageCount / pageSize);
+
+    const messages = await Message.find({conversationId: req.params.id}).sort('-createdAt').populate({path: 'user', select: 'name , avatar'})
+      .skip(pageSize * page).limit(pageSize);
+
+    res.status(200).json({...conversation.toJSON(), messages, pageCount});
+  } catch (e) {
+    next(e);
+  }
+};
+router.get("/conversation/:id/messages/totalPages", auth.required, getTotalPages);
 router.get("/conversation", auth.required, getConversations);
 router.get("/conversation/:id", auth.required, getConversation);
 router.get("/conversation/:id/messages", auth.required, getConversationMessages);
@@ -256,7 +267,6 @@ router.put("/conversation/group/:conversation", auth.required, updateGroup);
 router.put("/conversation/group/:conversation/remove/:user", auth.required, removeGroupUser);
 router.put("/conversation/:conversation/muteUnmute", auth.required, muteUnmute);
 router.post("/file", [auth.required, upload.single('file')], uploadMessageFile);
-router.post("/getFile", auth.required, getMessageFile);
 router.get("/:conversation/media", auth.required, getMedia);
 router.delete("/conversation/:conversation", auth.required, deleteConversation);
 router.delete("/conversation/message/:message", auth.required, deleteMessage);

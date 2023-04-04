@@ -17,7 +17,6 @@ function Sidebar({user, conversations, ...props}) {
     return conversations.filter(filter);
   }, [user, conversations]);
 
-
   const msgText = React.useCallback((icon, text, unseenMessage) => <Msg><Icon name={icon} size={16} /><MessageText unseen={unseenMessage} noFont style={{marginLeft: 4}}>{text}</MessageText></Msg>, []);
   const renderItem = React.useCallback(item => {
     const recipient = item.users.find(x => x._id !== user._id);

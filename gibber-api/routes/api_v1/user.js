@@ -19,8 +19,7 @@ const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
 const create = async (req, res, next) => {
   try {
-    const {name, phone, email, password, language} = req.body;
-    console.log('language', language)
+    const {name, phone, email, password, language, translateUser} = req.body;
     const missingFields = [];
     if (!name) missingFields.push('Name');
     if (!password) missingFields.push('Password');
@@ -35,11 +34,13 @@ const create = async (req, res, next) => {
             { phone }
           ]
    });
+
     if (alreadyExists)
       return new ErrorHandler(409, `Either Email or Phone already exist. Please enter a different email address or phone number.`, [], res);
 
-    const user = {email, phone, name, password, language};
+    const user = {email, phone, name, password, language, translateUser};
     const finalUser = new User(user);
+    finalUser.translateUser = false;
     finalUser.setPassword(user.password);
     finalUser.save(async (err, newUser) => {
       if (err)
@@ -92,7 +93,7 @@ const login = async (req, res, next) => {
       if (!user || !user.validatePassword(password)) return new ErrorHandler(400, (email ? 'email':'phone') + " or password is invalid", [], res);
       const finalData = {token: await user.generateJWT(), ...user.toJSON()};
       const realmCreds = await Realm.Credentials.emailPassword(finalData.email, finalData.password);
-      const loggedInRealm = await realmApp.logIn(realmCreds);
+      // const loggedInRealm = await realmApp.logIn(realmCreds);
       delete finalData['password'];
       res.status(200).json(finalData);
     } else
@@ -132,6 +133,11 @@ const getAllUsers = async (req, res, next) => {
   try {
     const data = await User.find({});
     res.json(data);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+      res.json({ message: 'Instructions to reset your password have been sent to your email or phone number.' });
   } catch (e) {
     next(e);
   }
@@ -158,6 +164,15 @@ const update = async (req, res, next) => {
       {new: true},
     ).select({password: 0});
     res.json(data);
+  } catch (e) {
+    next(e);
+  }
+};
+
+const updateTranslateUser = async (req, res, next) => {
+  try {
+    await User.updateOne({_id: req.payload.id}, {$set: {translateUser: req.body.translateUser}});
+    res.json({updated: true});
   } catch (e) {
     next(e);
   }
@@ -238,16 +253,45 @@ const remove = async (req, res, next) => {
   }
 };
 
+const forgotPassword = async (req, res, next) => {
+  
+  try {
+    const {email} = req.body;    
+    const resetEmail = await realmApp.emailPasswordAuth.sendResetPasswordEmail({ email });
+    res.status(200).json("success in sending forgot password email")
+  } catch (e) {
+    next(e);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const {newPassword, token, tokenId, email} = req.body;
+    
+    const user = await User.findOne({email});
+    user.setPassword(newPassword);
+    await user.save();
+
+    res.status(200).json("success in resetting password")
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+};
+
 router.post("/", create);
 router.post("/login", login);
 router.post("/qr", generateQr);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 router.put("/device", auth.required, addDevice);
 router.get("/", auth.required, getProfile);
 router.get("/search", auth.required, search);
 router.get("/allUsers", auth.required, getAllUsers);
 router.get("/:id", auth.required, get);
 router.put("/", auth.required, update);
-router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
+router.put("/translateUser", auth.required, updateTranslateUser);
+router.put("/avatar", [auth.required, upload.single('file')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);
 router.put("/block/:user", auth.required, block);
 router.put("/unblock/:user", auth.required, unblock);

@@ -6,18 +6,11 @@ import "./AudioMessageStyles.css";
 
 function AudioMessage({src}) {
 
-  const [url, setUrl] = useState();
-
-  useEffect(async () => {
-    const data =  await Api.post('/chat/getFile', {path: src});
-    setUrl(data.data.msg);
-  }, [src, url])
-
   return (
 
     <div className="audio-player-container" style={{marginBottom: 15, marginLeft: 5}}>
       <AudioPlayer
-        src={url}
+        src={src}
         controls
         
       />

@@ -1,7 +1,8 @@
 const bubbleCommonStyle = {
   marginBottom: 10,
   padding: 7,
-  paddingBottom: 5
+  paddingBottom: 5,
+  transition: "all 0.3s ease-in"
 };
 
 export function getBubbleProps(theme) {
@@ -31,5 +32,6 @@ export function getBubbleProps(theme) {
       },
       right: {marginBottom: 10, fontSize: 14.5}
     }
+    
   }
 }

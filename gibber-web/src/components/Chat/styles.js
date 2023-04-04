@@ -4,6 +4,7 @@ export const ImgMessage = styled.img`
   margin-top: 15px;
   max-width: 300px;
   max-height: 300px;
+  transition: all 0.3s ease-in;
 
   @media screen and (max-width: 350px) {
     max-width: 200px;
@@ -14,11 +15,16 @@ export const ImgMessage = styled.img`
 export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${({theme}) => theme.bg};
   transition: all 0.3s ease-in;
+
+  background-color: ${({theme}) => theme.bg};
 `;
+
 export const ChatContent = styled.div`
-  height: calc(100% - 100px);
+  height: 100%;
+  transition: all 0.3s ease-in;
+
+  padding-bottom: 100px;
   & > div {
     height: 100%;
   }
@@ -26,6 +32,8 @@ export const ChatContent = styled.div`
 
 export const MapContainer = styled.div`
   background-color: gray;
+  transition: all 0.3s ease-in;
+
   width: 607px;
   height: 250px;
   margin-bottom: 10px;
@@ -44,6 +52,8 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 25px;
+  transition: all 0.3s ease-in;
+
   color: ${({theme}) => theme.txt};
   font-size: 22px;
   & > div {
@@ -61,10 +71,13 @@ export const StatusTxt = styled.div`
   opacity: 0.8;
   font-size: 12px;
   margin-top: 2px;
+  transition: all 0.3s ease-in;
+
 `;
 
 export const InputWrapper = styled.div`
   position: relative;
+  //right: 10%;
 `;
 export const InputContainer = styled.div`
   background-color: ${({theme}) => theme.inputBg};
@@ -86,6 +99,7 @@ export const Input = styled.input.attrs(({theme}) => ({placeholderTextColor: the
   border: none;
   background: transparent;
   outline: none;
+  
 `;
 export const IconBtn = styled.div`
   position: absolute;
@@ -121,7 +135,7 @@ export const ActionsContainer = styled.div`
   flex-direction: column;
   z-index: 2;
   color: ${({theme}) => theme.txt};
-`;
+`; 
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
