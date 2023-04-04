@@ -1,6 +1,6 @@
 import React from 'react';
 import {IconContainer, Input, InputContainer, ActionsContainer, Row, Btn, RowItem} from "./styles";
-import {View} from "react-native";
+import {Alert, View} from "react-native";
 import {Icon, Text} from "../index";
 import {getTheme, IS_IOS} from "../../config/theme";
 import RNFetchBlob from 'rn-fetch-blob';
@@ -114,8 +114,12 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
     }
     let data = {[type]: preview};
     appendMessage(data);
-    data[type] = await uploadFile(source);
-    onSend(data);
+    try{
+      data[type] = await uploadFile(source);
+      onSend(data);
+    }catch (e){
+      Alert.alert('Error: Attachment must be <15MB')
+    }
   }, []);
   const sendImage = React.useCallback(async () => {
     const source = await getImageFromLibrary({mediaType: 'mixed', quality: 0.5});
@@ -130,7 +134,11 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
     const data = await audioPicker();
     appendMessage({audio: IS_IOS ? data.uri : data.fileCopyUri});
     await props.ctx.menuActions.closeMenu();
-    onSend({audio: await uploadFile(data, false)});
+    try{
+      onSend({audio: await uploadFile(data, false)});
+    }catch (e){
+      Alert.alert('Error: Attachment must be <15MB')
+    }
   }, []);
 
   const sendLocation = React.useCallback(async (location) => {
