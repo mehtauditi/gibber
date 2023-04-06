@@ -17,6 +17,8 @@ import {Spinner, Switch} from '../index'
 import Icon from '../Icon';
 import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
+import Hyperlink from "react-native-hyperlink";
+
 let timeout;
 
 function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
@@ -202,30 +204,24 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [loadingMoreMsg, messages, loadMore, noMoreMsg]);
 
   const formatLink = (text) => {
-    const linkRegex = /(https?:\/\/[^\s]+)/g;
+    //This is no longer necessary, but can be used in the future for emails?
+    //const linkRegex = /(https?:\/\/[^\s]+)/g;
 
-    //This puts the link on a new line which makes the bubble look weird, but can be useful for future
     // return text.split(linkRegex).map((token, index) => {
     //   if (token.match(linkRegex)) {
     //     return (
-    //       <MessageText key={index} style={{ color: 'blue', textDecorationLine: 'underline'}} onClick={() => Linking.openURL(token)}>
+    //       <Text key={index} style={{ color: 'blue', textDecorationLine: 'underline'}} onPress={() => Linking.openURL(token)}>
     //         {token}
-    //       </MessageText>
+    //       </Text>
     //     );
     //   }
     //   return token;
     // });
-
-    return text.split(linkRegex).map((token, index) => {
-      if (token.match(linkRegex)) {
-        return (
-          <Text key={index} style={{ color: 'blue', textDecorationLine: 'underline'}} onPress={() => Linking.openURL(token)}>
-            {token}
-          </Text>
-        );
-      }
-      return token;
-    });
+    return (
+      <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
+        {text}
+      </Hyperlink>
+    )
   }
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
