@@ -62,12 +62,12 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     onSend(chatId, {audio: data});
   }, []);
 
-  const sendLocation = React.useCallback(async () => {
-    await navigator.geolocation.getCurrentPosition(
-      position => sendMessage({location: {latitude: position.coords.latitude, longitude: position.coords.longitude}}),
-    );
-    setActionsVisible(false)
-  }, []);
+  // const sendLocation = React.useCallback(async () => {
+  //   await navigator.geolocation.getCurrentPosition(
+  //     position => sendMessage({location: {latitude: position.coords.latitude, longitude: position.coords.longitude}}),
+  //   );
+  //   setActionsVisible(false)
+  // }, []);
 
   return (
     <InputWrapper>
@@ -86,7 +86,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
           <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
         </IconContainer>
       </InputContainer>
-      {actionsVisible &&
+      {/* {actionsVisible &&
       <ActionsContainer ref={actionsRef}>
         <Row>
           <FileUpload accept="image/*,video/*" onChange={sendPicOrVideo}>
@@ -107,7 +107,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
           </RowItem>
         </Row>
       </ActionsContainer>
-      }
+      } */}
     </InputWrapper>
   )
 };

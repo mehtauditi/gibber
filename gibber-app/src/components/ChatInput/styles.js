@@ -19,6 +19,7 @@ const Input = styled.TextInput.attrs(({theme}) => ({placeholderTextColor: theme.
   borderRadius: 30;
   width: ${Dimensions.get('window').width - 150};
   color: ${({theme}) => theme.txt};
+  bottom: 5px;
 `;
 
 const IconContainer = styled.TouchableOpacity`

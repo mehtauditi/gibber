@@ -83,14 +83,16 @@ const ModalContent = styled.View`
 
 const CreateHeader = styled.View`
   background-color: ${({theme}) => theme.bg};
-  height: 50px;
+  height: 35px;
   flex-direction: row;
   align-items: center;
   padding-horizontal: 15px;
+  top: 5px;
+  bottom: 5px;
 `;
 const HeaderShadow = styled.Image.attrs({source: require('../../images/shadow.png'), resizeMode: 'stretch'})`
   position: absolute;
-  top: ${({noOffset}) => IS_IPHONE_X ? noOffset ? 100 : 143 : IS_IOS ? noOffset ? 90 : 116 : noOffset ? 57 : 107};
+  top: ${({noOffset}) => IS_IPHONE_X ? noOffset ? 100 : 143 : IS_IOS ? noOffset ? 90 : 116 : noOffset ? 57 : 73};
   left: -100px;
   opacity: 0.3;
 `;
@@ -100,6 +102,8 @@ const Row = styled.View`
   padding-horizontal: 25px;
   padding-top: ${IS_IOS ? 7 : 9};
   margin-bottom: ${IS_IOS ? 20 : 0};
+  bottom: 5px;
+  left: 5px;
 `;
 
 const Msg = styled.View`

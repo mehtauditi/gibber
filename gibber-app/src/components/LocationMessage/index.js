@@ -1,6 +1,6 @@
 import React from 'react';
 import {Linking, TouchableOpacity} from "react-native";
-import MapView from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 
 const LocationMessage = ({location, messagePosition}) => {
   const openMaps = () => {
@@ -38,7 +38,7 @@ const LocationMessage = ({location, messagePosition}) => {
         scrollEnabled={false}
         zoomEnabled={false}
       >
-        <MapView.Marker coordinate={location}/>
+        <Marker coordinate={location}/>
       </MapView>
     </TouchableOpacity>
   );

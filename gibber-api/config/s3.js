@@ -13,7 +13,7 @@ const s3 = new AWS.S3();
 const upload = (file, folder, name) =>
   new Promise(function(resolve, reject) {
     const filePath = __dirname + "/../public/" + file.filename;
-    // if (file.size < 1500000) {
+    if (file.size < 1500000) {
       const params = {
         Bucket: BUCKET,
         Body: fs.createReadStream(filePath),
@@ -29,10 +29,10 @@ const upload = (file, folder, name) =>
           resolve(data);
         }
       });
-    // } else {
-    //   fs.unlink(filePath, err => reject(err));
-    //   reject({ status: 400, msg: "Big file than limit for image" });
-    // }
+    } else {
+      fs.unlink(filePath, err => reject(err));
+      reject({ status: 400, msg: "Big file than limit for image" });
+    }
   });
 
 const remove = filePath =>
