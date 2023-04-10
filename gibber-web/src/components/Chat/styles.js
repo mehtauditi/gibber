@@ -16,7 +16,6 @@ export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
   transition: all 0.3s ease-in;
-
   background-color: ${({theme}) => theme.bg};
 `;
 
@@ -28,6 +27,8 @@ export const ChatContent = styled.div`
   & > div {
     height: 100%;
   }
+
+
 `;
 
 export const MapContainer = styled.div`
@@ -77,7 +78,6 @@ export const StatusTxt = styled.div`
 
 export const InputWrapper = styled.div`
   position: relative;
-  //right: 10%;
 `;
 export const InputContainer = styled.div`
   background-color: ${({theme}) => theme.inputBg};
