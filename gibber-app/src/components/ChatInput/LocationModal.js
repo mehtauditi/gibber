@@ -1,6 +1,6 @@
 import React from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import getLocation from "../../utils/getLocation";
 import {MapHeader, MapFooter, RefreshBtn} from './styles';
 import {Icon, Text} from "../index";
@@ -36,7 +36,7 @@ const LocationModal = ({visible, close, onSend}) => {
             scrollEnabled={false}
             zoomEnabled={false}
           >
-            <MapView.Marker coordinate={location}/>
+            <Marker coordinate={location}/>
           </MapView>
         </View> : null
         }

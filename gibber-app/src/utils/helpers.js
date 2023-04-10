@@ -1,6 +1,7 @@
 import constants from "../config/constants";
 import {IS_IOS} from "../config/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export function getAvatarPath(path, isGroup, q) {
   if (path) return {uri: (!path.includes('file') ? constants.bucket_url : '') + path + (q ? '?v=' + new Date() : '')};
@@ -38,6 +39,16 @@ export const mapMessageData = messages => {
     user: {...msg.user, ...(msg.user.avatar ? {avatar: fixImgPath(msg.user.avatar)} : {})}
   }));
 };
+
+export const translateText = async (text, tarLang) => { 
+  const url = "https://translation.googleapis.com/language/translate/v2?" 
+  + "key=" + constants.translate_api
+  + "&q=" + text
+  + "&target=" + tarLang;
+
+  const res = await axios.post(url);
+  return res.data.data.translations[0].translatedText;
+}
 
 export function millisToMinutesAndSeconds(millis) {
   const minutes = Math.floor(millis / 60000);
