@@ -105,15 +105,30 @@ const login = async (req, res, next) => {
 
 const search = async (req, res, next) => {
   try {
-    const {q} = req.query;
+    const {q, by} = req.query;
     if (!q) return res.status(404).send("query is required");
     const user = await User.findOne({_id: req.payload.id}, {blocked: 1, blockedFrom: 1});
     const query = {$regex: q, $options: 'i'};
-    const data = await User.find(
-      {$or: [{name: query}, {phone: query}, {email: query}],
-        _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
-      profileFields
-    );
+    let data;
+    if(by === 'search-email'){
+      data = await User.find(
+        {email: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    } else if (by === 'search-phone'){
+      data = await User.find(
+        {phone: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    } else {
+      data = await User.find(
+        {name: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    }
     res.json(data);
   } catch (e) {
     next(e);
@@ -207,8 +222,8 @@ const updatePassword = async (req, res, next) => {
 
 const block = async (req, res, next) => {
   try {
-    await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}});
-    await User.updateOne({_id: req.payload.id}, {$addToSet: {blocked: req.params.user}, $pull: {contacts: req.params.user}});
+    await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}, $pull: {friends: req.payload.id}});
+    await User.updateOne({_id: req.payload.id}, {$addToSet: {blocked: req.params.user}, $pull: {contacts: req.params.user}, $pull: {friends: req.params.user}});
     res.status(200).json({updated: true});
   } catch (e) {
     next(e);
