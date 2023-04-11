@@ -19,7 +19,7 @@
 }
 
 .back-to-chat:hover {
-  background-color: #e0e0e0;
+  background-color: transparent;
 }
 
 .user-info, .email-info, .language-info, .phone-info {
@@ -31,13 +31,200 @@ input {
   border: none;
   background-image: none;
   background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
   box-shadow: none;
-  border-bottom: 1px solid #848484;
-  font-size: 17px;
-  padding: 5px 0;
-  width: 250px;
+  border-bottom: 2px solid #848484;
+  font-size: 20px;
+  width: 300px;
+  padding-inline: 15%;
+  padding: 5px 5px 5px 15px;
+  font-weight: 500;
 }
 
 input:focus {
   outline: none;
+  box-shadow: #358BD0 0px 0px 10px;
+  border-bottom: none;
+  border-radius: 15px;
 }
+
+.edit-btn {
+  max-width: 300px !important;
+  width: -webkit-fill-available !important;
+}
+
+.edit-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.change-icon {
+  position: absolute;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 12px !important;
+  height: 12px !important;
+}
+
+h1 {
+  font-size: calc(.9rem + .9vw) !important;
+  font-weight: 800 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top:75px;
+  padding-bottom: 15px;
+}
+
+h2 {
+  font-size: calc(.7rem + .7vw) !important;
+  font-weight: 900 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+h3 {
+  font-size: calc(.6rem + .6vw) !important;
+  font-weight: 600 !important;
+}
+
+h4 {
+  font-size: calc(.5rem + .5vw) !important;
+  font-weight: 500 !important;
+}
+
+h5 {
+  font-size: calc(.4rem + .4vw) !important;
+  font-weight: 400 !important;
+}
+
+.rounded-button {
+  display: inline-block;
+  width: 50%;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  background-color: #358BD0;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.rounded-button:hover {
+  background-color: #0069d9;
+  box-shadow: gray 0px 0px 5px;
+}
+
+.drop-down {
+  display: inline-block;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  background-color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Container needed to position the button. Adjust the width as needed */
+.container {
+  position: relative;
+  width: 50%;
+}
+
+/* Make the image responsive */
+.container img {
+  width: 100%;
+  height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.container .btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container .btn:hover {
+  background-color: black;
+}
+
+.element-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.element-label {
+  flex: 0 0 auto; /* allows the header to take up only the necessary space */
+}
+
+/* Container needed to position the overlay. Adjust the width as needed */
+.avatar-container {
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 0 auto;
+}
+
+.outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: gray 2px solid;
+  position: relative;
+}
+
+.outer img {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  border: gray 2px solid;
+}
+
+.inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #358BD0;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 3px solid white;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.inner:hover {
+  background-color: #0069d9;
+  box-shadow: gray 0px 0px 5px;
+}
+
+
+

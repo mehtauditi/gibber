@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-google-maps/api": "2.7.0",
+    "@react-icons/all-files": "^4.1.0",
     "@srexi/purecounterjs": "^1.5.0",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
