@@ -17,6 +17,7 @@ function CreateChat({close, user, ...props}) {
   const [showModal, setShowModal] = React.useState(false);
   const [selectedOption, setSelectedOption] = React.useState('search-name');
   const [getSent, setGetSent] = React.useState([]);
+  const [refresh, setRefresh] = React.useState(false);
 
 
   const debouncedSave = React.useCallback(debounce(nextValue => setSearchDb(nextValue), 1000), []);
@@ -28,7 +29,8 @@ function CreateChat({close, user, ...props}) {
 
   React.useEffect(() => {
     fetchAllSentInvites();
-  }, []);
+    setRefresh(false);
+  }, [refresh]);
 
   const fetchAllSentInvites = async () => {
     const res = await Api.get(`/friend-request/sent/${user._id}`);
@@ -43,14 +45,15 @@ function CreateChat({close, user, ...props}) {
   }, [searchDb, selectedOption]);
 
   const onClick = React.useCallback(async (target) => {
+    console.log("hello")
     const res = (await Api.get('/chat/conversation-exist/' + target._id)).data;
     if (res.isExist)
       props.setChatId(res.conversationId);
-    else {
-      const data = (await Api.post('/chat/conversation/' + target._id)).data;
-      props.setChatId(data._id);
-      props.createChat(data);
-    }
+    // else {
+    //   const data = (await Api.post('/chat/conversation/' + target._id)).data;
+    //   props.setChatId(data._id);
+    //   props.createChat(data);
+    // }
     close();
   }, []);
 
@@ -70,8 +73,8 @@ function CreateChat({close, user, ...props}) {
   const handleRequest = async (event) => {
     try {
       const sender = user._id, receiver = event.target.value
-      const res = await Api.post('/friend-request', { sender, receiver });
-      console.log(res);
+      const res = await Api.post('/friend-request/create', { sender, receiver });
+      setRefresh(true);
     } catch (error) {
       console.log(error);
     }
@@ -79,18 +82,19 @@ function CreateChat({close, user, ...props}) {
 
   const renderItem = React.useCallback(item => {
     const receiverCheck = getSent && getSent.requests?.some((invite) => invite.receiver === item._id);
-    let button = null;
+    const alreadyFriends = user.friends?.includes(item._id);
+    let button;
     if (!receiverCheck) {
       button = <button value={item._id} className='request-btn' onClick={handleRequest}>Request</button>;
     } else {
       button = <button value={item._id} className="requested-btn"  disabled>Requested</button>;
     }
-    if (user.friends.includes(item._id)) {
+    if (alreadyFriends) {
       button = null;
     }
 
     return (
-      <Item onClick={() => onClick(item)} key={item._id}>
+      <Item onClick={button ? null : () => onClick(item)} key={item._id}>
         <Row>
           <Avatar src={getAvatarPath(item.avatar)} />
           <div>
@@ -146,8 +150,8 @@ function CreateChat({close, user, ...props}) {
         }}>
           Create Group Chat
         </button>
-        {!search && user.contacts.map(renderItem)}
-        {!!users.length && users.map(renderItem)}
+        {!search && user.contacts.filter(i => i.email !== 'teamgibber@test.com').map(renderItem)}
+        {!!users.length && users.filter(i => i.email !== 'teamgibber@test.com').map(renderItem)}
       </ChatList>
       <GroupChatModal user={user} show={showModal} handleClose={handleClose} />
     </Container>

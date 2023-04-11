@@ -130,7 +130,7 @@ const remove = async (req, res, next) => {
 //
 // *** ONLY USE ONCE BEFORE PROD PUSH THEN DELETE *** //
 
-router.post("/", auth.required, create);
+router.post("/create", auth.required, create);
 router.post("/accept/:id", auth.required, accept);
 router.post("/decline/:id", auth.required, decline);
 router.get("/sent/:id", auth.required, getSent);
