@@ -131,7 +131,8 @@ const reply = async (req, res, next) => {
 const uploadMessageFile = async (req, res, next) => {
   try {
     const uploaded = await s3.upload(req.file, s3_dir + 'chat', getImageName(req.file));
-    res.status(200).json({path: uploaded.key});
+    let key = uploaded.key || uploaded.Key;
+    res.status(200).json({path: key});
   } catch (e) {
     next(e);
   }

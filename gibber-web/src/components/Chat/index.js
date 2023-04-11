@@ -2,6 +2,7 @@ import React from 'react';
 import {ChatContainer, ChatContent, Header, HeaderAvatar, LoadBtn, MessageText, StatusTxt} from "./styles";
 import {getAvatarPath, mapMessageData} from "../../utils/helpers";
 import { Bubble, Avatar, GiftedChat  } from "react-native-gifted-chat";
+import { Text, Linking } from "react-native";
 import LocationMessage from "./components/LocationMessage";
 import {getBubbleProps} from "./components/bubbleProps";
 import {theme} from "../../config/theme";
@@ -16,6 +17,8 @@ import {Spinner, Switch} from '../index'
 import Icon from '../Icon';
 import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
+import Hyperlink from "react-native-hyperlink";
+
 let timeout;
 
 function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
@@ -200,6 +203,27 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     }
   }, [loadingMoreMsg, messages, loadMore, noMoreMsg]);
 
+  const formatLink = (text) => {
+    //This is no longer necessary, but can be used in the future for emails?
+    //const linkRegex = /(https?:\/\/[^\s]+)/g;
+
+    // return text.split(linkRegex).map((token, index) => {
+    //   if (token.match(linkRegex)) {
+    //     return (
+    //       <Text key={index} style={{ color: 'blue', textDecorationLine: 'underline'}} onPress={() => Linking.openURL(token)}>
+    //         {token}
+    //       </Text>
+    //     );
+    //   }
+    //   return token;
+    // });
+    return (
+      <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
+        {text}
+      </Hyperlink>
+    )
+  }
+
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
     <ChatContainer onFocus={() => {
@@ -221,7 +245,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           messages={messagesData}
           user={{_id: user._id}}
           minInputToolbarHeight={60}
-          renderBubble={props => {
+          renderBubble={ (props) => {
             if (props.currentMessage.location) return <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
             if (props.currentMessage.audio) return <AudioMessage src={props.currentMessage.audio}/>;
   
@@ -230,7 +254,20 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
               return <Bubble {...allProps} />;
             }
           }}
-          renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
+          
+          //renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
+          //renderMessage = {renderMessageText(user.language)}
+          renderMessageText={props => {
+            const { currentMessage } = props;
+            const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
+            // Calling the formatLink function HERE
+            const formattedText = formatLink(text);
+            return (
+              <MessageText right={props.position === 'right'}>
+                {formattedText}
+              </MessageText>
+            );
+          }}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
           renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} user={user} />}
           renderMessageVideo={props => <VideoMessage src={props.currentMessage.video}/>}

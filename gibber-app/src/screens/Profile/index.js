@@ -1,5 +1,5 @@
-import React from 'react';
-import {Alert, View} from "react-native";
+import React, { useEffect } from 'react';
+import {Alert, View, Text} from "react-native";
 import {Button, Header, Icon, Input} from "../../components";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from "react-redux";
@@ -27,6 +27,15 @@ const Profile = (props) => {
   }, [user]);
 
   const updateProfileData = React.useCallback(() => {
+    if (!(email.length > 0 && phone.length > 4)) {
+      return alert('Please enter an email and phone number!')
+    }
+    if(!(/\S+@\S+\.\S+/.test(email))){
+      return alert('Valid email is required!')
+    }
+    if (!name) {
+      return alert('Please enter your name!')
+    }
     dispatch(updateProfile({name, email, phone}))
   }, [name, email, phone]);
 
@@ -36,7 +45,7 @@ const Profile = (props) => {
     if (imageFile.uri) {
       setAvatar(imageFile.uri);
       let data = new FormData();
-      data.append('avatar', getFileObj(imageFile));
+      data.append('file', getFileObj(imageFile));
       let obj = {method: 'PUT', headers: await getUploadHeaders(), body: data};
       const res = await (await fetch(constants.base_url + '/api/v1/user/avatar', obj)).json();
       dispatch(updateAvatarSuccess(res.path));
@@ -53,7 +62,7 @@ const Profile = (props) => {
 
   return (
     <View style={{flex: 1}}>
-      <Header title="Profile" showBack />
+      <Header title="Profile" showBack titleStyle={{top: 1}}/>
       <KeyboardAwareScrollView contentContainerStyle={{padding: 25}}>
         <Head>
           <AvatarContainer>
@@ -73,6 +82,8 @@ const Profile = (props) => {
           <Icon name="email" size={25} />
           <InputContainer><Input label="email" value={email} onChange={setEmail} /></InputContainer>
         </Row>
+        <Text style={{marginBottom: 15}}>*Note: To update your password, Go to https://www.gibber.chat</Text>
+        
         <Button onPress={updateProfileData} title="Update" disabled={!name || !email || !phone} />
         <LogoutBtn onPress={useLogout}>Logout</LogoutBtn>
       </KeyboardAwareScrollView>

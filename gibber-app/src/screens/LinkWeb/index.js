@@ -24,7 +24,8 @@ const LinkWeb = () => {
           <MonitorIcon />
           <Text size="big" weight="bold">Use Gibber on Web</Text>
         </View>
-        <Button title="Scan QR Code" onPress={() => setModalVisible(true)} />
+        {/* Temporarily disabled because clicking the QR code button currently shuts down the app */}
+        {/* <Button title="Scan QR Code" onPress={() => setModalVisible(true)} /> */}
         <TitleContainer>
           <Text noFont size="medium">Linked Devices</Text>
         </TitleContainer>
