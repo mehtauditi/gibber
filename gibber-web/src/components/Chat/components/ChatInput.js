@@ -69,6 +69,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
   //   setActionsVisible(false)
   // }, []);
 
+  
   return (
     <InputWrapper>
       <InputContainer>
