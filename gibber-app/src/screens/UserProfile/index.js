@@ -47,7 +47,7 @@ const UserProfile = (props) => {
   }, [user, isUserBlocked]);
 
   return (
-    <View style={theme.body}>
+    <View style={{flex: 1}}>
       <ImgBg source={getAvatarPath(user.avatar, false, false)} />
       <Overlay/>
       <BackBtn onPress={() => props.navigation.goBack()}>

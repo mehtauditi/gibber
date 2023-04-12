@@ -46,6 +46,7 @@ export const Button = styled.a`
   }
 `;
 
+
 export const CenteredContent = styled.div`
   display: flex;
   flex-direction: column;
