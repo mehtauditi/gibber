@@ -53,6 +53,25 @@ export const CustomCheckbox = styled.input`
     margin-right: 10px;
 `;
 
+export const Input = styled.input`
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-bottom: 2px solid #848484;
+  font-size: calc(.5rem + .5vw);
+  width: calc(100% - 20px);
+  padding-inline: 15%;
+  padding: 5px 5px 5px 15px;
+  font-weight: 500;
+
+  &:focus {
+    outline: none;
+  }
+`
+
 export const ProfileHeader = styled.header`
   width: 100%;
   position: relative;

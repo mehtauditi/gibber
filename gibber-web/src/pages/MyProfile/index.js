@@ -4,7 +4,7 @@ import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import { useOutletContext} from "react-router-dom";
 import {Button, CenteredContent, Logo, Row} from "../../utils/sharedStyles";
-import {CustomCheckbox, Container, Divider, TextField, ProfileHeader, ProfileForm, CenteredDiv} from "./styles";
+import {CustomCheckbox, Container, Divider, TextField, ProfileHeader, ProfileForm, CenteredDiv, Input} from "./styles";
 import PasswordChecklist from 'react-password-checklist';
 import Api from "../../config/axios";
 import "./index.css";
@@ -81,7 +81,6 @@ function MyProfile(props) {
   };
 
   const handleCheckboxChange = async (event) => {
-    console.log(event.target.checked);
     setToggle(event.target.checked);
     await Api.put(`/user/translateUser`, { translateUser: event.target.checked } );
   };
@@ -135,14 +134,14 @@ function MyProfile(props) {
                   </div>
                 </div>
               </div>
-              <h1>Account Information</h1>
+              <h1 className="profile-h1">Account Information</h1>
             </CenteredContent>
             {isEditMode ? (
                 <CenteredDiv>
                   <div className='element-container'>
                     <h3 className='element-label'>Name</h3>
                     <TextField>
-                      <input type='text' name='username' placeholder={userData.name} onChange={handleChangeUserName}/>
+                      <Input type='text' name='username' placeholder={userData.name} onChange={handleChangeUserName}/>
                     </TextField>
                   </div>
                   <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
@@ -154,7 +153,7 @@ function MyProfile(props) {
                   <div className='element-container' style={{paddingTop:'15px', justifyContent:'left', marginLeft:'25px'}}>
                     <h4 className='element-label' style={{paddingRight:'35px', paddingTop:'10px'}}>Translate my messages</h4>
                       <div className="form-check form-switch" style={{display:'flex'}}>
-                        <input
+                        <Input
                               className="form-check-input"
                               checked={Boolean(toggle)}
                               type="checkbox"
@@ -170,13 +169,13 @@ function MyProfile(props) {
                   <div className='element-container'>
                     <h3 className='element-label'>Current Password</h3>
                     <TextField>
-                      <input type='password' value={password.currentPassword} name='currentPassword' onChange={handlePasswordChange}/>
+                      <Input type='password' value={password.currentPassword} name='currentPassword' onChange={handlePasswordChange}/>
                     </TextField>
                   </div>
                   <div className='element-container'>
                     <h3 className='element-label'>New Password</h3>
                     <TextField>
-                      <input type='password' value={password.newPassword} name='newPassword' onChange={handlePasswordChange}/>
+                      <Input type='password' value={password.newPassword} name='newPassword' onChange={handlePasswordChange}/>
                     </TextField>
                   </div>
                   <div className='element-container' style={{alignContent:'center'}}>
@@ -190,7 +189,7 @@ function MyProfile(props) {
                   <div className='element-container'>
                     <h3 className='element-label'>Confirm Password</h3>
                     <TextField>
-                      <input type='password' value={password.confirmPassword} name='confirmPassword' onChange={handlePasswordChange}/>
+                      <Input type='password' value={password.confirmPassword} name='confirmPassword' onChange={handlePasswordChange}/>
                     </TextField>
                   </div>
                 </CenteredDiv>
@@ -213,7 +212,7 @@ function MyProfile(props) {
                   <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <div className='element-container'>
                     <h2 className='element-label' style={{justifyContent:'left', color:'gray'}}>Language</h2>
-                    <h2>{(languages.find(value => value.language === userData.language)).name}</h2>
+                    <h2 className='element-label'>{(languages.find(value => value.language === userData.language)).name}</h2>
                   </div>
                 </CenteredDiv>
             )}
