@@ -3,8 +3,8 @@ import { NavLink, useLocation } from "react-router-dom";
 import {theme} from "../../config/theme";
 import {ThemeProvider} from "styled-components";
 import { useOutletContext} from "react-router-dom";
-import { CenteredContent, Button, Logo, Row } from "../../utils/sharedStyles";
-import {CustomCheckbox, Container, Divider, TextField, ProfileHeader, ProfileForm} from "./styles";
+import {Button, CenteredContent, Logo, Row} from "../../utils/sharedStyles";
+import {CustomCheckbox, Container, Divider, TextField, ProfileHeader, ProfileForm, CenteredDiv} from "./styles";
 import PasswordChecklist from 'react-password-checklist';
 import Api from "../../config/axios";
 import "./index.css";
@@ -124,8 +124,8 @@ function MyProfile(props) {
           </NavLink>
         </ProfileHeader>
         <Container>
-          <CenteredContent style={{width:'50%'}}>
-            <div className='avatar-container'>
+            <CenteredContent>
+              <div className='avatar-container'>
                 <div className='outer'>
                   <img src={avatar} className='image' style={{height: '200px', width: '200px', borderRadius:"50%"}}/>
                   <div className='inner'>
@@ -134,20 +134,22 @@ function MyProfile(props) {
                     </FileUpload>
                   </div>
                 </div>
-            </div>
-            <h1>Account Information</h1>
+              </div>
+              <h1>Account Information</h1>
+            </CenteredContent>
             {isEditMode ? (
-                <ProfileForm className="form-container" style={{width:'100%'}}>
+                <CenteredDiv>
                   <div className='element-container'>
                     <h3 className='element-label'>Name</h3>
                     <TextField>
                       <input type='text' name='username' placeholder={userData.name} onChange={handleChangeUserName}/>
                     </TextField>
                   </div>
-                  <hr style={{height:'2px',color:'gray', background:'gray'}}/>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <div className='element-container' style={{paddingTop:'0px'}}>
                     <h3 className='element-label' style={{paddingTop:'35px'}}>Language</h3>
-                    <DropdownInput onChange={nullFunction}/>
+                    <h3 className='element-label' style={{paddingTop:'35px', textAlign:'left'}}>{(languages.find(value => value.language === userData.language)).name}</h3>
+                    {/*<DropdownInput onChange={nullFunction}/>*/}
                   </div>
                   <div className='element-container' style={{paddingTop:'15px', justifyContent:'left', marginLeft:'25px'}}>
                     <h4 className='element-label' style={{paddingRight:'35px', paddingTop:'10px'}}>Translate my messages</h4>
@@ -163,7 +165,7 @@ function MyProfile(props) {
                           />
                       </div>
                   </div>
-                  <hr style={{height:'2px',color:'gray', background:'gray'}}/>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <h2 className='element-label'>Change Password</h2>
                   <div className='element-container'>
                     <h3 className='element-label'>Current Password</h3>
@@ -177,51 +179,47 @@ function MyProfile(props) {
                       <input type='password' value={password.newPassword} name='newPassword' onChange={handlePasswordChange}/>
                     </TextField>
                   </div>
-                  <div className='element-container'>
-                    <PasswordChecklist
-                        rules={["minLength", "number","capital"]}
-                        minLength={8}
-                        value={password.newPassword}
-                        style={{marginLeft:'58%'}}
-                    />
-                    <br />
-                  </div>
+                  <div className='element-container' style={{alignContent:'center'}}>
+                      <PasswordChecklist
+                          rules={["minLength", "number","capital"]}
+                          minLength={8}
+                          value={password.newPassword}
+                      />
+                      <br/>
+                    </div>
                   <div className='element-container'>
                     <h3 className='element-label'>Confirm Password</h3>
                     <TextField>
                       <input type='password' value={password.confirmPassword} name='confirmPassword' onChange={handlePasswordChange}/>
                     </TextField>
                   </div>
-                  <div style={{display:'flex', paddingTop:'25px', justifyContent:'center'}}>
-                    <button className="rounded-button" onClick={toggleEditMode}>{isEditMode ? 'Save' : 'Edit'}</button>
-                  </div>
-                </ProfileForm>
+                </CenteredDiv>
             ):(
-                <ProfileForm className="form-container" style={{width:'75%'}}>
+                <CenteredDiv className="form-container" style={{width:'75%'}}>
                   <div className='element-container'>
                     <h2 className='element-label' style={{color:'gray'}}>Name</h2>
                     <h2 className='element-label' >{userData.name}</h2>
                   </div>
-                  <hr style={{height:'2px',color:'gray', background:'gray'}}/>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <div className='element-container'>
                     <h2 className='element-label' style={{color:'gray'}}>Email</h2>
                     <h2 className='element-label'>{userData.email}</h2>
                   </div>
-                  <hr style={{height:'2px',color:'gray', background:'gray'}}/>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <div className='element-container'>
                     <h2 className='element-label' style={{justifyContent:'left', color:'gray'}}>Phone</h2>
                     <h2 className='element-label'>{userData.phone}</h2>
                   </div>
-                  <hr style={{height:'2px',color:'gray', background:'gray'}}/>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <div className='element-container'>
                     <h2 className='element-label' style={{justifyContent:'left', color:'gray'}}>Language</h2>
                     <h2>{(languages.find(value => value.language === userData.language)).name}</h2>
                   </div>
-                  <div style={{display:'flex', paddingTop:'25px', justifyContent:'center'}}>
-                    <button className="rounded-button" onClick={toggleEditMode}>{isEditMode ? 'Save' : 'Edit'}</button>
-                  </div>
-                </ProfileForm>)}
-          </CenteredContent>
+                </CenteredDiv>
+            )}
+          <div style={{display:'flex', paddingTop:'25px', justifyContent:'center', paddingBottom:'25px'}}>
+            <button className="rounded-button" onClick={toggleEditMode}>{isEditMode ? 'Save' : 'Edit'}</button>
+          </div>
         </Container>
       </ThemeProvider>
   );

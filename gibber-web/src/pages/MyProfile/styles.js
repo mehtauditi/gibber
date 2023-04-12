@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import SwitchComp from "react-switch";
-
 export const Container = styled.div`
   height: 100%;
   width: 100%;
@@ -28,7 +26,7 @@ export const Divider = styled.div`
 
 export const TextField = styled.div`
 
-    margin-left: 15px;
+    margin-left: calc(50% - 100px);
 
     & h5 {
         display: inline-block;
@@ -71,11 +69,22 @@ export const ProfileHeader = styled.header`
 `;
 
 export const ProfileForm = styled.div`
-  max-width: 100%;
   margin-bottom: 50px;
   padding: 50px;
   background-color: ${({theme}) => theme.bg};
   border: none;
   border-radius: 25px;
-  box-shadow: lightgray 0px 0px 5px;;
+  box-shadow: lightgray 0px 0px 5px;
+  justify-content: space-between;
+`;
+
+export const CenteredDiv = styled.div`
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: ${({vertical}) => vertical || 'flex-start'};
+  width: ${({width}) => window.innerWidth < 500 ? '75%' : width || '75%'};
+  box-shadow: gray 0px 0px 5px;
+  border-radius: 25px;
 `;
