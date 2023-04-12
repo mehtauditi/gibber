@@ -13,12 +13,12 @@ NULLCMD = :
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /Users/earvinagagas/.rvm/rubies/ruby-3.1.3/include/ruby-3.1.0
+topdir = /Users/megharya/.rvm/rubies/ruby-3.1.3/include/ruby-3.1.0
 hdrdir = $(topdir)
-arch_hdrdir = /Users/earvinagagas/.rvm/rubies/ruby-3.1.3/include/ruby-3.1.0/arm64-darwin22
+arch_hdrdir = /Users/megharya/.rvm/rubies/ruby-3.1.3/include/ruby-3.1.0/arm64-darwin22
 PATH_SEPARATOR = :
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
-prefix = $(DESTDIR)/Users/earvinagagas/.rvm/rubies/ruby-3.1.3
+prefix = $(DESTDIR)/Users/megharya/.rvm/rubies/ruby-3.1.3
 rubysitearchprefix = $(rubylibprefix)/$(sitearch)
 rubyarchprefix = $(rubylibprefix)/$(arch)
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -86,7 +86,7 @@ warnflags =
 cppflags = 
 CCDLFLAGS = -fno-common
 CFLAGS   = $(CCDLFLAGS) -O3 -I/opt/homebrew/opt/libyaml/include -I/opt/homebrew/opt/libksba/include -I/opt/homebrew/opt/readline/include -I/opt/homebrew/opt/zlib/include -I/opt/homebrew/opt/openssl@1.1/include $(cflags) -fno-common -pipe  $(ARCH_FLAG)
-INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir) -I/Library/Developer/CommandLineTools/SDKs/MacOSX12.sdk/usr/include/ffi
+INCFLAGS = -I. -I$(arch_hdrdir) -I$(hdrdir)/ruby/backward -I$(hdrdir) -I$(srcdir) -I/Library/Developer/CommandLineTools/SDKs/MacOSX13.sdk/usr/include/ffi
 DEFS     = 
 CPPFLAGS = -DRUBY_EXTCONF_H=\"$(RUBY_EXTCONF_H)\" -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT $(DEFS) $(cppflags)
 CXXFLAGS = $(CCDLFLAGS) -fdeclspec  $(ARCH_FLAG)

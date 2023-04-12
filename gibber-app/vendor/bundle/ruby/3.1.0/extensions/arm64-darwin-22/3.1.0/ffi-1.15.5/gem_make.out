@@ -1,5 +1,5 @@
-current directory: /Users/earvinagagas/Desktop/gibber/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
-/Users/earvinagagas/.rvm/rubies/ruby-3.1.3/bin/ruby -I /Users/earvinagagas/.rvm/rubies/ruby-3.1.3/lib/ruby/3.1.0 extconf.rb
+current directory: /Users/megharya/Documents/gibber-ma/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
+/Users/megharya/.rvm/rubies/ruby-3.1.3/bin/ruby -I /Users/megharya/.rvm/rubies/ruby-3.1.3/lib/ruby/3.1.0 extconf.rb
 checking for ffi_prep_closure_loc() in -lffi... yes
 checking for ffi_prep_cif_var()... yes
 checking for ffi_raw_call()... yes
@@ -8,11 +8,11 @@ checking for whether -pthread is accepted as LDFLAGS... yes
 creating extconf.h
 creating Makefile
 
-current directory: /Users/earvinagagas/Desktop/gibber/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
-make DESTDIR\= sitearchdir\=./.gem.20230315-96057-e06spv sitelibdir\=./.gem.20230315-96057-e06spv clean
+current directory: /Users/megharya/Documents/gibber-ma/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
+make DESTDIR\= sitearchdir\=./.gem.20230411-7030-trd9ha sitelibdir\=./.gem.20230411-7030-trd9ha clean
 
-current directory: /Users/earvinagagas/Desktop/gibber/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
-make DESTDIR\= sitearchdir\=./.gem.20230315-96057-e06spv sitelibdir\=./.gem.20230315-96057-e06spv
+current directory: /Users/megharya/Documents/gibber-ma/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
+make DESTDIR\= sitearchdir\=./.gem.20230411-7030-trd9ha sitelibdir\=./.gem.20230411-7030-trd9ha
 compiling AbstractMemory.c
 compiling ArrayType.c
 compiling Buffer.c
@@ -38,6 +38,6 @@ compiling Variadic.c
 compiling ffi.c
 linking shared-object ffi_c.bundle
 
-current directory: /Users/earvinagagas/Desktop/gibber/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
-make DESTDIR\= sitearchdir\=./.gem.20230315-96057-e06spv sitelibdir\=./.gem.20230315-96057-e06spv install
-/opt/homebrew/opt/coreutils/bin/ginstall -c -m 0755 ffi_c.bundle ./.gem.20230315-96057-e06spv
+current directory: /Users/megharya/Documents/gibber-ma/gibber-app/vendor/bundle/ruby/3.1.0/gems/ffi-1.15.5/ext/ffi_c
+make DESTDIR\= sitearchdir\=./.gem.20230411-7030-trd9ha sitelibdir\=./.gem.20230411-7030-trd9ha install
+/opt/homebrew/opt/coreutils/bin/ginstall -c -m 0755 ffi_c.bundle ./.gem.20230411-7030-trd9ha
