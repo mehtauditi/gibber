@@ -172,6 +172,10 @@ export const MessageText = styled.div`
   margin: 13px;
   font-size: 14px;
   margin-left: 17px;
+
+  div {
+    color: ${({theme, right}) => right ? '#fff' : theme.txt};;
+  }
 `;
 export const LoadBtn = styled.div`
   cursor: pointer;
