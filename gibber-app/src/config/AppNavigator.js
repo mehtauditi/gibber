@@ -2,7 +2,7 @@ import React from 'react';
 import {useColorScheme, StatusBar} from 'react-native';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Chat, Home, Login, SignUp, UserProfile, Profile, GroupProfile, MediaManager} from "../screens";
+import {Chat, Home, Login, SignUp, UserProfile, Profile, GroupProfile, MediaManager, ChangePassword} from "../screens";
 import {theme} from "./theme";
 import saga from "./saga";
 import {useInjectSaga} from "../utils/injectSaga";
@@ -66,6 +66,7 @@ const appNavigator = () => {
         <Stack.Screen name="LinkWeb" component={LinkWeb}/>
         <Stack.Screen name="BlockedList" component={BlockedList}/>
         <Stack.Screen name="MediaManager" component={MediaManager}/>
+        <Stack.Screen name="ChangePassword" component={ChangePassword}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

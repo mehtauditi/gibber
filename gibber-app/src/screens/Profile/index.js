@@ -82,8 +82,13 @@ const Profile = (props) => {
           <Icon name="email" size={25} />
           <InputContainer><Input label="email" value={email} onChange={setEmail} /></InputContainer>
         </Row>
-        <Text style={{marginBottom: 15}}>*Note: To update your password, Go to https://www.gibber.chat</Text>
+        <Row style={{top: 0, justifyContent: 'center'}}>
+          <Text onPress={() => props.navigation.navigate('ChangePassword')} style={{textDecorationLine: 'underline', color: '#4d87c8'}}>Change Password</Text>
+          {/* <Button onPress={() => props.navigation.navigate('ChangePassword')} style={{marginBottom: 20}} title="Change Password"></Button> */}
+        </Row>
+        <Row></Row>
         
+        {/* <Text style={{marginBottom: 15}}>*Note: To update your password, Go to https://www.gibber.chat</Text> */}
         <Button onPress={updateProfileData} title="Update" disabled={!name || !email || !phone} />
         <LogoutBtn onPress={useLogout}>Logout</LogoutBtn>
       </KeyboardAwareScrollView>

@@ -17,7 +17,8 @@ import {
   unblockUserSuccess,
   updateAvatarSuccess,
   updateGroupImageSuccess,
-  updateProfileSuccess
+  updateProfileSuccess,
+  updatePasswordSuccess
 } from './actions';
 import {
   BLOCK_USER,
@@ -35,7 +36,8 @@ import {
   UNBLOCK_USER,
   UPDATE_AVATAR,
   UPDATE_GROUP_IMAGE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  UPDATE_PASSWORD
 } from "./constants";
 
 import {Api} from "../config";
@@ -88,6 +90,12 @@ export function* getProfile(action) {
 export function* updateProfile(action) {
   const res = yield call(Api.put, '/user', action.data);
   yield put(updateProfileSuccess(res.data));
+}
+
+export function* updatePassword(action) {
+  console.log(action);
+  const res = yield call(Api.put, `/user/password/${action.data.id}`, action.data);
+  yield put(updatePasswordSuccess(res.data));
 }
 
 export function* updateAvatar(action) {
@@ -177,6 +185,7 @@ export default function* loginSaga() {
   yield takeLatest(REGISTER, register);
   yield takeLatest(GET_PROFILE, getProfile);
   yield takeLatest(UPDATE_PROFILE, updateProfile);
+  yield takeLatest(UPDATE_PASSWORD, updatePassword);
   yield takeLatest(UPDATE_AVATAR, updateAvatar);
   yield takeLatest(GET_CONVERSATIONS, getConversations);
   yield takeLatest(CONVERSATION_REPLY, conversationReply);

@@ -180,13 +180,16 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
     setMessages(state => [...state, ...res.data.messages]);
     setLoadingMoreMsg(false);
-    setPage(newPage);
+    if(newPage === pageCount) {
+      setNoMoreMsg(true);
+    } else {
+      setPage(newPage);
+    }
     console.log('Total pages to be loaded: ' + pageCount);
     console.log('newPage value ' + newPage)
     console.log(`Number of messages rendered: ${messages.length}`);
-    if(newPage === pageCount) setNoMoreMsg(true);
-  }, [page]);
-  
+  }, [data._id, messages.length, page]);
+
   // const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
   //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
   //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
