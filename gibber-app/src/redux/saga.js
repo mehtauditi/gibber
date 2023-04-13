@@ -93,7 +93,6 @@ export function* updateProfile(action) {
 }
 
 export function* updatePassword(action) {
-  console.log(action);
   const res = yield call(Api.put, `/user/password/${action.data.id}`, action.data);
   yield put(updatePasswordSuccess(res.data));
 }

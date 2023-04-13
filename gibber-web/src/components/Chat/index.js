@@ -151,27 +151,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     }
   }, [messages, data._id]);
 
-  // const loadMore = React.useCallback(async () => {
-  //   const newPage = page + 1;
-  //   setLoadingMoreMsg(true);
-  //   await getConvoMessages(newPage);
-  //   setLoadingMoreMsg(false);
-  //   setPage(newPage);
-  //   // const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
-  //   //This fixed the buggy behavior where the chat container would keep trying to render messages and caused the user not to be able to scroll up
-  //   // setMessages(state => [...state, ...res.data.messages]);
-  //   // if (res.data.messages.length === 0) setNoMoreMsg(true);
-  //   // setLoadingMoreMsg(false);
-  //   // setPage(newPage);
-  // }, [page]);
-
-  // // const renderLoadMoreBtn = React.useMemo(() => (!noMoreMsg) ?
-  // //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
-  // //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
-
-
   const loadMore = React.useCallback(async () => {
-    console.log('Loading more');
     const newPage = page + 1;
     setLoadingMoreMsg(true);
     const resPageCount = await Api.get(`/chat/conversation/${data._id}/messages/totalPages`);
@@ -185,14 +165,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     } else {
       setPage(newPage);
     }
-    console.log('Total pages to be loaded: ' + pageCount);
-    console.log('newPage value ' + newPage)
-    console.log(`Number of messages rendered: ${messages.length}`);
   }, [data._id, messages.length, page]);
 
-  // const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
-  //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
-  //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
 
     const renderLoadMoreBtn = React.useMemo(() => {
     if(messages.length > 19 && !noMoreMsg) {

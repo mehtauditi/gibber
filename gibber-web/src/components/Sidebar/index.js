@@ -47,19 +47,16 @@ function Sidebar({ user, conversations, ...props }) {
 
   const handleAcceptRequest = async (reqId) => {
     const res = await Api.post(`/friend-request/accept/${reqId}`);
-    console.log(res);
     window.location.reload(true);
   };
 
   const handleDeclineRequest = async (reqId) => {
     const res = await Api.post(`/friend-request/decline/${reqId}`);
-    console.log(res);
     window.location.reload(true);
   };
 
   const handleBlock = async (fReq) => {
     const res = await Api.put(`/user/block/${fReq.sender}`);
-    console.log(res);
     window.location.reload(true);
   };
 
