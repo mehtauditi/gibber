@@ -105,6 +105,7 @@ const reply = async (req, res, next) => {
         const u = await User.findById(uId);
         return u.language;
       }));
+      userLangs = [...new Set(userLangs)];
       // create text array with obj {language: '', text: ''}
       const textArr = await Promise.all(userLangs.map(async lang => {
         const translated = await translateText(messageData.text, originalLang, lang);
