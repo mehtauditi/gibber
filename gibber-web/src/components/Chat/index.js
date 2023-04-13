@@ -196,7 +196,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     // });
     return (
       <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
-        {text}
+        <div>{text}</div>
       </Hyperlink>
     )
   }
@@ -238,12 +238,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
             const { currentMessage } = props;
             const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
             // Calling the formatLink function HERE
-            const formattedText = formatLink(text);
-            return (
-              <MessageText right={props.position === 'right'}>
-                {formattedText}
-              </MessageText>
-            );
+            return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
+            
           }}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
           renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} user={user} />}
