@@ -103,12 +103,12 @@ const CreateChat = ({visible, close, navigate}) => {
               <Text size="small">New Conversation</Text>
             </CreateHeader>
           </SafeAreaView>
-          <Row>
+          <Row style={{top:10}}>
             <LeftText>To:</LeftText>
             <Input placeholder="Type a name, phone or email" value={search} onChangeText={handleChange}/>
           </Row>
           <HeaderShadow />
-          <View style={{flex: 1, bottom: 40}}>
+          <View style={{flex: 1, bottom: 40, top:15}}>
             {selected.length ?
               <View>
                 <Text style={{margin: 15}}>Participants</Text>
