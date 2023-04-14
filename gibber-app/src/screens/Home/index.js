@@ -17,7 +17,7 @@ function Home(props) {
   const menuItems = React.useMemo(() => [
     {value: 1, label: 'Profile', onPress: () => props.navigation.navigate('Profile')},
     {value: 2, label: 'Blocked Contacts', onPress: () => props.navigation.navigate('BlockedList')},
-    {value: 3, label: 'Link Web', onPress: () => props.navigation.navigate('LinkWeb')},
+    // {value: 3, label: 'Link Web', onPress: () => props.navigation.navigate('LinkWeb')},
   ], []);
   const user = useSelector(state => state.main.user.data);
   const conversations = useSelector(state => state.main.conversations);

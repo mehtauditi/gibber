@@ -99,7 +99,7 @@ function Login() {
 
   return (
     <div className="container">
-      <Link to="/"><Logo/></Link>
+     <Link to="/"><Logo/></Link>
       {!loginType ?
         <CenteredContent>
           {/* <img src={qrCode} alt=""/> */}
@@ -141,16 +141,18 @@ function Login() {
           :
           <CenteredContent>
             <h3>Sign Up</h3>
-            <TextInput placeholder="Name" value={name} onChange={setName} />
-            <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <TextInput style={{paddingInline:'10px'}} placeholder="Name" value={name} onChange={setName} />
+            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
+            <TextInput style={{paddingInline:'10px'}} placeholder="Email" type="email" value={email} onChange={setEmail} />
             <PhoneInput
               className="text-field"
               country={'us'}
               value={phone}
               onChange={setPhone}
             />
-            <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
+            <TextInput style={{paddingInline:'10px'}} placeholder="Password" type="password" value={password} onChange={setPassword} />
             <PasswordChecklist
+                style={{padding:'20px'}}
                 rules={["minLength", "number","capital"]}
                 minLength={8}
                 value={password}

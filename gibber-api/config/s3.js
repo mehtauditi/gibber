@@ -13,7 +13,7 @@ const s3 = new AWS.S3();
 const upload = (file, folder, name) =>
   new Promise(function(resolve, reject) {
     const filePath = __dirname + "/../public/" + file.filename;
-    if (file.size < 1500000) {
+    if (file.size < (1 * 1024 * 1024 * 1024)) { // 1 GB
       const params = {
         Bucket: BUCKET,
         Body: fs.createReadStream(filePath),

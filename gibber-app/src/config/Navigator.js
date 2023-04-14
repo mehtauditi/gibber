@@ -14,8 +14,6 @@ export function replace(name, params) {
 }
 
 export function goBack(name) {
-  console.log('name', name)
-  console.log('isReady', navigationRef.isReady())
   if (navigationRef.isReady())
     navigationRef.goBack(name);
 }

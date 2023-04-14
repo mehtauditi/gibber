@@ -2,8 +2,8 @@ import {REACT_APP_BASE_API_URL, REACT_APP_S3_BUCKET_URL, REACT_APP_ONE_SIGNAL_AP
 
 
 export default {
-  base_url: 'http://localhost:8000',    // base url for ios
-  //base_url: 'http://10.0.2.2:8000',   // base url for android
+  base_url: 'http://localhost:8000', //for ios
+  // base_url: 'http://10.0.2.2:8000', // for android
   bucket_url: REACT_APP_S3_BUCKET_URL,
   onesignal_app: REACT_APP_ONE_SIGNAL_APP_ID, // app id
   translate_api: REACT_APP_GOOGLE_TRANSLATE_API_KEY

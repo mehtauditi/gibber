@@ -10,24 +10,19 @@ import {logout, updateAvatarSuccess, updateProfile} from "../../redux/actions";
 import {getAvatarPath, getFileObj, getUploadHeaders} from "../../utils/helpers";
 import constants from "../../config/constants";
 import {Api} from "../../config";
-import {languages} from "../../utils/languages";
-import ToggleButton from "../../components/ToggleButton";
 
 const Profile = (props) => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
-  const [language, setLanguage] = React.useState('');
   const [avatar, setAvatar] = React.useState('');
   const user = useSelector(state => state.main.user.data);
   const dispatch = useDispatch();
-  const [isEnabled, setIsEnabled] = React.useState(user.translateUser);
 
   React.useEffect(() => {
     setName(user.name);
     setEmail(user.email);
     setPhone(user.phone);
-    setLanguage(user.language);
     setAvatar(user.avatar);
   }, [user]);
 
@@ -65,11 +60,6 @@ const Profile = (props) => {
     dispatch(logout());
   }, []);
 
-  const toggleSwitch = async () => {
-    setIsEnabled(previousState => !previousState);
-    console.log(isEnabled);
-  };
-
   return (
     <View style={{flex: 1}}>
       <Header title="Profile" showBack titleStyle={{top: 1}}/>
@@ -86,29 +76,19 @@ const Profile = (props) => {
         </Row>
         <Row>
           <Icon name="phone" size={25} />
-          <InputContainer><Input label="Phone" value={phone} onChange={setPhone} keyboardType="phone-pad" /></InputContainer>
+          <InputContainer><Input label="phone" value={phone} onChange={setPhone} keyboardType="phone-pad" /></InputContainer>
         </Row>
         <Row>
           <Icon name="email" size={25} />
-          <InputContainer><Input label="Email" value={email} onChange={setEmail}/></InputContainer>
+          <InputContainer><Input label="email" value={email} onChange={setEmail} /></InputContainer>
         </Row>
-        <Row>
-          <Icon name="globe-2" size={25} />
-            <InputContainer>
-              <Input
-                label="Language"
-                value={languages.find(value => value.language === language)?.name}
-                onChange={setLanguage}>
-            </Input></InputContainer>
+        <Row style={{top: 0, justifyContent: 'center'}}>
+          <Text onPress={() => props.navigation.navigate('ChangePassword')} style={{textDecorationLine: 'underline', color: '#4d87c8'}}>Change Password</Text>
+          {/* <Button onPress={() => props.navigation.navigate('ChangePassword')} style={{marginBottom: 20}} title="Change Password"></Button> */}
         </Row>
-        <Row>
-          <Icon name="alert-circle-outline" size={20} />
-          <Text style={{marginLeft:5, fontSize:15}}>Translate my messages</Text>
-            <InputContainer>
-                <ToggleButton value={isEnabled} onValueChange={toggleSwitch} />
-            </InputContainer>
-        </Row>
-        <Text style={{marginBottom: 15}}>*Note: To update your password, Go to https://www.gibber.chat</Text>
+        <Row></Row>
+        
+        {/* <Text style={{marginBottom: 15}}>*Note: To update your password, Go to https://www.gibber.chat</Text> */}
         <Button onPress={updateProfileData} title="Update" disabled={!name || !email || !phone} />
         <LogoutBtn onPress={useLogout}>Logout</LogoutBtn>
       </KeyboardAwareScrollView>

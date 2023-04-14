@@ -83,4 +83,4 @@ export const languages = [
         language: 'ur',
         name: 'Urdu',
     },
-]
+];
