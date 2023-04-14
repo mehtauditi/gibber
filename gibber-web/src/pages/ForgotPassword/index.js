@@ -36,29 +36,11 @@ export default function ForgotPassword() {
           try {
             const res = await Api.post('/user/forgot-password', {email});
             toast.success('If an account exists with that email it will be sent shortly');
-            console.log(res);
           } catch (e) {
             toast.warn(e.response.data.message);
           }
 
     });
-
-
-    // app.post('/user/forgotPassword', async (req, res, next) => {
-    //     const { emailOrPhone } = req.body;
-    //     try {
-    //       const user = await User.findOne({ $or: [{ email: emailOrPhone }, { phone: emailOrPhone }] });
-    //       if (!user) {
-    //         return res.status(404).json({ message: 'User not found.' });
-    //       }
-    //       const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-    //       const resetLink = `https://example.com/reset-password/${token}`;
-    //       // send reset password link to user's email or phone number
-    //       res.json({ message: 'Instructions to reset your password have been sent to your email or phone number.' });
-    //     } catch (error) {
-    //       next(error);
-    //     }
-    //   });
     
 
     return (

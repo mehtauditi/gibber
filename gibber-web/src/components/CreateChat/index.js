@@ -45,7 +45,6 @@ function CreateChat({close, user, ...props}) {
   }, [searchDb, selectedOption]);
 
   const onClick = React.useCallback(async (target) => {
-    console.log("hello")
     const res = (await Api.get('/chat/conversation-exist/' + target._id)).data;
     if (res.isExist)
       props.setChatId(res.conversationId);

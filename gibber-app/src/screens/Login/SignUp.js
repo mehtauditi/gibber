@@ -23,18 +23,6 @@ const SignUp = (props) => {
 
   const dispatch = useDispatch();
 
-  // React.useEffect(() => {
-       // useNavigate() can't be outside this useEffect or else throws error
-  //   const navigate = useNavigate();
-  //   // const token = localStorage.getItem('token');
-    
-  //   if (token) {
-  //     Api.setToken(token);
-  //     return <Router>{navigate('/app/chat')}</Router>;
-  //   }
-  //   // getQrCode();
-  // }, [navigate]);
-
 
   React.useEffect(() => {
     Keyboard.addListener('keyboardDidShow', () => setFooterVisible(false));

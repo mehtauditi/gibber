@@ -56,13 +56,9 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
       }
 
     } else {
-      console.log('submitting');
       if(value.length > 0){
-        console.log(value);
         const translatedText = await translateText(value, user.language);
-        console.log('translated:', translatedText );
         sendMessage({text: translatedText});
-        console.log('sending');
         onChange('');
       }
     }
