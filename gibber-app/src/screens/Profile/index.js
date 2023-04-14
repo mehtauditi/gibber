@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {Alert, View, Text} from "react-native";
 import {Button, Header, Icon, Input} from "../../components";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -6,12 +6,13 @@ import {useDispatch, useSelector} from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Head, Row, IconBtn, Avatar, InputContainer, AvatarContainer, LogoutBtn} from './styles';
 import {getImageFromLibrary} from "../../utils/imagePicker";
-import {logout, updateAvatarSuccess, updateProfile} from "../../redux/actions";
+import {logout, updateAvatarSuccess, updateProfile, updateTranslateOption} from "../../redux/actions";
 import {getAvatarPath, getFileObj, getUploadHeaders} from "../../utils/helpers";
 import constants from "../../config/constants";
 import {Api} from "../../config";
 import {languages} from "../../utils/languages";
 import ToggleButton from "../../components/ToggleButton";
+
 
 const Profile = (props) => {
   const [name, setName] = React.useState('');
@@ -67,6 +68,7 @@ const Profile = (props) => {
 
   const toggleSwitch = async () => {
     setIsEnabled(previousState => !previousState);
+    dispatch(updateTranslateOption({translateUser: !isEnabled}))
   };
 
   return (
@@ -93,14 +95,9 @@ const Profile = (props) => {
           </Row>
           <Row>
             <Icon name="globe-2" size={25} />
-            <InputContainer>
-              <Input
-                  label="Language"
-                  value={languages.find(value => value.language === language)?.name}
-                  onChange={setLanguage}>
-              </Input></InputContainer>
+            <Text style={{fontSize:18, marginLeft:10, fontWeight:'bold'}}>{languages.find(value => value.language === language)?.name}</Text>
           </Row>
-          <Row>
+          <Row style={{marginLeft:10}}>
             <Icon name="alert-circle-outline" size={20} />
             <Text style={{marginLeft:5, fontSize:15}}>Translate my messages</Text>
             <InputContainer>
