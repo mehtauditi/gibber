@@ -13,6 +13,8 @@ import {
   DELETE_MESSAGE_SUCCESS,
   EXIT_CONVERSATION,
   EXIT_CONVERSATION_SUCCESS,
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_SUCCESS,
   GET_CONVERSATIONS,
   GET_CONVERSATIONS_SUCCESS,
   GET_PROFILE,
@@ -73,6 +75,9 @@ export const updateProfile = data => ({type: UPDATE_PROFILE, data});
 
 export const updatePassword = data => ({type: UPDATE_PASSWORD, data});
 export const updatePasswordSuccess = payload => ({type: UPDATE_PASSWORD_SUCCESS, payload});
+
+export const forgotPassword = data => ({type: FORGOT_PASSWORD, data});
+export const forgotPasswordSuccess = payload => ({type: FORGOT_PASSWORD_SUCCESS, payload});
 
 export const updateGroupImageSuccess = payload => ({type: UPDATE_GROUP_IMAGE_SUCCESS, payload});
 

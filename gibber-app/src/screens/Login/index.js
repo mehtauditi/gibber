@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, SafeAreaView, Keyboard} from 'react-native';
 import {Button, Header, Input, Text as TextComp} from "../../components";
-import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB} from './styles';
+import {FooterTextBtn, FooterText, LoginImg, ContentContainer, TextB, Row} from './styles';
 import * as Animatable from 'react-native-animatable';
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/actions";
@@ -70,6 +70,11 @@ const Login = (props) => {
             <Input label="Password" value={password} onChange={setPassword} secureTextEntry />
             <Button title="Login" onPress={loginReq} style={{marginTop: 25, marginBottom: 15}} />
             <TextComp onPress={() => setLoginType(loginType === 1 ? 2 : 1)} noFont align="center">Login with {loginType === 1 ? 'email' : 'phone'}</TextComp>
+            <Row></Row>
+            <Row style={{top: 0, justifyContent: 'center'}} >
+            <Text onPress={() => props.navigation.navigate('ForgotPassword')} style={{textDecorationLine: 'underline', color: '#4d87c8'}}>Forgot Password?</Text>  
+            </Row>
+            
           </View>
         </Animatable.View>
       }

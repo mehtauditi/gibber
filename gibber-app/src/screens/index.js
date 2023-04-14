@@ -9,5 +9,6 @@ import GroupProfile from "./GroupProfile";
 import BlockedList from "./BlockedList";
 import MediaManager from "./MediaManager";
 import ChangePassword from "./ChangePassword";
+import ForgotPassword from "./ForgotPassword";
 
-export {Chat, Home, UserProfile, Login, SignUp, Profile, LinkWeb, GroupProfile, BlockedList, MediaManager, ChangePassword};
+export {Chat, Home, UserProfile, Login, SignUp, Profile, LinkWeb, GroupProfile, BlockedList, MediaManager, ChangePassword, ForgotPassword};

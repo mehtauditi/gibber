@@ -58,4 +58,10 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
 `;
 
-export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal, LanguageItem};
+const Row = styled.View`
+  flex-direction: row;
+  margin-bottom: 15px;
+  top: 25px;
+`;
+
+export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal, LanguageItem, Row};
