@@ -16,7 +16,10 @@ import {Spinner, Switch} from '../index'
 import Icon from '../Icon';
 import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
+import styled from 'styled-components/native';
+
 let timeout;
+
 
 function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const { width } = useDimensions();
@@ -34,6 +37,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [isOnline, setIsOnline] = React.useState(false);
   const [recipientTyping, setRecipientTyping] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
+  const [selectedBubble, setSelectedBubble] = React.useState(null);
   //Testing something out for load more button here
   const [totalPages, setTotalPages] = React.useState(1);
 
@@ -52,14 +56,13 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     setData();
   }, [data]);
   const setData = React.useCallback(async () => {
-    
     if (data._id) {
       removeListeners(['userOnline', 'userOffline']);
       disconnectSocket();
       initiateSocket(data._id);
       subscribeToChat(data => {
         if (data.message) {
-          
+
           setMessages(oldChats =>[data.message, ...oldChats]);
           setSeenMessages([data.message._id]);
         }
@@ -139,15 +142,23 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [user._id, messages, data._id, props]);
 
   const onBubbleLongPress = React.useCallback((context, message) => {
-    const options = ['Cancel'];
-    if (message.user._id === user._id) options.unshift('Delete Message');
-    if (options.length > 1) {
-      const cancelButtonIndex = options.length - 1;
+    const options = message.user._id === user._id
+    ? ['Show Original Text', 'Delete Message', 'Cancel']
+    : ['Show Original Text', 'Cancel'];
+    const cancelButtonIndex = options.length - 1;
+    if (options.length === 3) {
       context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
-        if (buttonIndex === 0) deleteMessage(message);
-      });
+        if (buttonIndex === 0) setSelectedBubble(message._id);
+        if (buttonIndex === 1) deleteMessage(message);
+      })
+    } else if (options.length === 2) {
+      context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
+        if (buttonIndex === 0) setSelectedBubble(message._id);
+      })
     }
   }, [messages, data._id]);
+
+
 
   // const loadMore = React.useCallback(async () => {
   //   const newPage = page + 1;
@@ -184,7 +195,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     console.log(`Number of messages rendered: ${messages.length}`);
     if(newPage === pageCount) setNoMoreMsg(true);
   }, [page]);
-  
+
   // const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
   //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
   //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
@@ -205,7 +216,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   return (
     <ChatContainer onFocus={() => {
         if(sidebarStatus === 'open') sideBarToggle('close');
-      }}> 
+      }}>
       <Header>
       {width < 700 ? <div onClick={sideBarToggle}><Icon name="menu-outline" color="#848484" /></div>: <></>}
         <Row align="center" onClick={() => !isGroup && props.setProfile(recipient._id)}>
@@ -223,26 +234,45 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           user={{_id: user._id}}
           minInputToolbarHeight={60}
           renderBubble={props => {
-            if (props.currentMessage.location) return <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
+            if (props.currentMessage.location) return
+            <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
             if (props.currentMessage.audio) return <AudioMessage src={props.currentMessage.audio}/>;
-  
+
             else {
-              const allProps = {...props, ...getBubbleProps(theme[mode]), onLongPress: onBubbleLongPress};
-              return <Bubble {...allProps} />;
+              const allProps = {...props, ...getBubbleProps(theme[mode]),onLongPress: onBubbleLongPress};
+              return (
+                <>
+                  <Bubble {...allProps} />
+                </>
+              )
             }
           }}
-          renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
+          renderMessageText={props => {
+          if (selectedBubble === props.currentMessage._id) {
+            return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text} <br/>
+            <StyledText>
+              {props.currentMessage.originalText}
+            </StyledText></MessageText>
+          } else {
+            return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>
+          }
+        }}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
           renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} user={user} />}
           renderMessageVideo={props => <VideoMessage src={props.currentMessage.video}/>}
           renderMessageImage={props => <ImageMessage src={props.currentMessage.image} />}
           listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           extraData={[mode]}
-          shouldUpdateMessage={(props, nextProps) => props.extraData[0] !== nextProps.extraData[0]}
+          shouldUpdateMessage={(props, nextProps) => props.extraData !== nextProps.extraData}
         />
       </ChatContent>
     </ChatContainer>
   )
 }
+
+const StyledText = styled.Text`
+  font-style: italic;
+  color: #444;
+`;
 
 export default Chat;
