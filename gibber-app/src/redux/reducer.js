@@ -25,7 +25,8 @@ import {
   UPDATE_GROUP_SUCCESS,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_SUCCESS
+  FORGOT_PASSWORD_SUCCESS,
+  UPDATE_TRANSLATE_OPTION_SUCCESS
 } from "./constants";
 
 export const initialState = {
@@ -58,6 +59,9 @@ export default function (state = initialState, action = {}) {
         break;
       case UPDATE_PROFILE_SUCCESS:
         draft.user.data = {...state.user.data, ...action.payload};
+        break;
+      case UPDATE_TRANSLATE_OPTION_SUCCESS:
+        draft.user.data = {...state.user.data, translateOption: action.payload};
         break;
       case UPDATE_PASSWORD_SUCCESS:
         draft.user.data = {...state.user.data, ...action.payload};

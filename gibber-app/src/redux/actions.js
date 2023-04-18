@@ -39,7 +39,9 @@ import {
   UPDATE_PASSWORD,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PROFILE,
-  UPDATE_PROFILE_SUCCESS
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_TRANSLATE_OPTION,
+  UPDATE_TRANSLATE_OPTION_SUCCESS,
 } from "./constants";
 
 export const login = data => ({type: LOGIN, data});
@@ -78,6 +80,9 @@ export const updatePasswordSuccess = payload => ({type: UPDATE_PASSWORD_SUCCESS,
 
 export const forgotPassword = data => ({type: FORGOT_PASSWORD, data});
 export const forgotPasswordSuccess = payload => ({type: FORGOT_PASSWORD_SUCCESS, payload});
+
+export const updateTranslateOption = data => ({type: UPDATE_TRANSLATE_OPTION, data});
+export const updateTranslateOptionSuccess = payload => ({type: UPDATE_TRANSLATE_OPTION_SUCCESS, payload});
 
 export const updateGroupImageSuccess = payload => ({type: UPDATE_GROUP_IMAGE_SUCCESS, payload});
 
