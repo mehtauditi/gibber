@@ -122,7 +122,7 @@ function MyProfile(props) {
   // ));
 
   //Handle language change here
-  //Need to communiate with backen to change the lanuage
+  //Need to communiate with backend to change the lanuage
   const languageChangeHandler = React.useCallback((e) => {
     const selectedLanguage = e.target.value;
     // setUserLanguage(selectedLanguage);
@@ -131,6 +131,7 @@ function MyProfile(props) {
       toast.success('You language is already ' + userData.language.name);
     }
     toast.success('Your are changing your language to: ' + selectedLanguageName);
+    //Add API here
     
     console.log(selectedLanguage);
   }, [setUserLanguage]);

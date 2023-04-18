@@ -129,6 +129,41 @@ const reply = async (req, res, next) => {
   }
 };
 
+const reTranslate = async (req, res, next) => { 
+  try {
+    const {messageData, originalLang}  = req.body;
+    const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
+    var reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), ...messageData});
+    if(messageData.text){
+      let users =  conversation.users.map(u => u._id.toString());
+      let userLangs = await Promise.all(users.map(async uId => {
+        const u = await User.findById(uId);
+        return u.language;
+      }));
+      userLangs = [...new Set(userLangs)];
+      // create text array with obj {language: '', text: ''}
+      const textArr = await Promise.all(userLangs.map(async lang => {
+        const translated = await translateText(messageData.text, originalLang, lang);
+        let obj = {language: lang, text: translated};
+        return obj;
+      }));
+      reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), originalLang, text: textArr, originalText: messageData.text });
+    }
+    reply.save(async function (err, reply) {
+      if (err) return new ErrorHandler(404, "Conversation not found", [], res);
+      else {
+        const msg = await Message.populate(reply, {path:"user", select: 'name , avatar'});
+        const text = messageData.video ? 'Video' : messageData.image ? 'image' : messageData.audio ? 'Sound' : messageData.location ? 'Location' : messageData.text;
+        const recipients = conversation.users.map(u => u._id.toString()).filter(id => id !== req.payload.id && !conversation.mutedBy.includes(id));
+        if (!!recipients.length) await sendNotification(text, recipients, {conversationId: req.params.conversation});
+        res.status(200).json({message: {...msg.toJSON()}, name: msg.user.name});
+      }
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 const uploadMessageFile = async (req, res, next) => {
   try {
     const uploaded = await s3.upload(req.file, s3_dir + 'chat', getImageName(req.file));
