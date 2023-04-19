@@ -250,9 +250,10 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           renderMessageText={props => {
           if (selectedBubble === props.currentMessage._id) {
             return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text} <br/>
-            <StyledText>
+            <StyledText mode={theme[mode]}>
               {props.currentMessage.originalText}
-            </StyledText></MessageText>
+            </StyledText>
+            </MessageText>
           } else {
             return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>
           }
@@ -272,7 +273,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
 
 const StyledText = styled.Text`
   font-style: italic;
-  color: #444;
+  color: ${props => (props.mode.mode === 'light' ? '#444' : 'gray')};
 `;
 
 export default Chat;
