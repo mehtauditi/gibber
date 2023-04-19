@@ -159,7 +159,6 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [messages, data._id]);
 
 
-
   // const loadMore = React.useCallback(async () => {
   //   const newPage = page + 1;
   //   setLoadingMoreMsg(true);
@@ -253,6 +252,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
             <StyledText mode={theme[mode]}>
               {props.currentMessage.originalText}
             </StyledText>
+            <Button onPress={() => setSelectedBubble(null)} mode={theme[mode]}>hide</Button>
             </MessageText>
           } else {
             return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>
@@ -274,6 +274,16 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
 const StyledText = styled.Text`
   font-style: italic;
   color: ${props => (props.mode.mode === 'light' ? '#5A5A5A' : '#D3D3D3')};
+`;
+
+const Button = styled.TouchableOpacity`
+  font-style: italic;
+  color: ${props => (props.mode.mode === 'light' ? '#5A5A5A' : '#D3D3D3')};
+  font-size: 14px;
+  border: none;
+  position: absolute;
+  top: -7;
+  right: 5;
 `;
 
 export default Chat;
