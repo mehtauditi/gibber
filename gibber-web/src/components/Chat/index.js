@@ -273,7 +273,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
 
 const StyledText = styled.Text`
   font-style: italic;
-  color: ${props => (props.mode.mode === 'light' ? '#444' : 'gray')};
+  color: ${props => (props.mode.mode === 'light' ? '#5A5A5A' : '#D3D3D3')};
 `;
 
 export default Chat;
