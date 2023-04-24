@@ -145,18 +145,24 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     const options = message.user._id === user._id
     ? ['Show Original Text', 'Delete Message', 'Cancel']
     : ['Show Original Text', 'Cancel'];
+
+    if (selectedBubble === message._id) {
+      options[0] = 'Hide Original Text';
+    }
     const cancelButtonIndex = options.length - 1;
     if (options.length === 3) {
       context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
-        if (buttonIndex === 0) setSelectedBubble(message._id);
+        if (buttonIndex === 0 && options[0] === 'Show Original Text') setSelectedBubble(message._id);
+        if (buttonIndex === 0 && options[0] === 'Hide Original Text') setSelectedBubble(null);
         if (buttonIndex === 1) deleteMessage(message);
       })
     } else if (options.length === 2) {
       context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
-        if (buttonIndex === 0) setSelectedBubble(message._id);
+        if (buttonIndex === 0 && options[0] === 'Show Original Text') setSelectedBubble(message._id);
+        if (buttonIndex === 0 && options[0] === 'Hide Original Text') setSelectedBubble(null);
       })
     }
-  }, [messages, data._id]);
+  }, [messages, data._id, selectedBubble]);
 
 
   // const loadMore = React.useCallback(async () => {
@@ -252,7 +258,6 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
             <StyledText mode={theme[mode]}>
               {props.currentMessage.originalText}
             </StyledText>
-            <Button onPress={() => setSelectedBubble(null)} mode={theme[mode]}>hide</Button>
             </MessageText>
           } else {
             return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>
@@ -276,14 +281,5 @@ const StyledText = styled.Text`
   color: ${props => (props.mode.mode === 'light' ? '#5A5A5A' : '#D3D3D3')};
 `;
 
-const Button = styled.TouchableOpacity`
-  font-style: italic;
-  color: ${props => (props.mode.mode === 'light' ? '#5A5A5A' : '#D3D3D3')};
-  font-size: 14px;
-  border: none;
-  position: absolute;
-  top: -7;
-  right: 5;
-`;
 
 export default Chat;
