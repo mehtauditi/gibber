@@ -142,7 +142,6 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [user._id, messages, data._id, props]);
 
   const onBubbleLongPress = React.useCallback((context, message) => {
-    console.log(message);
     const options = message.user._id === user._id
     ?  ['Show Original Text', 'Delete Message', 'Cancel']
     : ['Show Original Text', 'Cancel'];
