@@ -256,7 +256,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           const { currentMessage } = props;
           const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
           if (selectedBubble === currentMessage._id) {
-            return <MessageText right={props.position === 'right'}>{formatLink(text)} <br/>
+            return <MessageText right={props.position === 'right'}>{formatLink(text)} 
             <StyledText mode={theme[mode]}>
               {currentMessage.originalText}
             </StyledText>
