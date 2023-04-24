@@ -1,6 +1,6 @@
 import React from 'react';
 import {IconContainer, Input, InputContainer, ActionsContainer, Row, Btn, RowItem} from "./styles";
-import {View} from "react-native";
+import {Alert, View} from "react-native";
 import {Icon, Text} from "../index";
 import {getTheme, IS_IOS} from "../../config/theme";
 import RNFetchBlob from 'rn-fetch-blob';
@@ -10,7 +10,7 @@ import {getImageFromCamera, getImageFromLibrary} from "../../utils/imagePicker";
 import LocationModal from "./LocationModal";
 import {withMenuContext} from 'react-native-popup-menu';
 import androidAudioPermission from "../../utils/androidAudioPermision";
-import {getFileObj, getUploadHeaders} from "../../utils/helpers";
+import {getFileObj, getUploadHeaders, translateText} from "../../utils/helpers";
 import constants from "../../config/constants";
 import AudioRecorderPlayer, {
   AudioEncoderAndroidType,
@@ -21,10 +21,11 @@ import AudioRecorderPlayer, {
 const RNFS = require('react-native-fs');
 
 
-const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
+const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => {
   const [onRec, setOnRec] = React.useState(false);
   const [locModalVisible, setLocModalVisible] = React.useState(false);
   const [recorder, setRecorder] = React.useState();
+  const [sendBtnName, setSendBtnName] = React.useState("");
   const theme = getTheme();
   const audioFileName = React.useMemo(() => {
     const dirs = RNFetchBlob.fs.dirs;
@@ -53,9 +54,18 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
         await recorder.startRecorder(audioFileName, audioSet);
         setOnRec(true);
       }
+
     } else {
-      sendMessage({text: value});
-      onChange('');
+      if(value.length > 0){
+        let textValue;
+        if(user.translateUser){
+            textValue = await translateText(value, user.language);
+        } else {
+          textValue = value;
+        }
+        sendMessage({text: textValue});
+        onChange('');
+      }
     }
   }, [value, recorder]);
 
@@ -105,8 +115,12 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
     }
     let data = {[type]: preview};
     appendMessage(data);
-    data[type] = await uploadFile(source);
-    onSend(data);
+    try{
+      data[type] = await uploadFile(source);
+      onSend(data);
+    }catch (e){
+      Alert.alert('Error: Attachment must be <15MB')
+    }
   }, []);
   const sendImage = React.useCallback(async () => {
     const source = await getImageFromLibrary({mediaType: 'mixed', quality: 0.5});
@@ -121,7 +135,11 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
     const data = await audioPicker();
     appendMessage({audio: IS_IOS ? data.uri : data.fileCopyUri});
     await props.ctx.menuActions.closeMenu();
-    onSend({audio: await uploadFile(data, false)});
+    try{
+      onSend({audio: await uploadFile(data, false)});
+    }catch (e){
+      Alert.alert('Error: Attachment must be <15MB')
+    }
   }, []);
 
   const sendLocation = React.useCallback(async (location) => {
@@ -142,29 +160,29 @@ const ChatInput = ({value, onChange, onSend, appendMessage, ...props}) => {
         {onRec ?
           <View style={{marginRight: -10}} /> :
           <Menu renderer={renderers.SlideInMenu}>
-            <MenuTrigger>
+            { <MenuTrigger>
               <View style={{marginRight: 13, transform: [{rotate: '280deg'}]}}>
                 <Icon size={21} name="attach-outline" color={theme.gray} />
               </View>
-            </MenuTrigger>
+            </MenuTrigger> }
             <MenuOptions>
               <ActionsContainer>
                 <Row>
                   <RowItem onPress={sendImage}>
                     <Btn style={{backgroundColor: '#0984e3'}}><Icon name="image" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Gallery</Text>
+                    <Text noFont weight={400}>Gallery</Text>
                   </RowItem>
                   <RowItem onPress={sendAudio}>
                     <Btn style={{backgroundColor: '#00b894'}}><Icon name="headphones" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Sound</Text>
+                    <Text noFont weight={400}>Sound</Text>
                   </RowItem>
                   <RowItem onPress={() => setLocModalVisible(true)}>
                     <Btn style={{backgroundColor: '#e17055'}}><Icon name="pin" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Location</Text>
+                    <Text noFont weight={400}>Location</Text>
                   </RowItem>
                   <RowItem onPress={sendFromCamera}>
                     <Btn style={{backgroundColor: '#fdcb6e'}}><Icon name="camera" size={20} color={'#fff'} /></Btn>
-                    <Text noFont wieght={400}>Camera</Text>
+                    <Text noFont weight={400}>Camera</Text>
                   </RowItem>
                 </Row>
               </ActionsContainer>

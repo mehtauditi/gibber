@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@react-google-maps/api": "2.7.0",
+    "@react-icons/all-files": "^4.1.0",
     "@srexi/purecounterjs": "^1.5.0",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/react": "12.1.2",
@@ -27,19 +28,21 @@
     "react-ga": "^3.3.1",
     "react-icons": "^4.8.0",
     "react-native-gifted-chat": "0.16.3",
+    "react-native-hyperlink": "^0.0.22",
     "react-native-web": "0.17.6",
     "react-password-checklist": "^1.4.3",
     "react-phone-input-2": "^2.15.1",
     "react-player": "2.9.0",
     "react-router-dom": "6.2.1",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^5.0.1",
     "react-switch": "6.0.0",
     "react-toastify": "8.2.0",
     "remixicon": "^2.5.0",
     "socket.io-client": "4.4.1",
     "spinners-react": "^1.0.7",
     "styled-components": "^5.3.9",
-    "web-vitals": "2.1.4"
+    "web-vitals": "2.1.4",
+    "webpack-dev-server": "^4.13.2"
   },
   "scripts": {
     "start": "react-app-rewired start",

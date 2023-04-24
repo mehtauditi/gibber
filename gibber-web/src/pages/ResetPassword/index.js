@@ -19,8 +19,6 @@ export default function ResetPassword() {
     const searchParams = new URLSearchParams(location.search);
     const token = searchParams.get("token");
     const tokenId = searchParams.get("tokenId");
-    // const passwordToken = localStorage.getItem('token');
-    // const passwordTokenId = localStorage.getItem('tokenId');
 
     React.useEffect(() => {
         const hasDigit = /\d/.test(password);

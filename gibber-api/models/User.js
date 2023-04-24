@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   email: String,
   password: String,
   language: String,
+  friends: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   translateUser: Boolean,
   contacts: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   blocked: [{type: mongoose.Types.ObjectId, ref: 'User'}],

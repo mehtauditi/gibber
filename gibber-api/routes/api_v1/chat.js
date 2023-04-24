@@ -105,6 +105,7 @@ const reply = async (req, res, next) => {
         const u = await User.findById(uId);
         return u.language;
       }));
+      userLangs = [...new Set(userLangs)];
       // create text array with obj {language: '', text: ''}
       const textArr = await Promise.all(userLangs.map(async lang => {
         const translated = await translateText(messageData.text, originalLang, lang);
@@ -131,20 +132,13 @@ const reply = async (req, res, next) => {
 const uploadMessageFile = async (req, res, next) => {
   try {
     const uploaded = await s3.upload(req.file, s3_dir + 'chat', getImageName(req.file));
-    res.status(200).json({path: uploaded.key});
+    let key = uploaded.key || uploaded.Key;
+    res.status(200).json({path: key});
   } catch (e) {
     next(e);
   }
 };
 
-const getMessageFile = async (req, res, next) => {
-  try {
-    const msgFile = await s3.get(req.body.path);
-    res.status(200).json({msg: msgFile});
-  } catch (e) {
-    next(e);
-  }
-};
 
 const setSeenMessages = async (req, res, next) => {
   try {
@@ -274,7 +268,6 @@ router.put("/conversation/group/:conversation", auth.required, updateGroup);
 router.put("/conversation/group/:conversation/remove/:user", auth.required, removeGroupUser);
 router.put("/conversation/:conversation/muteUnmute", auth.required, muteUnmute);
 router.post("/file", [auth.required, upload.single('file')], uploadMessageFile);
-router.post("/getFile", auth.required, getMessageFile);
 router.get("/:conversation/media", auth.required, getMedia);
 router.delete("/conversation/:conversation", auth.required, deleteConversation);
 router.delete("/conversation/message/:message", auth.required, deleteMessage);
