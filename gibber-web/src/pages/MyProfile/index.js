@@ -81,8 +81,8 @@ function MyProfile(props) {
   };
 
   const handleCheckboxChange = async (event) => {
-    setToggle(event.target.checked);
-    await Api.put(`/user/translateUser`, { translateUser: event.target.checked } );
+    setToggle(event);
+    await Api.put(`/user/translateUser`, { translateUser: event } );
   };
 
   const handlePasswordChange = (event) => {
@@ -153,14 +153,11 @@ function MyProfile(props) {
                   <div className='element-container' style={{paddingTop:'15px', justifyContent:'left', marginLeft:'25px'}}>
                     <h4 className='element-label' style={{paddingRight:'35px', paddingTop:'10px'}}>Translate my messages</h4>
                       <div className="form-check form-switch" style={{display:'flex'}}>
-                        <Input
-                              className="form-check-input"
-                              checked={Boolean(toggle)}
-                              type="checkbox"
-                              role="switch"
-                              id="flexSwitchCheckDefault"
-                              onChange={handleCheckboxChange}
-                              style={{display:'inline-flex', width:'40px', height:'20px'}}
+                        <Switch
+                            onChange={handleCheckboxChange}
+                            checked={Boolean(toggle)}
+                            type="checkbox"
+                            role="switch"
                           />
                       </div>
                   </div>
