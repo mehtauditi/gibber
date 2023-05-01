@@ -56,7 +56,6 @@ export function detectBrowser() {
 
 export const translateText = async (text, tarLang) => { 
   const url = new URL("https://translation.googleapis.com/language/translate/v2");
-
   url.searchParams.set('key',constants.translate_api );
   url.searchParams.set('q', text);
   url.searchParams.set('target', tarLang);

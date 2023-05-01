@@ -1,8 +1,7 @@
 import React from 'react';
-import {CenteredContent, Logo, Row, Divider, Button} from "../../utils/sharedStyles";
-import {Container, HomeText, LeftSection} from "./styles";
+import {CenteredContent, Logo, Button} from "../../utils/sharedStyles";
 import TextInput from '../../components/TextInput';
-import {useNavigate, Link, Navigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Api from '../../config/axios';
 import {toast} from "react-toastify";
 import PasswordChecklist from 'react-password-checklist';

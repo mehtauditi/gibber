@@ -20,7 +20,7 @@ function MyProfile(props) {
   const location = useLocation();
   const userData = location.state;
   //This state variable will store the current language and change the user's language
-  const [userLanguage, setUserLanguage] = React.useState(userData.language.name);
+  const [userLanguage, setUserLanguage] = React.useState(userData.language);
   // This state variable will keep track of whether the component is in edit mode or not,
   // if true user is allowed to edit the profile
   const [isEditMode, setIsEditMode] = useState(false);
@@ -45,6 +45,16 @@ function MyProfile(props) {
     }
     if (username !== userData.name) {
       await Api.put(`/user`, { name: username } );
+    }
+
+    if(userLanguage !== userData.language) {
+      try{
+        console.log('your language is changing to ' + userLanguage);
+        await Api.put(`/user/language/${userData._id}`, { language: userLanguage } );
+      } catch (error) {
+        toast.warn("Something went wrong");
+        return;
+      }
     }
     if (!password.newPassword && !password.confirmPassword && !password.currentPassword) {
       toast.success('Profile Updated');
@@ -123,38 +133,33 @@ function MyProfile(props) {
 
   //Handle language change here
   //Need to communiate with backend to change the lanuage
-  const languageChangeHandler = React.useCallback((e) => {
+  const handleLanguageChange = React.useCallback(async (e) => {
     const selectedLanguage = e.target.value;
     // setUserLanguage(selectedLanguage);
     const selectedLanguageName = languages.find((language) => language.language === selectedLanguage)?.name;
+    setUserLanguage(selectedLanguageName);
     if(selectedLanguageName === userLanguage) {
       toast.success('You language is already ' + userData.language.name);
     }
     toast.success('Your are changing your language to: ' + selectedLanguageName);
-    //Add API here
+    setUserLanguage(selectedLanguage);
     
     console.log(selectedLanguage);
-  }, [setUserLanguage]);
+  });
 
   const languageDropdown = (
     <DropdownInput
       label="Language"
       value={userLanguage}
-      onChange={languageChangeHandler}
+      onChange={handleLanguageChange}
       style={{marginTop: 0}}
       />
-      
   );
+
   useEffect(async () => {
     let imag = await getAvatarPath(userData.avatar);
     setAvatar(imag);
   }, [userData.avatar])
-
-  useEffect(() => {
-    if (!userLanguage) {
-      setUserLanguage(languages[0].name);
-    }
-  }, [userLanguage]);
 
   return (
       <ThemeProvider theme={mode === 'dark' ? theme.dark : theme.light}>

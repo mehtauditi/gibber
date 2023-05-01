@@ -129,10 +129,16 @@ const reply = async (req, res, next) => {
   }
 };
 
+//This should be called by the reply function
+//This should take in the messageData, originalLang, and newLang
+//Update the text array with new language and new message
 const reTranslate = async (req, res, next) => { 
   try {
+    //Need messageData, originalLang, and newLang!
     const {messageData, originalLang}  = req.body;
     const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
+    //ALL WE HAVE TO DO ************************************************
+    //Find message then update text array push new language and new message
     var reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), ...messageData});
     if(messageData.text){
       let users =  conversation.users.map(u => u._id.toString());
@@ -142,11 +148,7 @@ const reTranslate = async (req, res, next) => {
       }));
       userLangs = [...new Set(userLangs)];
       // create text array with obj {language: '', text: ''}
-      const textArr = await Promise.all(userLangs.map(async lang => {
-        const translated = await translateText(messageData.text, originalLang, lang);
-        let obj = {language: lang, text: translated};
-        return obj;
-      }));
+     ;
       reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), originalLang, text: textArr, originalText: messageData.text });
     }
     reply.save(async function (err, reply) {
@@ -295,6 +297,7 @@ router.post("/conversation/:recipient", auth.required, createConversation);
 router.post("/group-conversation/", auth.required, createGroup);
 router.get("/conversation-exist/:recipient", auth.required, conversationExist);
 router.post("/conversation/reply/:conversation", auth.required, reply);
+router.post("/conversation/reply/retranslate/:conversation", auth.required, reTranslate);
 router.put("/conversation/set-seen-messages", auth.required, setSeenMessages);
 router.put("/conversation/group/:conversation/exit", auth.required, groupExit);
 router.put("/conversation/group/:conversation/participant", auth.required, addGroupParticipant);

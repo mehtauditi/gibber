@@ -1,6 +1,6 @@
 import React from 'react';
 import {ChatContainer, ChatContent, Header, HeaderAvatar, LoadBtn, MessageText, StatusTxt} from "./styles";
-import {getAvatarPath, mapMessageData} from "../../utils/helpers";
+import {getAvatarPath, mapMessageData, translateText} from "../../utils/helpers";
 import { Bubble, Avatar, GiftedChat  } from "react-native-gifted-chat";
 import { Text, Linking } from "react-native";
 import LocationMessage from "./components/LocationMessage";
@@ -39,6 +39,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [isTyping, setIsTyping] = React.useState(false);
   //Testing something out for load more button here
   const [totalPages, setTotalPages] = React.useState(1);
+  const [userLang, setUserLang] = React.useState(user.language);
+  const [text, setText] = React.useState([]);
 
   React.useEffect(() => {
     setIsReady(false);
@@ -201,6 +203,31 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     )
   }
 
+  //This has to reformat the text before rendering?
+  //Renders the message for split second, also doesn't save new messages, because no backend help?
+  //Front end attempt
+  const handleNewTranslation = async (text, targetLang) => {
+    // try {
+    //   const translatedText = await translateText(text, 'es');
+    //   setMessages(translatedText);
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    // return (
+    //   <div>
+    //     {text}
+    //   </div>
+    // )
+  }
+  
+  //Back end attempt
+  // const handleNewTranslation = React.useCallback(async () => {
+    //Format the text before calling the api
+      //Make api call to new api
+      
+      //Translates all messages and stores new objects/arrays in the user's new language
+  // }, [userLang, messages]);
+
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
     <ChatContainer onFocus={() => {
@@ -236,10 +263,17 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           //renderMessage = {renderMessageText(user.language)}
           renderMessageText={props => {
             const { currentMessage } = props;
-            const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
+            const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === userLang))?.text;
             // Calling the formatLink function HERE
+            //console.log(text);
+            user.language = 'fr';
+            if(text === undefined) {
+              //retranslate
+              // text = handle the translation and return it
+              //No need for the else
+              //If too slow do separately adding to backend and translating
+            }
             return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
-            
           }}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
           renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} user={user} />}

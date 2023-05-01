@@ -169,7 +169,7 @@ const getProfile = async (req, res, next) => {
     next(e);
   }
 };
-
+//Getting 401 error when trying to change language here
 const update = async (req, res, next) => {
   try {
     const {name, phone, email} = req.body;
@@ -215,6 +215,18 @@ const updatePassword = async (req, res, next) => {
     user.setPassword(userNewPassword);
     await user.save();
     res.json(user)
+  } catch (e) {
+    next(e);
+  }
+}
+
+const updateLanguage = async (req, res, next) => {
+  try {
+    const { language } = req.body;
+    const userId = req.params.id;
+    const user = await User.findOne({_id: userId});
+    await user.updateOne({_id: req.payload.id}, {$set: {language: language}});;
+
   } catch (e) {
     next(e);
   }
@@ -308,6 +320,7 @@ router.put("/", auth.required, update);
 router.put("/translateUser", auth.required, updateTranslateUser);
 router.put("/avatar", [auth.required, upload.single('file')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);
+router.put("/language/:id", auth.required, updateLanguage);
 router.put("/block/:user", auth.required, block);
 router.put("/unblock/:user", auth.required, unblock);
 router.delete("/:id", auth.required, remove);
