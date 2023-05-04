@@ -147,7 +147,7 @@ const reTranslate = async (req, res, next) => {
       if(textObj.language === originalLang) {
         //Once found the text object is translated to the new language
         const translatedText = await translateText(textObj.text, originalLang, newLang);
-        //Pushing 
+        //Pushing original text object and new text object
         updatedTextArr.push({language: textObj.language, text: textObj.text});
         updatedTextArr.push({language: newLang, text: translatedText});
       }
