@@ -266,7 +266,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
             const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === userLang))?.text;
             // Calling the formatLink function HERE
             //console.log(text);
-            user.language = 'fr';
+            //user.language = 'fr';
             if(text === undefined) {
               //retranslate
               // text = handle the translation and return it

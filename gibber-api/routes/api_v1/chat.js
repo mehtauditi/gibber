@@ -129,38 +129,36 @@ const reply = async (req, res, next) => {
   }
 };
 
-//This should be called by the reply function
-//This should take in the messageData, originalLang, and newLang
-//Update the text array with new language and new message
+//Updates the text array with new language and new message
 const reTranslate = async (req, res, next) => { 
   try {
     //Need messageData, originalLang, and newLang!
-    const {messageData, originalLang}  = req.body;
+    const {messageData, originalLang, newLang}  = req.body;
+    //Find converstaiton first
     const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
-    //ALL WE HAVE TO DO ************************************************
-    //Find message then update text array push new language and new message
-    var reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), ...messageData});
-    if(messageData.text){
-      let users =  conversation.users.map(u => u._id.toString());
-      let userLangs = await Promise.all(users.map(async uId => {
-        const u = await User.findById(uId);
-        return u.language;
-      }));
-      userLangs = [...new Set(userLangs)];
-      // create text array with obj {language: '', text: ''}
-     ;
-      reply = new Message({conversationId: req.params.conversation, user: req.payload.id, createdAt: new Date(), originalLang, text: textArr, originalText: messageData.text });
+    //If no conversation return an erorr
+    if(!conversation) {
+      return new ErrorHandler(404, "Conversation not found", [], res);
     }
-    reply.save(async function (err, reply) {
-      if (err) return new ErrorHandler(404, "Conversation not found", [], res);
-      else {
-        const msg = await Message.populate(reply, {path:"user", select: 'name , avatar'});
-        const text = messageData.video ? 'Video' : messageData.image ? 'image' : messageData.audio ? 'Sound' : messageData.location ? 'Location' : messageData.text;
-        const recipients = conversation.users.map(u => u._id.toString()).filter(id => id !== req.payload.id && !conversation.mutedBy.includes(id));
-        if (!!recipients.length) await sendNotification(text, recipients, {conversationId: req.params.conversation});
-        res.status(200).json({message: {...msg.toJSON()}, name: msg.user.name});
+    //Creating entirely new array
+    const updatedTextArr = [];
+    //Loops through text array and finds text object with the same language as originalLang
+    for(const textObj of conversation.text) {
+      if(textObj.language === originalLang) {
+        //Once found the text object is translated to the new language
+        const translatedText = await translateText(textObj.text, originalLang, newLang);
+        //Pushing 
+        updatedTextArr.push({language: textObj.language, text: textObj.text});
+        updatedTextArr.push({language: newLang, text: translatedText});
       }
-    });
+      else {
+        updatedTextArr.push(textObj);
+      }
+    }
+
+    conversation.text = updatedTextArr;
+    await messageData.save();
+    res.status(200).json(message);
   } catch (e) {
     next(e);
   }
