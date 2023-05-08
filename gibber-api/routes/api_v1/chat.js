@@ -136,23 +136,24 @@ const reTranslate = async (req, res, next) => {
     const {messageData, originalLang, newLang}  = req.body;
     //Find converstaiton first
     const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
+    const messages = await Message.find({conversationId: req.params.id});
     //If no conversation return an erorr
     if(!conversation) {
       return new ErrorHandler(404, "Conversation not found", [], res);
     }
-    //Creating entirely new array
-    const updatedTextArr = [];
+
+    if(!messages) {
+      return new ErrorHandler(404, "Messages not found", [], res);
+    }
+
     //Loops through text array and finds text object with the same language as originalLang
-    for(const textObj of conversation.text) {
-      if(textObj.language === originalLang) {
+    for(const textObj of messages.text) {
+      //Also checking to make sure the language converstaion id and conversation id are the same
+      if(textObj.language === originalLang && conversation._id.toString() === messages.conversationId.toString()) {
         //Once found the text object is translated to the new language
         const translatedText = await translateText(textObj.text, originalLang, newLang);
-        //Pushing original text object and new text object
-        updatedTextArr.push({language: textObj.language, text: textObj.text});
-        updatedTextArr.push({language: newLang, text: translatedText});
-      }
-      else {
-        updatedTextArr.push(textObj);
+        //Pushing new text object 
+        await Message.updateMany({_id: {$in: req.body.messageIds}}, {$push: {text: {language: newLang, text: translatedText}}}, {new: true});
       }
     }
 

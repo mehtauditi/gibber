@@ -87,7 +87,9 @@ function Login() {
       return toast.warn('Password is not valid!');
     }
     try {
-      const res = await Api.post('/user', {name, email, phone, password, language: lang});
+      console.log(name, email, phone, password, lang);
+      const res = await Api.post('/user/', {name, email, phone, password, language: lang});
+      console.log('After');
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
       navigate('/app/chat')
@@ -95,7 +97,10 @@ function Login() {
       toast.warn(e.response.data.message);
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
-
+  
+  const changeLanguage = React.useCallback((e) => {
+    setLang(e.target.value);
+  });
 
   return (
     <div className="container">
@@ -142,7 +147,7 @@ function Login() {
           <CenteredContent>
             <h3>Sign Up</h3>
             <TextInput style={{paddingInline:'10px'}} placeholder="Name" value={name} onChange={setName} />
-            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
+            <DropdownInput placeholder="Language"  value={lang} onChange={e => changeLanguage(e)} />
             <TextInput style={{paddingInline:'10px'}} placeholder="Email" type="email" value={email} onChange={setEmail} />
             <PhoneInput
               className="text-field"
