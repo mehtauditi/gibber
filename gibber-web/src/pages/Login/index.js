@@ -100,13 +100,9 @@ function Login() {
 
   const handleLanguageSelection = (e) => {
     setLang(e);
-    setShowConfirmation(true);
+    if(e === 'en') setShowConfirmation(true);
   }
 
-  const handleCancel = () => {
-    setShowConfirmation(false);
-    setLang('');
-  };
 
   const handleConfirm = () => {
     setShowConfirmation(false);
@@ -159,7 +155,7 @@ function Login() {
             <TextInput placeholder="Name" value={name} onChange={setName} />
             <DropdownInput placeholder="Language"  value={lang} onChange={handleLanguageSelection} />
             <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
-            <ConfirmationModal show={showConfirmation} onCancel={handleCancel} onConfirm={handleConfirm} lang={lang} />
+            <ConfirmationModal show={showConfirmation} onConfirm={handleConfirm} lang={lang} />
             <PhoneInput
               className="text-field"
               country={'us'}

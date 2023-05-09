@@ -12,17 +12,14 @@ function ConfirmationModal(props) {
   return (
     <Modal className="modal-sm" show={show} onHide={onCancel} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmation</Modal.Title>
+          <Modal.Title>Try a different language</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modal-body-sm">
-          <p>Are you sure you want to select {languageName}?</p>
+          <p>We recommend that you choose a language other than english to truly experience the power of our app</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onCancel}>
-            Cancel
-          </Button>
           <Button variant="primary" onClick={onConfirm}>
-            Confirm
+            OK
           </Button>
         </Modal.Footer>
     </Modal>
