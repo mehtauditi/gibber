@@ -22,7 +22,7 @@ exports.translatedWelcomeMsgs = [
     {
         language: 'nl',
         name: 'Dutch',
-        message: "Hoi! We zijn verheugd dat je er bent! We nemen vandaag contact op om een ​​gesprek op gang te brengen, zodat je de kracht van onze app ziet! Reageer in elke taal waarin u zich prettig voelt en zie de kracht van vertalen. Ter informatie: als je feedback of bugs hebt, staan ​​we ervoor open om erover te horen! Ik kijk ernaar uit om met je te praten!"
+        message: "Hoi! We zijn verheugd dat je er bent! We nemen vandaag contact op om een gesprek op gang te brengen, zodat je de kracht van onze app ziet! Reageer in elke taal waarin u zich prettig voelt en zie de kracht van vertalen. Ter informatie: als je feedback of bugs hebt, staan we ervoor open om erover te horen! Ik kijk ernaar uit om met je te praten!"
     },
     {
         language: 'en',
@@ -32,7 +32,7 @@ exports.translatedWelcomeMsgs = [
     {
         language: 'fr',
         name: 'French',
-        message: "Hé! Nous sommes ravis que vous soyez ici ! Nous vous contactons aujourd’hui pour lancer une conversation afin que vous puissiez voir la puissance de notre application ! Répondez dans la langue dans laquelle vous vous sentez à l’aise et découvrez le pouvoir de la traduction. Pour votre information, si vous avez des commentaires ou des bugs, nous sommes ouverts à en entendre parler ! Ravi de parler avec vous!"
+        message: "Hé! Nous sommes ravis que vous soyez ici ! Nous vous contactons aujourd'hui pour lancer une conversation afin que vous puissiez voir la puissance de notre application ! Répondez dans la langue dans laquelle vous vous sentez à l'aise et découvrez le pouvoir de la traduction. Pour votre information, si vous avez des commentaires ou des bugs, nous sommes ouverts à en entendre parler ! Ravi de parler avec vous!"
     },
     {
         language: 'de',
@@ -97,7 +97,7 @@ exports.translatedWelcomeMsgs = [
     {
         language: 'tr',
         name: 'Turkish',
-        message: "Hey! Burada olduğun için heyecanlıyız! Bugün, uygulamamızın gücünü görmeniz için bir sohbet başlatmak üzere sizinle iletişime geçiyoruz! Kendinizi rahat hissettiğiniz herhangi bir dilde yanıt verin ve çevirinin gücünü görün. Herhangi bir geri bildiriminiz veya hatanız varsa bilginiz olsun, bunları duymaya açığız! Seninle konuşmak için heyecanlıyım!"
+        message: "Hey! Burada olduğun için heyecanliyiz! Bugün, uygulamamizin gücünü görmeniz için bir sohbet başlatmak üzere sizinle iletişime geçiyoruz! Kendinizi rahat hissettiğiniz herhangi bir dilde yanit verin ve çevirinin gücünü görün. Herhangi bir geri bildiriminiz veya hataniz varsa bilginiz olsun, bunlari duymaya açiğiz! Seninle konuşmak için heyecanliyim!"
     },
     {
         language: 'ur',

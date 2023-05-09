@@ -39,7 +39,7 @@ const theme = {
     danger: '#e74c3c'
   },
   body: {
-    flex: 1
+      flex: 1,
   }
 };
 

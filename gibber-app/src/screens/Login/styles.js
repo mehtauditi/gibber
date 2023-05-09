@@ -6,8 +6,27 @@ const LoginImg = styled.Image.attrs(({theme}) => ({
   width: 250px;
   height: 210px;
   resize-mode: contain;
-  margin-top: -150px;
+  margin-top: -50px;
 `;
+
+const LanguageModal = styled.View`
+  display: flex;
+  height: 120%;
+  width: 100%;
+  color: white;
+  background: #378fd3;
+  padding-top: 15%;
+`        
+
+const LanguageItem = styled.TouchableOpacity`
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   padding: 25px;
+   background-color: ${(props) => 
+    props.className === 'selectedClass' ? "white" : "#378fd3"
+    };
+`
 
 const FooterTextBtn = styled.TouchableOpacity`
   position: absolute;
@@ -39,4 +58,10 @@ export const LoadingWrapper = styled.View`
   justify-content: center;
 `;
 
-export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB};
+const Row = styled.View`
+  flex-direction: row;
+  margin-bottom: 15px;
+  top: 25px;
+`;
+
+export {FooterText, FooterTextBtn, LoginImg, ContentContainer, TextB, LanguageModal, LanguageItem, Row};

@@ -23,7 +23,10 @@ import {
   UPDATE_AVATAR_SUCCESS,
   UPDATE_GROUP_IMAGE_SUCCESS,
   UPDATE_GROUP_SUCCESS,
-  UPDATE_PROFILE_SUCCESS
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_SUCCESS,
+  UPDATE_TRANSLATE_OPTION_SUCCESS
 } from "./constants";
 
 export const initialState = {
@@ -55,6 +58,15 @@ export default function (state = initialState, action = {}) {
         draft.user = {loading: false, error: action.error, data: {}};
         break;
       case UPDATE_PROFILE_SUCCESS:
+        draft.user.data = {...state.user.data, ...action.payload};
+        break;
+      case UPDATE_TRANSLATE_OPTION_SUCCESS:
+        draft.user.data = {...state.user.data, translateOption: action.payload};
+        break;
+      case UPDATE_PASSWORD_SUCCESS:
+        draft.user.data = {...state.user.data, ...action.payload};
+        break;
+      case FORGOT_PASSWORD_SUCCESS:
         draft.user.data = {...state.user.data, ...action.payload};
         break;
       case UPDATE_AVATAR_SUCCESS:

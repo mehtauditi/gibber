@@ -2,6 +2,7 @@ import React from 'react';
 import {ChatContainer, ChatContent, Header, HeaderAvatar, LoadBtn, MessageText, StatusTxt} from "./styles";
 import {getAvatarPath, mapMessageData} from "../../utils/helpers";
 import { Bubble, Avatar, GiftedChat  } from "react-native-gifted-chat";
+import { Text, Linking } from "react-native";
 import LocationMessage from "./components/LocationMessage";
 import {getBubbleProps} from "./components/bubbleProps";
 import {theme} from "../../config/theme";
@@ -17,6 +18,7 @@ import Icon from '../Icon';
 import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
 import styled from 'styled-components/native';
+import Hyperlink from "react-native-hyperlink";
 
 let timeout;
 
@@ -122,7 +124,6 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [message]);
 
   const appendMessage = React.useCallback((message) => {
-    console.log('appendMessage');
     setMessages(previousMessages => [{
       _id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10),
       ...message,
@@ -143,8 +144,10 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
 
   const onBubbleLongPress = React.useCallback((context, message) => {
     const options = message.user._id === user._id
-    ? ['Show Original Text', 'Delete Message', 'Cancel']
+    ?  ['Show Original Text', 'Delete Message', 'Cancel']
     : ['Show Original Text', 'Cancel'];
+
+    if(!message.originalText) options.shift();
 
     if (selectedBubble === message._id) {
       options[0] = 'Hide Original Text';
@@ -165,27 +168,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [messages, data._id, selectedBubble]);
 
 
-  // const loadMore = React.useCallback(async () => {
-  //   const newPage = page + 1;
-  //   setLoadingMoreMsg(true);
-  //   await getConvoMessages(newPage);
-  //   setLoadingMoreMsg(false);
-  //   setPage(newPage);
-  //   // const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
-  //   //This fixed the buggy behavior where the chat container would keep trying to render messages and caused the user not to be able to scroll up
-  //   // setMessages(state => [...state, ...res.data.messages]);
-  //   // if (res.data.messages.length === 0) setNoMoreMsg(true);
-  //   // setLoadingMoreMsg(false);
-  //   // setPage(newPage);
-  // }, [page]);
-
-  // // const renderLoadMoreBtn = React.useMemo(() => (!noMoreMsg) ?
-  // //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
-  // //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
-
-
   const loadMore = React.useCallback(async () => {
-    console.log('Loading more');
     const newPage = page + 1;
     setLoadingMoreMsg(true);
     const resPageCount = await Api.get(`/chat/conversation/${data._id}/messages/totalPages`);
@@ -194,16 +177,13 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     const res = await Api.get(`/chat/conversation/${data._id}/messages?page=${newPage}`);
     setMessages(state => [...state, ...res.data.messages]);
     setLoadingMoreMsg(false);
-    setPage(newPage);
-    console.log('Total pages to be loaded: ' + pageCount);
-    console.log('newPage value ' + newPage)
-    console.log(`Number of messages rendered: ${messages.length}`);
-    if(newPage === pageCount) setNoMoreMsg(true);
-  }, [page]);
+    if(newPage === pageCount) {
+      setNoMoreMsg(true);
+    } else {
+      setPage(newPage);
+    }
+  }, [data._id, messages.length, page]);
 
-  // const renderLoadMoreBtn = React.useMemo(() => (messages.length > 0 && !noMoreMsg) ?
-  //   <LoadBtn onClick={loadMore} disabled={loadingMoreMsg}>{loadingMoreMsg ? <Spinner size={25} color="#fff"/> : 'Load more'}</LoadBtn>
-  //   : null, [messages, loadingMoreMsg, noMoreMsg, page]);
 
     const renderLoadMoreBtn = React.useMemo(() => {
     if(messages.length > 19 && !noMoreMsg) {
@@ -216,6 +196,27 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
       return null;
     }
   }, [loadingMoreMsg, messages, loadMore, noMoreMsg]);
+
+  const formatLink = (text) => {
+    //This is no longer necessary, but can be used in the future for emails?
+    //const linkRegex = /(https?:\/\/[^\s]+)/g;
+
+    // return text.split(linkRegex).map((token, index) => {
+    //   if (token.match(linkRegex)) {
+    //     return (
+    //       <Text key={index} style={{ color: 'blue', textDecorationLine: 'underline'}} onPress={() => Linking.openURL(token)}>
+    //         {token}
+    //       </Text>
+    //     );
+    //   }
+    //   return token;
+    // });
+    return (
+      <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
+        <div>{text}</div>
+      </Hyperlink>
+    )
+  }
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
@@ -239,8 +240,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           user={{_id: user._id}}
           minInputToolbarHeight={60}
           renderBubble={props => {
-            if (props.currentMessage.location) return
-            <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
+            if (props.currentMessage.location) return <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
             if (props.currentMessage.audio) return <AudioMessage src={props.currentMessage.audio}/>;
 
             else {
@@ -253,14 +253,16 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
             }
           }}
           renderMessageText={props => {
-          if (selectedBubble === props.currentMessage._id) {
-            return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text} <br/>
+          const { currentMessage } = props;
+          const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
+          if (selectedBubble === currentMessage._id) {
+            return <MessageText right={props.position === 'right'}>{formatLink(text)} 
             <StyledText mode={theme[mode]}>
-              {props.currentMessage.originalText}
+              {currentMessage.originalText}
             </StyledText>
             </MessageText>
           } else {
-            return <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>
+            return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
           }
         }}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}

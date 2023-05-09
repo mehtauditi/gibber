@@ -52,6 +52,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     data[type] = await uploadFile(source);
     onSend(chatId, data);
   }, []);
+
   const sendAudio = React.useCallback(async (source) => {
     setActionsVisible(false);
     const uri = URL.createObjectURL(source);
@@ -68,6 +69,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     setActionsVisible(false)
   }, []);
 
+  
   return (
     <InputWrapper>
       <InputContainer>

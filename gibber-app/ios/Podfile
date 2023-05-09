@@ -23,7 +23,7 @@ end
 
 target 'gibber' do
   config = use_native_modules!
-
+  use_modular_headers!
   # Flags change depending on the env values.
   flags = get_default_flags()
 
@@ -57,8 +57,7 @@ target 'gibber' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
-
-  #ios permissions
+#ios permissions
   permissions_path = '../node_modules/react-native-permissions/ios'
 
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
@@ -72,7 +71,4 @@ target 'gibber' do
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
-
-
-
 end
