@@ -268,10 +268,12 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
             //console.log(text);
             //user.language = 'fr';
             if(text === undefined) {
+              //Front end has to pass in the newLang, translatedText, messageId
               //retranslate
-              // text = handle the translation and return it
+              // text = handle the translation
               //No need for the else
               //If too slow do separately adding to backend and translating
+              //NO RETURN NEEDED
             }
             return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
           }}

@@ -130,35 +130,17 @@ const reply = async (req, res, next) => {
 };
 
 //Updates the text array with new language and new message
-const reTranslate = async (req, res, next) => { 
+const updateTextArray = async (req, res, next) => { 
   try {
     //Need messageData, originalLang, and newLang!
-    const {messageData, originalLang, newLang}  = req.body;
-    //Find converstaiton first
-    const conversation = await Conversation.findOne({_id: req.params.conversation}, {users: 1, mutedBy: 1});
-    const messages = await Message.find({conversationId: req.params.id});
-    //If no conversation return an erorr
-    if(!conversation) {
-      return new ErrorHandler(404, "Conversation not found", [], res);
-    }
-
+    //Front end has to pass in the newLang, translatedText, messageId
+    const {newLang, translatedText, messageId}  = req.body;
+    const messages = await Message.find({_id: messageId});
     if(!messages) {
       return new ErrorHandler(404, "Messages not found", [], res);
     }
-
-    //Loops through text array and finds text object with the same language as originalLang
-    for(const textObj of messages.text) {
-      //Also checking to make sure the language converstaion id and conversation id are the same
-      if(textObj.language === originalLang && conversation._id.toString() === messages.conversationId.toString()) {
-        //Once found the text object is translated to the new language
-        const translatedText = await translateText(textObj.text, originalLang, newLang);
-        //Pushing new text object 
-        await Message.updateMany({_id: {$in: req.body.messageIds}}, {$push: {text: {language: newLang, text: translatedText}}}, {new: true});
-      }
-    }
-
-    conversation.text = updatedTextArr;
-    await messageData.save();
+    //Pushing new text object 
+    await Message.updateOne({_id: messageId}, {$push: {text: {language: newLang, text: translatedText}}}, {new: true});
     res.status(200).json(message);
   } catch (e) {
     next(e);
@@ -296,7 +278,7 @@ router.post("/conversation/:recipient", auth.required, createConversation);
 router.post("/group-conversation/", auth.required, createGroup);
 router.get("/conversation-exist/:recipient", auth.required, conversationExist);
 router.post("/conversation/reply/:conversation", auth.required, reply);
-router.post("/conversation/reply/retranslate/:conversation", auth.required, reTranslate);
+router.post("/conversation/reply/updateTextArray", auth.required, updateTextArray);
 router.put("/conversation/set-seen-messages", auth.required, setSeenMessages);
 router.put("/conversation/group/:conversation/exit", auth.required, groupExit);
 router.put("/conversation/group/:conversation/participant", auth.required, addGroupParticipant);
