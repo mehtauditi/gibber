@@ -140,8 +140,9 @@ const updateTextArray = async (req, res, next) => {
       return new ErrorHandler(404, "Messages not found", [], res);
     }
     //Pushing new text object 
+    console.log(messages);
     await Message.updateOne({_id: messageId}, {$push: {text: {language: newLang, text: translatedText}}}, {new: true});
-    res.status(200).json(message);
+    res.status(200).json(messages);
   } catch (e) {
     next(e);
   }
@@ -270,6 +271,8 @@ const getTotalPages = async (req, res, next) => {
     next(e);
   }
 };
+router.post("/conversation/reply/updateTextArray", updateTextArray);
+
 router.get("/conversation/:id/messages/totalPages", auth.required, getTotalPages);
 router.get("/conversation", auth.required, getConversations);
 router.get("/conversation/:id", auth.required, getConversation);
@@ -278,7 +281,7 @@ router.post("/conversation/:recipient", auth.required, createConversation);
 router.post("/group-conversation/", auth.required, createGroup);
 router.get("/conversation-exist/:recipient", auth.required, conversationExist);
 router.post("/conversation/reply/:conversation", auth.required, reply);
-router.post("/conversation/reply/updateTextArray", auth.required, updateTextArray);
+
 router.put("/conversation/set-seen-messages", auth.required, setSeenMessages);
 router.put("/conversation/group/:conversation/exit", auth.required, groupExit);
 router.put("/conversation/group/:conversation/participant", auth.required, addGroupParticipant);

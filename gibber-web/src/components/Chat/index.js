@@ -274,6 +274,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
               //No need for the else
               //If too slow do separately adding to backend and translating
               //NO RETURN NEEDED
+              let text = translateText(text, user.language).then(resp => text.push(resp));
+
             }
             return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
           }}
