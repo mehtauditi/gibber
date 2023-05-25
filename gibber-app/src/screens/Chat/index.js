@@ -17,7 +17,7 @@ import { CommonActions } from '@react-navigation/native';
 import { goBack } from '../../config/Navigator';
 import mobileAds from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds } from 'react-native-google-mobile-ads';
+import { BannerAd, TestIds, BannerAdSize } from 'react-native-google-mobile-ads';
 
 
 let timeout;
@@ -71,13 +71,13 @@ const Chat = (props) => {
   // const adapterStatuses = await mobileAds().initialize();
 
   // Code for admob test ads (do not use production ads from Google admob account)
-  //   # App Open
+    // # App Open
   // AppOpenAd.createForAdRequest(TestIds.APP_OPEN);
 
-  // # Interstitial
+  // // # Interstitial
   // InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
 
-  // # Rewarded
+  // // # Rewarded
   // RewardedAd.createForAdRequest(TestIds.REWARDED);
 
   // # Banners
@@ -276,7 +276,13 @@ const Chat = (props) => {
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           />
+          {/* TESTING AD BANNER HERE */}
+          <BannerAd 
+            unitId={TestIds.BANNER} 
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          />
         </View>
+        
       }
     </>
   )

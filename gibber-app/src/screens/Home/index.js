@@ -10,6 +10,7 @@ import moment from "../../utils/moment";
 import {getAvatarPath, sortConversations} from "../../utils/helpers";
 import {disconnectSocket, initiateSocket, newChat, refreshMessages, setOffline, setOnline} from "./socket";
 import {onNotificationOpened} from "../../config/NotificationService";
+import { BannerAd, TestIds, BannerAdSize } from 'react-native-google-mobile-ads';
 
 function Home(props) {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -126,6 +127,11 @@ function Home(props) {
         </FloatButton>
       </View>
       <CreateChat visible={modalVisible} close={() => setModalVisible(false)} navigate={props.navigation.navigate} />
+      {/* TESTING AD BANNER HERE */}
+      <BannerAd 
+            unitId={TestIds.BANNER} 
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          />
     </View>
   )
 }
