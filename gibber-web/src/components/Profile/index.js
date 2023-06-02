@@ -22,6 +22,7 @@ function Profile({id, ...props}) {
       <div className="title">{data.name}</div>
       <div>{data.phone}</div>
       <div>{data.email}</div>
+      <div>{data.language}</div>
     </ProfileContainer>
   )
 }
