@@ -57,8 +57,13 @@ const ChatInput = ({value, user, onChange, onSend, appendMessage, ...props}) => 
 
     } else {
       if(value.length > 0){
-        const translatedText = await translateText(value, user.language);
-        sendMessage({text: translatedText});
+        let textValue;
+        if(user.translateUser){
+            textValue = await translateText(value, user.language);
+        } else {
+          textValue = value;
+        }
+        sendMessage({text: textValue});
         onChange('');
       }
     }
