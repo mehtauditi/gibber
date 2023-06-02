@@ -1,8 +1,11 @@
 import constants from "../config/constants";
+import axios from 'axios';
+import GroupImage from "../images/group.png";
+import UserImage from "../images/user.png";
 
-export function getAvatarPath(path, isGroup, q) {
+export function getAvatarPath(path, isGroup, q){
   if (path) return (!path.includes('file') ? constants.bucket_url : '') + path + (q ? '?v=' + new Date() : '');
-  else return isGroup ? require('../images/group.png') : require('../images/user.png');
+  else return isGroup ? GroupImage : UserImage;
 }
 
 export function fixImgPath(path) {
@@ -49,6 +52,16 @@ export function detectBrowser() {
   } else {
     return 'Unknown';
   }
+}
+
+export const translateText = async (text, tarLang) => { 
+  const url = new URL("https://translation.googleapis.com/language/translate/v2");
+  url.searchParams.set('key',constants.translate_api );
+  url.searchParams.set('q', text);
+  url.searchParams.set('target', tarLang);
+
+  const res = await axios.post(url);
+  return res.data.data.translations[0].translatedText;
 }
 
 export function getOsName() {

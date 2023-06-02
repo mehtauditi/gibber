@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import AudioPlayer from 'react-audio-player';
+import Api from "../../../config/axios";
+import "./AudioMessageStyles.css";
+
 
 function AudioMessage({src}) {
+
   return (
-    <div style={{marginBottom: 15}}>
+
+    <div className="audio-player-container" style={{marginBottom: 15, marginLeft: 5}}>
       <AudioPlayer
         src={src}
         controls
+        
       />
     </div>
   )

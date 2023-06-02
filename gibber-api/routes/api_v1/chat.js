@@ -9,6 +9,8 @@ const s3 = require('../../config/s3');
 const {translateText} = require('../../utils');
 const {sendNotification} = require('../../config/notification');
 
+const s3_dir = 'test/'; // 'prod/' for production
+
 const getConversations = async (req, res, next) => {
   try {
     let allConversations = [];
@@ -41,7 +43,7 @@ const getConversation = async (req, res, next) => {
 
 const getConversationMessages = async (req, res, next) => {
   try {
-    const {page = 0} = req.query;
+    const { page = 0 } = req.query;
     const messages = await Message.find({conversationId: req.params.id}).sort('-createdAt').populate({path: 'user', select: 'name , avatar'})
       .skip(20 * page).limit(20);
     res.status(200).json({messages});
@@ -103,6 +105,7 @@ const reply = async (req, res, next) => {
         const u = await User.findById(uId);
         return u.language;
       }));
+      userLangs = [...new Set(userLangs)];
       // create text array with obj {language: '', text: ''}
       const textArr = await Promise.all(userLangs.map(async lang => {
         const translated = await translateText(messageData.text, originalLang, lang);
@@ -126,14 +129,35 @@ const reply = async (req, res, next) => {
   }
 };
 
-const uploadMessageFile = async (req, res, next) => {
+//Updates the text array with new language and new message
+const updateTextArray = async (req, res, next) => { 
   try {
-    const uploaded = await s3.upload(req.file, 'chat', getImageName(req.file));
-    res.status(200).json({path: uploaded.key});
+    //Need messageData, originalLang, and newLang!
+    //Front end has to pass in the newLang, translatedText, messageId
+    const {newLang, translatedText, messageId}  = req.body;
+    const messages = await Message.find({_id: messageId});
+    if(!messages) {
+      return new ErrorHandler(404, "Messages not found", [], res);
+    }
+    //Pushing new text object 
+    console.log(messages);
+    await Message.updateOne({_id: messageId}, {$push: {text: {language: newLang, text: translatedText}}}, {new: true});
+    res.status(200).json(messages);
   } catch (e) {
     next(e);
   }
 };
+
+const uploadMessageFile = async (req, res, next) => {
+  try {
+    const uploaded = await s3.upload(req.file, s3_dir + 'chat', getImageName(req.file));
+    let key = uploaded.key || uploaded.Key;
+    res.status(200).json({path: key});
+  } catch (e) {
+    next(e);
+  }
+};
+
 
 const setSeenMessages = async (req, res, next) => {
   try {
@@ -164,7 +188,7 @@ const addGroupParticipant = async (req, res, next) => {
 
 const updateGroupImage = async (req, res, next) => {
   try {
-    const uploaded = await s3.upload(req.file, 'chat', getImageName(req.file, req.params.conversation));
+    const uploaded = await s3.upload(req.file, s3_dir + 'group', getImageName(req.file, req.params.conversation));
     await Conversation.updateOne({_id: req.params.conversation}, {$set: {image: uploaded.key}});
     res.status(200).json({path: uploaded.key});
   } catch (e) {
@@ -229,6 +253,27 @@ const deleteMessage = async (req, res, next) => {
   }
 };
 
+//Trying to get total pages
+const getTotalPages = async (req, res, next) => {
+  try {
+    const {page = 0, pageSize = 20} = req.query;
+    const conversation = await Conversation.findOne({_id: req.params.id}).populate({path: 'users', select: 'name , avatar'});
+    if (!conversation) return new ErrorHandler(404, "Conversation not found", [], res);
+
+    const messageCount = await Message.countDocuments({ conversationId: req.params.id });
+    const pageCount = Math.ceil(messageCount / pageSize);
+
+    const messages = await Message.find({conversationId: req.params.id}).sort('-createdAt').populate({path: 'user', select: 'name , avatar'})
+      .skip(pageSize * page).limit(pageSize);
+
+    res.status(200).json({...conversation.toJSON(), messages, pageCount});
+  } catch (e) {
+    next(e);
+  }
+};
+router.post("/conversation/reply/updateTextArray", updateTextArray);
+
+router.get("/conversation/:id/messages/totalPages", auth.required, getTotalPages);
 router.get("/conversation", auth.required, getConversations);
 router.get("/conversation/:id", auth.required, getConversation);
 router.get("/conversation/:id/messages", auth.required, getConversationMessages);
@@ -236,6 +281,7 @@ router.post("/conversation/:recipient", auth.required, createConversation);
 router.post("/group-conversation/", auth.required, createGroup);
 router.get("/conversation-exist/:recipient", auth.required, conversationExist);
 router.post("/conversation/reply/:conversation", auth.required, reply);
+
 router.put("/conversation/set-seen-messages", auth.required, setSeenMessages);
 router.put("/conversation/group/:conversation/exit", auth.required, groupExit);
 router.put("/conversation/group/:conversation/participant", auth.required, addGroupParticipant);

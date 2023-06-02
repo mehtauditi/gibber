@@ -4,6 +4,7 @@ import TextInput from "../../components/TextInput";
 import {useNavigate, Link} from "react-router-dom";
 import Api from '../../config/axios';
 import {toast} from "react-toastify";
+
 // import {detectBrowser, getOsName, randomStr} from "../../utils/helpers";
 // import io from "socket.io-client";
 // import constants from "../../config/constants";
@@ -12,6 +13,7 @@ import PhoneInput from 'react-phone-input-2';
 import PasswordChecklist from 'react-password-checklist';
 import 'react-phone-input-2/lib/style.css'
 import './index.css';
+import ConfirmationModal from './ConfirmationModal';
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
@@ -22,6 +24,7 @@ function Login() {
   const [password, setPassword] = React.useState('');
   // const [qrCode, setQrCode] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -70,14 +73,25 @@ function Login() {
   }, [email, phone, password, navigate]);
 
   const signUp = React.useCallback(async () => {
+    if (name.length <= 0) {
+      return toast.warn('Name required!')
+    }
+    if (lang === ""){
+      return toast.warn('Language required!')
+    }
     if (!(email.length > 0 && phone.length > 4)) {
       return toast.warn('Phone and email required!')
+    }
+    if(!(/\S+@\S+\.\S+/.test(email))){
+      return toast.warn('Valid email is required!')
     }
     if (!isValid) {
       return toast.warn('Password is not valid!');
     }
     try {
-      const res = await Api.post('/user', {name, email, phone, password, language: lang});
+      console.log(name, email, phone, password, lang);
+      const res = await Api.post('/user/', {name, email, phone, password, language: lang});
+      console.log('After');
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
       navigate('/app/chat')
@@ -86,10 +100,19 @@ function Login() {
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
 
+  const handleLanguageSelection = (e) => {
+    setLang(e);
+    if(e === 'en') setShowConfirmation(true);
+  }
+
+
+  const handleConfirm = () => {
+    setShowConfirmation(false);
+  }
 
   return (
     <div className="container">
-      <Link to="/"><Logo/></Link>
+     <Link to="/"><Logo/></Link>
       {!loginType ?
         <CenteredContent>
           {/* <img src={qrCode} alt=""/> */}
@@ -125,28 +148,32 @@ function Login() {
             <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
             <br/><br/>
             <Button className='login-btn' onClick={login} width={350}>Login</Button>
+            <br></br>
+            <Button className='forgot-passsword' onClick={() => navigate('/app/forgot-password')}>Forgot Password?</Button>
           </CenteredContent>
           :
           <CenteredContent>
             <h3>Sign Up</h3>
-            <TextInput placeholder="Name" value={name} onChange={setName} />
-            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
-            <TextInput placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <TextInput style={{paddingInline:'10px'}} placeholder="Name" value={name} onChange={setName} />
+            <DropdownInput placeholder="Language"  value={lang} onChange={handleLanguageSelection} />
+            <TextInput style={{paddingInline:'10px'}} placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <ConfirmationModal show={showConfirmation} onConfirm={handleConfirm} lang={lang} />
             <PhoneInput
               className="text-field"
               country={'us'}
               value={phone}
               onChange={setPhone}
             />
-            <TextInput placeholder="Password" type="password" value={password} onChange={setPassword} />
+            <TextInput style={{paddingInline:'10px'}} placeholder="Password" type="password" value={password} onChange={setPassword} />
             <PasswordChecklist
+                style={{padding:'20px'}}
                 rules={["minLength", "number","capital"]}
                 minLength={8}
                 value={password}
             />
-            <br/><br/>
             <Button className='login-btn' onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
+
       }
     </div>
   )

@@ -1,20 +1,40 @@
 import styled  from "styled-components";
 
+export const ImgMessage = styled.img`
+  margin-top: 15px;
+  max-width: 300px;
+  max-height: 300px;
+  transition: all 0.3s ease-in;
+
+  @media screen and (max-width: 350px) {
+    max-width: 200px;
+    max-height: 200px
+  }
+`;
+
 export const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: ${({theme}) => theme.bg};
   transition: all 0.3s ease-in;
+  background-color: ${({theme}) => theme.bg};
 `;
+
 export const ChatContent = styled.div`
-  height: calc(100% - 100px);
+  height: 100%;
+  transition: all 0.3s ease-in;
+
+  padding-bottom: 100px;
   & > div {
     height: 100%;
   }
+
+
 `;
 
 export const MapContainer = styled.div`
   background-color: gray;
+  transition: all 0.3s ease-in;
+
   width: 607px;
   height: 250px;
   margin-bottom: 10px;
@@ -33,6 +53,8 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 25px;
+  transition: all 0.3s ease-in;
+
   color: ${({theme}) => theme.txt};
   font-size: 22px;
   & > div {
@@ -50,6 +72,8 @@ export const StatusTxt = styled.div`
   opacity: 0.8;
   font-size: 12px;
   margin-top: 2px;
+  transition: all 0.3s ease-in;
+
 `;
 
 export const InputWrapper = styled.div`
@@ -75,6 +99,7 @@ export const Input = styled.input.attrs(({theme}) => ({placeholderTextColor: the
   border: none;
   background: transparent;
   outline: none;
+  
 `;
 export const IconBtn = styled.div`
   position: absolute;
@@ -101,15 +126,16 @@ export const ActionsContainer = styled.div`
   padding-top: 25px;
   position: absolute;
   bottom: 50px;
-  width: 500px;
+  width: 60%;
   right: 60px;
   border-radius: 10px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   display: flex;
+  flex-direction: column;
   z-index: 2;
   color: ${({theme}) => theme.txt};
-`;
+`; 
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -121,6 +147,10 @@ export const RowItem = styled.div`
   cursor: pointer;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 350px) {
+    font-size: 13px
+  }
 `;
 export const Btn = styled.div`
   width: 45px;
@@ -130,6 +160,11 @@ export const Btn = styled.div`
   align-items: center;
   border-radius: 25px;
   margin-bottom: 10px;
+
+  @media screen and (max-width: 350px) {
+    width: 30px;
+    height: 30px;
+  }
 `;
 export const MessageText = styled.div`
   color: ${({theme, right}) => right ? '#fff' : theme.txt};
@@ -137,6 +172,10 @@ export const MessageText = styled.div`
   margin: 13px;
   font-size: 14px;
   margin-left: 17px;
+
+  div {
+    color: ${({theme, right}) => right ? '#fff' : theme.txt};;
+  }
 `;
 export const LoadBtn = styled.div`
   cursor: pointer;

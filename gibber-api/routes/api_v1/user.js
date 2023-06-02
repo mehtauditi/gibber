@@ -9,13 +9,17 @@ const qr = require('qrcode');
 const Conversation = require('../../models/Conversation');
 const Message = require('../../models/Message');
 const {translatedWelcomeMsgs} = require('../../config/translatedWelcomeMsgs');
+const Realm = require('realm-web');
+const realmApp = new Realm.App({id : process.env.REALM_ID});
+
+const s3_dir = 'test/'; // 'prod/' for production
 
 
 const profileFields = {contacts: 0, blocked: 0, blockedFrom: 0, password: 0};
 
 const create = async (req, res, next) => {
   try {
-    const {name, phone, email, password, language} = req.body;
+    const {name, phone, email, password, language, translateUser} = req.body;
     const missingFields = [];
     if (!name) missingFields.push('Name');
     if (!password) missingFields.push('Password');
@@ -30,15 +34,20 @@ const create = async (req, res, next) => {
             { phone }
           ]
    });
+
     if (alreadyExists)
       return new ErrorHandler(409, `Either Email or Phone already exist. Please enter a different email address or phone number.`, [], res);
 
-    const user = {email, phone, name, password, language};
+    const user = {email, phone, name, password, language, translateUser};
     const finalUser = new User(user);
+    finalUser.translateUser = false;
     finalUser.setPassword(user.password);
     finalUser.save(async (err, newUser) => {
       if (err)
         return new ErrorHandler(400, "An error occurred during user creation, please try again later.", [], res);
+      const realmCreds = await Realm.Credentials.emailPassword(newUser.email, newUser.password);
+      const regRealmUser = await realmApp.emailPasswordAuth.registerUser({email: newUser.email, password: newUser.password});
+      const loggedInRealm = await realmApp.logIn(realmCreds);
       const userWithToken = { ...newUser.toJSON() };
       delete userWithToken['password'];
       userWithToken.token = finalUser.generateJWT();
@@ -51,7 +60,7 @@ const create = async (req, res, next) => {
         if (err)
           return new ErrorHandler(404, "Failed to create conversation with team account", [], res);
         await User.updateOne({ _id: adminUser._id }, { $addToSet: { contacts: newUser._id } });
-        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } }); 
+        await User.updateOne({ _id: newUser._id }, { $addToSet: { contacts: adminUser._id } });
 
         // creating reply from Team account
         let textArr;
@@ -83,6 +92,8 @@ const login = async (req, res, next) => {
       const user = await User.findOne(query);
       if (!user || !user.validatePassword(password)) return new ErrorHandler(400, (email ? 'email':'phone') + " or password is invalid", [], res);
       const finalData = {token: await user.generateJWT(), ...user.toJSON()};
+      const realmCreds = await Realm.Credentials.emailPassword(finalData.email, finalData.password);
+      // const loggedInRealm = await realmApp.logIn(realmCreds);
       delete finalData['password'];
       res.status(200).json(finalData);
     } else
@@ -94,15 +105,30 @@ const login = async (req, res, next) => {
 
 const search = async (req, res, next) => {
   try {
-    const {q} = req.query;
+    const {q, by} = req.query;
     if (!q) return res.status(404).send("query is required");
     const user = await User.findOne({_id: req.payload.id}, {blocked: 1, blockedFrom: 1});
     const query = {$regex: q, $options: 'i'};
-    const data = await User.find(
-      {$or: [{name: query}, {phone: query}, {email: query}],
-        _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
-      profileFields
-    );
+    let data;
+    if(by === 'search-email'){
+      data = await User.find(
+        {email: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    } else if (by === 'search-phone'){
+      data = await User.find(
+        {phone: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    } else {
+      data = await User.find(
+        {name: query,
+          _id: {$nin: [...user.blocked, ...user.blockedFrom, req.payload.id]}},
+        profileFields
+      ).limit(3);
+    }
     res.json(data);
   } catch (e) {
     next(e);
@@ -118,6 +144,20 @@ const get = async (req, res, next) => {
   }
 };
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const data = await User.find({});
+    res.json(data);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+      res.json({ message: 'Instructions to reset your password have been sent to your email or phone number.' });
+  } catch (e) {
+    next(e);
+  }
+}
+
 const getProfile = async (req, res, next) => {
   try {
     const data = await User.findOne({_id: req.payload.id}, {password: 0})
@@ -129,7 +169,7 @@ const getProfile = async (req, res, next) => {
     next(e);
   }
 };
-
+//Getting 401 error when trying to change language here
 const update = async (req, res, next) => {
   try {
     const {name, phone, email} = req.body;
@@ -144,9 +184,18 @@ const update = async (req, res, next) => {
   }
 };
 
+const updateTranslateUser = async (req, res, next) => {
+  try {
+    await User.updateOne({_id: req.payload.id}, {$set: {translateUser: req.body.translateUser}});
+    res.json({updated: true});
+  } catch (e) {
+    next(e);
+  }
+};
+
 const updateAvatar = async (req, res, next) => {
   try {
-    const uploaded = await s3.upload(req.file, 'user', getImageName(req.file, req.payload.id));
+    const uploaded = await s3.upload(req.file, s3_dir + 'user', getImageName(req.file, req.payload.id));
     await User.updateOne({_id: req.payload.id}, {$set: {avatar: uploaded.key}});
     res.status(200).json({path: uploaded.key});
   } catch (e) {
@@ -171,10 +220,22 @@ const updatePassword = async (req, res, next) => {
   }
 }
 
+const updateLanguage = async (req, res, next) => {
+  try {
+    const { language } = req.body;
+    const userId = req.params.id;
+    const user = await User.findOne({_id: userId});
+    await user.updateOne({_id: req.payload.id}, {$set: {language: language}});;
+
+  } catch (e) {
+    next(e);
+  }
+}
+
 const block = async (req, res, next) => {
   try {
-    await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}});
-    await User.updateOne({_id: req.payload.id}, {$addToSet: {blocked: req.params.user}, $pull: {contacts: req.params.user}});
+    await User.updateOne({_id: req.params.user}, {$addToSet: {blockedFrom: req.payload.id}, $pull: {contacts: req.payload.id}, $pull: {friends: req.payload.id}});
+    await User.updateOne({_id: req.payload.id}, {$addToSet: {blocked: req.params.user}, $pull: {contacts: req.params.user}, $pull: {friends: req.params.user}});
     res.status(200).json({updated: true});
   } catch (e) {
     next(e);
@@ -219,18 +280,63 @@ const remove = async (req, res, next) => {
   }
 };
 
+const forgotPassword = async (req, res, next) => {
+
+  try {
+    const {email} = req.body;
+    const resetEmail = await realmApp.emailPasswordAuth.sendResetPasswordEmail({ email });
+    res.status(200).json("success in sending forgot password email")
+  } catch (e) {
+    next(e);
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const {newPassword, token, tokenId, email} = req.body;
+
+    const user = await User.findOne({email});
+    user.setPassword(newPassword);
+    await user.save();
+
+    res.status(200).json("success in resetting password")
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+};
+
+const updateTextSize = async (req, res, next) => {
+  try {
+    const { textSize } = req.body;
+    const { id } = req.params;
+    const newTextSize = Number(textSize)
+    await User.updateOne({_id: id}, {$set: {fontSize: newTextSize}});
+    res.status(200).json({ message: 'Text size updated successfully' });
+
+  } catch (error) {
+    next(error)
+  }
+};
+
 router.post("/", create);
 router.post("/login", login);
 router.post("/qr", generateQr);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 router.put("/device", auth.required, addDevice);
 router.get("/", auth.required, getProfile);
 router.get("/search", auth.required, search);
+router.get("/allUsers", auth.required, getAllUsers);
 router.get("/:id", auth.required, get);
 router.put("/", auth.required, update);
-router.put("/avatar", [auth.required, upload.single('avatar')], updateAvatar);
+router.put("/translateUser", auth.required, updateTranslateUser);
+router.put("/avatar", [auth.required, upload.single('file')], updateAvatar);
 router.put("/password/:id", auth.required, updatePassword);
+router.put("/language/:id", auth.required, updateLanguage);
 router.put("/block/:user", auth.required, block);
 router.put("/unblock/:user", auth.required, unblock);
+router.put("/changeText/:id", auth.required, updateTextSize);
 router.delete("/:id", auth.required, remove);
 
 module.exports = router;

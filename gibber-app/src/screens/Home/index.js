@@ -10,14 +10,15 @@ import moment from "../../utils/moment";
 import {getAvatarPath, sortConversations} from "../../utils/helpers";
 import {disconnectSocket, initiateSocket, newChat, refreshMessages, setOffline, setOnline} from "./socket";
 import {onNotificationOpened} from "../../config/NotificationService";
+import { BannerAd, TestIds, BannerAdSize } from 'react-native-google-mobile-ads';
 
 function Home(props) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const dispatch = useDispatch();
   const menuItems = React.useMemo(() => [
     {value: 1, label: 'Profile', onPress: () => props.navigation.navigate('Profile')},
-    {value: 2, label: 'Link Web', onPress: () => props.navigation.navigate('LinkWeb')},
-    {value: 3, label: 'Blocked Contacts', onPress: () => props.navigation.navigate('BlockedList')}
+    {value: 2, label: 'Blocked Contacts', onPress: () => props.navigation.navigate('BlockedList')},
+    // {value: 3, label: 'Link Web', onPress: () => props.navigation.navigate('LinkWeb')},
   ], []);
   const user = useSelector(state => state.main.user.data);
   const conversations = useSelector(state => state.main.conversations);
@@ -78,10 +79,10 @@ function Home(props) {
       <Item onPress={() => props.navigation.navigate('Chat', {conversation: item})} unseen={unseenMessage}>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => onItemClick(item)}>
-            <Avatar source={getAvatarPath(!item.isGroup ? recipient.avatar : item.image, item.isGroup)} />
+            <Avatar source={getAvatarPath(!item.isGroup ? recipient?.avatar : item.image, item.isGroup)} />
           </TouchableOpacity>
           <View>
-            <UserName unseen={unseenMessage}>{!item.isGroup ? recipient.name : item.name}</UserName>
+            <UserName unseen={unseenMessage}>{!item.isGroup ? recipient?.name : item.name}</UserName>
             {text}
           </View>
         </View>
@@ -99,8 +100,13 @@ function Home(props) {
 
   return (
     <View style={{flex: 1}}>
-      <Header title="Messages" menuItems={menuItems} titleStyle={{fontSize: 25}} />
-      <View style={theme.body}>
+      <Header title="Messages" menuItems={menuItems} titleStyle={{fontSize: 25, marginTop: -10}}/>
+      <View style={{
+        flex: 1,
+        marginTop: "5%",
+        position: "relative",
+        bottom: 5
+      }}>
         {conversations.loading || conversations.data.length > 0 ?
           <FlatList
             data={getListData().slice().sort(sortConversations)}
@@ -121,6 +127,11 @@ function Home(props) {
         </FloatButton>
       </View>
       <CreateChat visible={modalVisible} close={() => setModalVisible(false)} navigate={props.navigation.navigate} />
+      {/* TESTING AD BANNER HERE */}
+      <BannerAd 
+            unitId={TestIds.BANNER} 
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          />
     </View>
   )
 }

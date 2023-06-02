@@ -17,7 +17,11 @@ import {
   unblockUserSuccess,
   updateAvatarSuccess,
   updateGroupImageSuccess,
-  updateProfileSuccess
+  updateProfileSuccess,
+  updatePasswordSuccess,
+  updateTextArraySuccess,
+  forgotPasswordSuccess,
+  updateTranslateOptionSuccess
 } from './actions';
 import {
   BLOCK_USER,
@@ -35,7 +39,10 @@ import {
   UNBLOCK_USER,
   UPDATE_AVATAR,
   UPDATE_GROUP_IMAGE,
-  UPDATE_PROFILE
+  UPDATE_PROFILE,
+  UPDATE_PASSWORD,
+  UPDATE_TEXT_ARRAY,
+  FORGOT_PASSWORD, UPDATE_TRANSLATE_OPTION
 } from "./constants";
 
 import {Api} from "../config";
@@ -56,7 +63,7 @@ export function* loginRequest(action) {
     replace('Home');
     setNotificationUserId(res.data._id);
   } catch (e) {
-    alert(e.response.data.message);
+    alert(e);
     yield put(loginError(e));
   }
 }
@@ -88,6 +95,21 @@ export function* getProfile(action) {
 export function* updateProfile(action) {
   const res = yield call(Api.put, '/user', action.data);
   yield put(updateProfileSuccess(res.data));
+}
+
+export function* updatePassword(action) {
+  const res = yield call(Api.put, `/user/password/${action.data.id}`, action.data);
+  yield put(updatePasswordSuccess(res.data));
+}
+
+export function* updateTextArray(action) {
+  const res = yield call(Api.post, '/chat/conversation/reply/updateTextArray', action.data);
+  yield put(updateTextArraySuccess(res.data));
+}
+
+export function* forgotPassword(action) {
+  const res = yield call(Api.post, '/user/forgot-password', action.data);
+  yield put(forgotPasswordSuccess(res.data));
 }
 
 export function* updateAvatar(action) {
@@ -172,11 +194,20 @@ export function* deleteConversation(action) {
   yield put(deleteConversationSuccess(action.data));
 }
 
+export function* updateTranslateOption(action) {
+  yield call(Api.put, '/user/translateUser/', action.data);
+  yield put(updateTranslateOptionSuccess(action.data));
+}
+
 export default function* loginSaga() {
   yield takeLatest(LOGIN, loginRequest);
   yield takeLatest(REGISTER, register);
   yield takeLatest(GET_PROFILE, getProfile);
   yield takeLatest(UPDATE_PROFILE, updateProfile);
+  yield takeLatest(UPDATE_TRANSLATE_OPTION, updateTranslateOption);
+  yield takeLatest(UPDATE_PASSWORD, updatePassword);
+  yield takeLatest(FORGOT_PASSWORD, forgotPassword);
+  yield takeLatest(UPDATE_TEXT_ARRAY, updateTextArray);
   yield takeLatest(UPDATE_AVATAR, updateAvatar);
   yield takeLatest(GET_CONVERSATIONS, getConversations);
   yield takeLatest(CONVERSATION_REPLY, conversationReply);

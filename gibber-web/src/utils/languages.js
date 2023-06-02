@@ -32,6 +32,10 @@ export const languages = [
         name: 'German',
     },
     {
+        language: 'gu',
+        name: 'Gujarati',
+    },
+    {
         language: 'hi',
         name: 'Hindi',
     },
@@ -79,4 +83,4 @@ export const languages = [
         language: 'ur',
         name: 'Urdu',
     },
-]
+];

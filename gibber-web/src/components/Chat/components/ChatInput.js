@@ -4,41 +4,30 @@ import {Icon} from "../../index";
 import {theme as themes} from '../../../config/theme';
 import FileUpload from "../../FileUpload";
 import {useOutsideAlerter} from "../../../utils/useOutsideAlerter";
+import { translateText } from '../../../utils/helpers';
 import Api from "../../../config/axios";
-import axios from 'axios'
+
 
 const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...props}) => {
   const [actionsVisible, setActionsVisible] = React.useState(false);
+  const [translateInProg, setTranslateInProg] = React.useState(false);
   const theme = themes[props.mode];
   const actionsRef = React.useRef(null);
   useOutsideAlerter(actionsRef, () => setActionsVisible(false));
 
 
-  const translateText = async (text, tarLang) => {
-    try{
-      const options = {
-        method: 'POST',
-        url: 'https://nlp-translation.p.rapidapi.com/v1/translate',
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-          'X-RapidAPI-Host': 'nlp-translation.p.rapidapi.com'
-        },
-        data: {text: text, to: tarLang}
-      };
-
-      const resp =  await axios.request(options);
-      return resp.data.translated_text[tarLang];
-    }catch(e){
-      throw new Error(e);
-    }
-  }
-
   const submit = React.useCallback(async () => {
-    if (value) {
-      const translatedText = await translateText(value, user.language);
-      sendMessage({text: translatedText});
+    if (value && !translateInProg) {
+      setTranslateInProg(true);
+      let textValue;
+      if(user.translateUser) {
+        textValue = await translateText(value, user.language);
+      } else {
+        textValue = value;
+      }
+      sendMessage({text: textValue});
       onChange('');
+      setTranslateInProg(false);
     }
   }, [value]);
 
@@ -63,6 +52,7 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     data[type] = await uploadFile(source);
     onSend(chatId, data);
   }, []);
+
   const sendAudio = React.useCallback(async (source) => {
     setActionsVisible(false);
     const uri = URL.createObjectURL(source);
@@ -79,19 +69,21 @@ const ChatInput = ({value, onChange, onSend, appendMessage, chatId, user, ...pro
     setActionsVisible(false)
   }, []);
 
+  
   return (
     <InputWrapper>
       <InputContainer>
         <Input
           value={value}
           placeholder={"Message"}
-          onChange={e => onChange(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && submit()}
+          onChange={e => !translateInProg && onChange(e.target.value)}
+          onKeyDown={e => !translateInProg ? e.key === 'Enter' && submit() : undefined}
         />
-        {value?.trim().length === 0 && props.sidebarStatus === 'close' && false ? <IconBtn onClick={() => setActionsVisible(true)}>
+        {value?.trim().length === 0 && props.sidebarStatus === 'close' ? <IconBtn onClick={() => setActionsVisible(true)}>
+
           <Icon size={21} name="attach-outline" color={theme.gray} />
         </IconBtn>: <></>}
-        <IconContainer onClick={submit}>
+        <IconContainer onClick={() => !translateInProg ? submit() : undefined}>
           <Icon size={21} name={"paper-plane-outline"} color={theme.primary} />
         </IconContainer>
       </InputContainer>

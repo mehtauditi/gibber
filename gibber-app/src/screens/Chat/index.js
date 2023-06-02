@@ -13,6 +13,13 @@ import {checkRecipientOnline, subscribeToOffline, subscribeToOnline, subscribeTo
 import {getAvatarPath, mapMessageData} from "../../utils/helpers";
 import {Content, Name, Avatar as HeaderAvatar, StatusTxt} from "../../components/Header/styles";
 import {LoadBtn, LoadBtnTxt} from "./styles";
+import { CommonActions } from '@react-navigation/native';
+import { goBack } from '../../config/Navigator';
+import mobileAds from 'react-native-google-mobile-ads';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { BannerAd, TestIds, BannerAdSize } from 'react-native-google-mobile-ads';
+
+
 let timeout;
 
 const Chat = (props) => {
@@ -36,15 +43,45 @@ const Chat = (props) => {
   const conversationId = React.useMemo(() => props.route.params?.conversation._id, []);
   const [currentAudioId, setCurrentAudioId] = React.useState('');
   const menuItems = React.useMemo(() => [
-    {value: 1, label: 'Media', onPress: () => props.navigation.navigate('MediaManager', {conversationId})},
+    // {value: 1, label: 'Media', onPress: () => props.navigation.navigate('MediaManager', {conversationId})},
     {value: 2, label: `${isMuted ? 'Unmute' : 'Mute'} notifications`, onPress: () => {dispatch(muteConversation({conversationId, isMuted}));setIsMuted(!isMuted)}},
     ...(!isGroup ? [
       {value: 3, label: 'Block user', onPress: () => block()},
-      {value: 4, label: 'Delete', onPress: () => {dispatch(deleteConversation(conversationId)); props.navigation.goBack()}},
+      {value: 4, label: 'Delete', onPress: () => {dispatch(deleteConversation(conversationId)); props.navigation.goBack(null)}},
     ] : []),
   ], [isGroup, recipient, conversationId, isMuted]);
   const user = useSelector(state => state.main.user.data);
   const sentMessage = useSelector(state => state.main.sentMessage);
+
+  // Code for Google Ad Mob - still need to render ads
+
+  // mobileAds()
+  // .initialize()
+  // .then(adapterStatuses => {
+  //   // Initialization complete!
+  // });
+  
+  // Code for requesting App Tracking Transparency authorization (iOS)
+  // const result = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+  // if (result === RESULTS.DENIED) {
+  //   // The permission has not been requested, so request it.
+  //   await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY);
+  // }
+  // const adapterStatuses = await mobileAds().initialize();
+  // const adapterStatuses = await mobileAds().initialize();
+
+  // Code for admob test ads (do not use production ads from Google admob account)
+    // # App Open
+  // AppOpenAd.createForAdRequest(TestIds.APP_OPEN);
+
+  // // # Interstitial
+  // InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
+
+  // // # Rewarded
+  // RewardedAd.createForAdRequest(TestIds.REWARDED);
+
+  // # Banners
+  // <BannerAd unitId={TestIds.BANNER} />
 
   React.useEffect(() => {
     const conversation = props.route.params?.conversation;
@@ -97,7 +134,7 @@ const Chat = (props) => {
 
   const block = React.useCallback(() => {
     dispatch(blockUser(recipient));
-    props.navigation.goBack();
+    props.navigation.goBack(null);
   }, [recipient]);
 
   const appendMessage = React.useCallback((message, cb) => {
@@ -195,10 +232,10 @@ const Chat = (props) => {
       <Header {...props} chat menuItems={menuItems} chatData={isGroup ? {name: groupName, avatar: groupImage} : recipient} isGroup={isGroup}
         chatTitle={
           <Content>
-            <TouchableOpacity onPress={() => props.navigation.goBack()}>
+            <TouchableOpacity onPress={goBack} style={{marginBottom: 20}}>
               <Icon size={33} height={40} name="chevron-left-outline" />
             </TouchableOpacity>
-            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} onPress={navigateProfile}>
+            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}} onPress={navigateProfile}>
               <HeaderAvatar source={getAvatarPath(isGroup ? groupImage : recipient.avatar, isGroup)} />
               <View>
                 <Name noFont>{isGroup ? groupName : recipient.name}</Name>
@@ -209,7 +246,7 @@ const Chat = (props) => {
         }
       />
       {loading ? <Loading/> :
-        <View style={themeStyle.body}>
+        <View style={[themeStyle.body, {marginTop: 15}]}>
           <GiftedChat
             messages={messagesData}
             user={{_id: user._id}}
@@ -235,11 +272,17 @@ const Chat = (props) => {
               }
             }}
             renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
-            renderInputToolbar={() => <ChatInput value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} updateMessageData={updateMessageData} />}
+            renderInputToolbar={() => <ChatInput value={message} user={user} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} updateMessageData={updateMessageData} />}
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           />
+          {/* TESTING AD BANNER HERE */}
+          <BannerAd 
+            unitId={TestIds.BANNER} 
+            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          />
         </View>
+        
       }
     </>
   )
