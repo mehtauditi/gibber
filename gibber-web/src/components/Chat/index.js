@@ -57,6 +57,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     setPage(0);
     setData();
   }, [data]);
+
   const setData = React.useCallback(async () => {
     if (data._id) {
       removeListeners(['userOnline', 'userOffline']);
@@ -213,7 +214,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     // });
     return (
       <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
-        <div>{text}</div>
+        <div style={{fontSize: `${user.fontSize}rem`}}>{text}</div>
       </Hyperlink>
     )
   }
@@ -256,7 +257,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           const { currentMessage } = props;
           const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
           if (selectedBubble === currentMessage._id) {
-            return <MessageText right={props.position === 'right'}>{formatLink(text)} 
+            return <MessageText right={props.position === 'right'}>{formatLink(text)}
             <StyledText mode={theme[mode]}>
               {currentMessage.originalText}
             </StyledText>

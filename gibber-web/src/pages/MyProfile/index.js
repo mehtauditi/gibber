@@ -35,6 +35,8 @@ function MyProfile(props) {
   const [mode, setMode] = useOutletContext();
   const [actionsVisible, setActionsVisible] = React.useState(false);
   const actionsRef = React.useRef(null);
+  const [newText, setNewText] = React.useState('')
+
   useOutsideAlerter(actionsRef, () => setActionsVisible(false));
 
   const handleProfileUpdateSubmit = async () => {
@@ -44,6 +46,9 @@ function MyProfile(props) {
     }
     if (username !== userData.name) {
       await Api.put(`/user`, { name: username } );
+    }
+    if (newText) {
+      await Api.put(`/user/changeText/${userData._id}`, { textSize: newText });
     }
     if (!password.newPassword && !password.confirmPassword && !password.currentPassword) {
       toast.success('Profile Updated');
@@ -65,8 +70,7 @@ function MyProfile(props) {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
-    });
-
+    })
   };
 
   const toggleEditMode = () => {
@@ -106,8 +110,11 @@ function MyProfile(props) {
         });
   }
 
-  const nullFunction = () => {
-    toast.warn('Sorry language change is not available yet')
+  const handleTextChange = (event) => {
+    if (event.target.value === "small") setNewText('0.80');
+    if (event.target.value === "medium") setNewText('0.90');
+    if (event.target.value === "large") setNewText("1.15");
+    return;
   }
 
   useEffect(async () => {
@@ -164,6 +171,15 @@ function MyProfile(props) {
                           />
                       </div>
                   </div>
+                  <div className='element-container' style={{paddingTop:'0px'}}>
+                    <h3 className='element-label' style={{paddingTop:'0.75rem'}}>Text Size</h3>
+                    <select className="custom-select" onChange={handleTextChange}>
+                      <option value=""></option>
+                      <option value="small">small</option>
+                      <option value="medium">medium</option>
+                      <option value="large">large</option>
+                    </select>
+                  </div>
                   <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <h2 className='element-label'>Change Password</h2>
                   <div className='element-container'>
@@ -214,6 +230,7 @@ function MyProfile(props) {
                     <h2 className='element-label' style={{justifyContent:'left', color:'gray'}}>Language</h2>
                     <h2 className='element-label'>{(languages.find(value => value.language === userData.language)).name}</h2>
                   </div>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                 </CenteredDiv>
             )}
           <div style={{display:'flex', paddingTop:'25px', justifyContent:'center', paddingBottom:'25px'}}>
