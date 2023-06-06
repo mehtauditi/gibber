@@ -15,10 +15,12 @@ import {useOutsideAlerter} from "../../utils/useOutsideAlerter";
 import {Icon, Switch} from "../../components";
 import DropdownInput from "../../components/DropdownInput";
 import {languages} from "../../utils/languages";
+import { useNavigate } from 'react-router-dom';
 
 function MyProfile(props) {
   const location = useLocation();
   const userData = location.state;
+  const navigate = useNavigate();
 
   // This state variable will keep track of whether the component is in edit mode or not,
   // if true user is allowed to edit the profile
@@ -36,6 +38,19 @@ function MyProfile(props) {
   const [actionsVisible, setActionsVisible] = React.useState(false);
   const actionsRef = React.useRef(null);
   useOutsideAlerter(actionsRef, () => setActionsVisible(false));
+
+  const handleDelete = async() => {
+    const confirmed = window.confirm('Are you sure you want to delete your account? This action cannot be undone.');
+    if (!confirmed) return;
+    try {
+      await Api.delete(`/user/${userData._id}`);
+      console.log('Account deleted successfully.');
+      navigate('/app/login');
+      toast.success('Account Successfully Deleted!')
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const handleProfileUpdateSubmit = async () => {
     if (!username || username.trim() === '') {
@@ -213,6 +228,11 @@ function MyProfile(props) {
                   <div className='element-container'>
                     <h2 className='element-label' style={{justifyContent:'left', color:'gray'}}>Language</h2>
                     <h2 className='element-label'>{(languages.find(value => value.language === userData.language)).name}</h2>
+                  </div>
+                  <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
+                  <div className='element-container'>
+                    <h2 className='element-label' style={{justifyContent:'left', color:'gray'}}>Delete Account</h2>
+                    <button className="noselect" style={{ marginTop: '20px', borderRadius: '4px' }} onClick={handleDelete}><span className="text">Delete</span><span className="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                   </div>
                 </CenteredDiv>
             )}
