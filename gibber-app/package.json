@@ -15,12 +15,9 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.15.17",
     "@react-native-community/geolocation": "^3.0.5",
-<<<<<<< HEAD
     "@react-native-community/push-notification-ios": "^1.11.0",
-=======
     "@react-native-firebase/analytics": "^17.4.3",
     "@react-native-firebase/app": "^17.4.3",
->>>>>>> c09d6e8d7bc1ea5a4ce13b1a4c935eaaf92c4b13
     "@react-navigation/native": "6.0.7",
     "@react-navigation/native-stack": "6.3.0",
     "axios": "0.25.0",
