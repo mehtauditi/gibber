@@ -206,6 +206,7 @@ h5 {
   box-shadow: gray 0px 0px 5px;
 }
 
+
 button {
   width: 160px;
   height: 50px;
@@ -262,6 +263,33 @@ button {
  button:focus {
   outline: none;
  }
+
+.custom-select {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+  width: 8.0rem;
+  height: 2.5rem;
+}
+
+.custom-select:focus {
+  outline: none;
+  box-shadow: 0 0 3px #999;
+}
+
+.custom-select option {
+  padding: 8px 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+.custom-select option:hover {
+  background-color: #f5f5f5;
+}
+
 
  button:active .icon svg {
   transform: scale(0.8);

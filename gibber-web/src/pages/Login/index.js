@@ -13,6 +13,7 @@ import PhoneInput from 'react-phone-input-2';
 import PasswordChecklist from 'react-password-checklist';
 import 'react-phone-input-2/lib/style.css'
 import './index.css';
+import ConfirmationModal from './ConfirmationModal';
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
@@ -23,6 +24,7 @@ function Login() {
   const [password, setPassword] = React.useState('');
   // const [qrCode, setQrCode] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -96,6 +98,15 @@ function Login() {
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
 
+  const handleLanguageSelection = (e) => {
+    setLang(e);
+    if(e === 'en') setShowConfirmation(true);
+  }
+
+
+  const handleConfirm = () => {
+    setShowConfirmation(false);
+  }
 
   return (
     <div className="container">
@@ -142,8 +153,9 @@ function Login() {
           <CenteredContent>
             <h3>Sign Up</h3>
             <TextInput style={{paddingInline:'10px'}} placeholder="Name" value={name} onChange={setName} />
-            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
+            <DropdownInput placeholder="Language"  value={lang} onChange={handleLanguageSelection} />
             <TextInput style={{paddingInline:'10px'}} placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <ConfirmationModal show={showConfirmation} onConfirm={handleConfirm} lang={lang} />
             <PhoneInput
               className="text-field"
               country={'us'}
@@ -159,6 +171,7 @@ function Login() {
             />
             <Button className='login-btn' onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
+
       }
     </div>
   )
