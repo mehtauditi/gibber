@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, TouchableOpacity, View, Platform} from 'react-native'
 import {GiftedChat, Bubble, Avatar, Message} from 'react-native-gifted-chat'
 import {getTheme} from "../../config/theme";
 import {theme as themeStyle} from "../../config/theme";
@@ -18,7 +18,8 @@ import { goBack } from '../../config/Navigator';
 import mobileAds from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import { BannerAd, TestIds, BannerAdSize } from 'react-native-google-mobile-ads';
-
+import OneSignal from 'react-native-onesignal';
+import { AdIds } from '../../config/adMobConfig';
 
 let timeout;
 
@@ -278,7 +279,7 @@ const Chat = (props) => {
           />
           {/* TESTING AD BANNER HERE */}
           <BannerAd 
-            unitId={TestIds.BANNER} 
+            unitId={AdIds.BANNER} 
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
           />
         </View>
