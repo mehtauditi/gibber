@@ -20,7 +20,8 @@ import {
   updateProfileSuccess,
   updatePasswordSuccess,
   updateTextArraySuccess,
-  forgotPasswordSuccess
+  forgotPasswordSuccess,
+  updateTranslateOptionSuccess
 } from './actions';
 import {
   BLOCK_USER,
@@ -41,7 +42,7 @@ import {
   UPDATE_PROFILE,
   UPDATE_PASSWORD,
   UPDATE_TEXT_ARRAY,
-  FORGOT_PASSWORD
+  FORGOT_PASSWORD, UPDATE_TRANSLATE_OPTION
 } from "./constants";
 
 import {Api} from "../config";
@@ -193,11 +194,17 @@ export function* deleteConversation(action) {
   yield put(deleteConversationSuccess(action.data));
 }
 
+export function* updateTranslateOption(action) {
+  yield call(Api.put, '/user/translateUser/', action.data);
+  yield put(updateTranslateOptionSuccess(action.data));
+}
+
 export default function* loginSaga() {
   yield takeLatest(LOGIN, loginRequest);
   yield takeLatest(REGISTER, register);
   yield takeLatest(GET_PROFILE, getProfile);
   yield takeLatest(UPDATE_PROFILE, updateProfile);
+  yield takeLatest(UPDATE_TRANSLATE_OPTION, updateTranslateOption);
   yield takeLatest(UPDATE_PASSWORD, updatePassword);
   yield takeLatest(FORGOT_PASSWORD, forgotPassword);
   yield takeLatest(UPDATE_TEXT_ARRAY, updateTextArray);

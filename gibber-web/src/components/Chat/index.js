@@ -17,9 +17,11 @@ import {Spinner, Switch} from '../index'
 import Icon from '../Icon';
 import useDimensions from "../../utils/useDimensions";
 import {checkRecipientOnline, removeListeners, subscribeToOffline, subscribeToOnline, subscribeToRecipientOnlineStatus} from "../../pages/ChatRoom/socket";
+import styled from 'styled-components/native';
 import Hyperlink from "react-native-hyperlink";
 
 let timeout;
+
 
 function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const { width } = useDimensions();
@@ -37,6 +39,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [isOnline, setIsOnline] = React.useState(false);
   const [recipientTyping, setRecipientTyping] = React.useState(false);
   const [isTyping, setIsTyping] = React.useState(false);
+  const [selectedBubble, setSelectedBubble] = React.useState(null);
   //Testing something out for load more button here
   const [totalPages, setTotalPages] = React.useState(1);
   const [userLang, setUserLang] = React.useState(user.language);
@@ -56,15 +59,15 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     setPage(0);
     setData();
   }, [data]);
+
   const setData = React.useCallback(async () => {
-    
     if (data._id) {
       removeListeners(['userOnline', 'userOffline']);
       disconnectSocket();
       initiateSocket(data._id);
       subscribeToChat(data => {
         if (data.message) {
-          
+
           setMessages(oldChats =>[data.message, ...oldChats]);
           setSeenMessages([data.message._id]);
         }
@@ -143,15 +146,30 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   }, [user._id, messages, data._id, props]);
 
   const onBubbleLongPress = React.useCallback((context, message) => {
-    const options = ['Cancel'];
-    if (message.user._id === user._id) options.unshift('Delete Message');
-    if (options.length > 1) {
-      const cancelButtonIndex = options.length - 1;
-      context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
-        if (buttonIndex === 0) deleteMessage(message);
-      });
+    const options = message.user._id === user._id
+    ?  ['Show Original Text', 'Delete Message', 'Cancel']
+    : ['Show Original Text', 'Cancel'];
+
+    if(!message.originalText) options.shift();
+
+    if (selectedBubble === message._id) {
+      options[0] = 'Hide Original Text';
     }
-  }, [messages, data._id]);
+    const cancelButtonIndex = options.length - 1;
+    if (options.length === 3) {
+      context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
+        if (buttonIndex === 0 && options[0] === 'Show Original Text') setSelectedBubble(message._id);
+        if (buttonIndex === 0 && options[0] === 'Hide Original Text') setSelectedBubble(null);
+        if (buttonIndex === 1) deleteMessage(message);
+      })
+    } else if (options.length === 2) {
+      context.actionSheet().showActionSheetWithOptions({options, cancelButtonIndex}, async (buttonIndex) => {
+        if (buttonIndex === 0 && options[0] === 'Show Original Text') setSelectedBubble(message._id);
+        if (buttonIndex === 0 && options[0] === 'Hide Original Text') setSelectedBubble(null);
+      })
+    }
+  }, [messages, data._id, selectedBubble]);
+
 
   const loadMore = React.useCallback(async () => {
     const newPage = page + 1;
@@ -198,7 +216,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     // });
     return (
       <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
-        <div>{text}</div>
+        <div style={{fontSize: `${user.fontSize}rem`}}>{text}</div>
       </Hyperlink>
     )
   }
@@ -232,7 +250,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   return (
     <ChatContainer onFocus={() => {
         if(sidebarStatus === 'open') sideBarToggle('close');
-      }}> 
+      }}>
       <Header>
       {width < 700 ? <div onClick={sideBarToggle}><Icon name="menu-outline" color="#848484" /></div>: <></>}
         <Row align="center" onClick={() => !isGroup && props.setProfile(recipient._id)}>
@@ -249,47 +267,49 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           messages={messagesData}
           user={{_id: user._id}}
           minInputToolbarHeight={60}
-          renderBubble={ (props) => {
+          renderBubble={props => {
             if (props.currentMessage.location) return <LocationMessage location={props.currentMessage.location} messagePosition={props.position}/>;
             if (props.currentMessage.audio) return <AudioMessage src={props.currentMessage.audio}/>;
-  
-            else {
-              const allProps = {...props, ...getBubbleProps(theme[mode]), onLongPress: onBubbleLongPress};
-              return <Bubble {...allProps} />;
-            }
-          }}
-          
-          //renderMessageText={props => <MessageText right={props.position === 'right'}>{typeof(props.currentMessage?.text) == 'string' ? props.currentMessage?.text : (props.currentMessage?.text.find(i => i.language === user.language))?.text}</MessageText>}
-          //renderMessage = {renderMessageText(user.language)}
-          renderMessageText={props => {
-            const { currentMessage } = props;
-            const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === userLang))?.text;
-            // Calling the formatLink function HERE
-            //console.log(text);
-            //user.language = 'fr';
-            if(text === undefined) {
-              //Front end has to pass in the newLang, translatedText, messageId
-              //retranslate
-              // text = handle the translation
-              //No need for the else
-              //If too slow do separately adding to backend and translating
-              //NO RETURN NEEDED
-              text = translateText(text, user.language, );
 
+            else {
+              const allProps = {...props, ...getBubbleProps(theme[mode]),onLongPress: onBubbleLongPress};
+              return (
+                <>
+                  <Bubble {...allProps} />
+                </>
+              )
             }
-            return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
           }}
+          renderMessageText={props => {
+          const { currentMessage } = props;
+          const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
+          if (selectedBubble === currentMessage._id) {
+            return <MessageText right={props.position === 'right'}>{formatLink(text)}
+            <StyledText mode={theme[mode]}>
+              {currentMessage.originalText}
+            </StyledText>
+            </MessageText>
+          } else {
+            return <MessageText right={props.position === 'right'}>{formatLink(text)}</MessageText>
+          }
+        }}
           renderAvatar={props => <Avatar {...props} containerStyle={{left: {top: -10, marginRight: 0}}} />}
           renderInputToolbar={() => <ChatInput sidebarStatus={sidebarStatus} value={message} onChange={setMessage} onSend={onSend} appendMessage={appendMessage} chatId={data._id} mode={mode} user={user} />}
           renderMessageVideo={props => <VideoMessage src={props.currentMessage.video}/>}
           renderMessageImage={props => <ImageMessage src={props.currentMessage.image} />}
           listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           extraData={[mode]}
-          shouldUpdateMessage={(props, nextProps) => props.extraData[0] !== nextProps.extraData[0]}
+          shouldUpdateMessage={(props, nextProps) => props.extraData !== nextProps.extraData}
         />
       </ChatContent>
     </ChatContainer>
   )
 }
+
+const StyledText = styled.Text`
+  font-style: italic;
+  color: ${props => (props.mode.mode === 'light' ? '#5A5A5A' : '#D3D3D3')};
+`;
+
 
 export default Chat;

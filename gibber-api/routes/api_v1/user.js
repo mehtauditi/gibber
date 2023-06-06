@@ -281,9 +281,9 @@ const remove = async (req, res, next) => {
 };
 
 const forgotPassword = async (req, res, next) => {
-  
+
   try {
-    const {email} = req.body;    
+    const {email} = req.body;
     const resetEmail = await realmApp.emailPasswordAuth.sendResetPasswordEmail({ email });
     res.status(200).json("success in sending forgot password email")
   } catch (e) {
@@ -294,7 +294,7 @@ const forgotPassword = async (req, res, next) => {
 const resetPassword = async (req, res, next) => {
   try {
     const {newPassword, token, tokenId, email} = req.body;
-    
+
     const user = await User.findOne({email});
     user.setPassword(newPassword);
     await user.save();
@@ -303,6 +303,19 @@ const resetPassword = async (req, res, next) => {
   } catch (e) {
     console.log(e);
     next(e);
+  }
+};
+
+const updateTextSize = async (req, res, next) => {
+  try {
+    const { textSize } = req.body;
+    const { id } = req.params;
+    const newTextSize = Number(textSize)
+    await User.updateOne({_id: id}, {$set: {fontSize: newTextSize}});
+    res.status(200).json({ message: 'Text size updated successfully' });
+
+  } catch (error) {
+    next(error)
   }
 };
 
@@ -323,6 +336,7 @@ router.put("/password/:id", auth.required, updatePassword);
 router.put("/language/:id", auth.required, updateLanguage);
 router.put("/block/:user", auth.required, block);
 router.put("/unblock/:user", auth.required, unblock);
+router.put("/changeText/:id", auth.required, updateTextSize);
 router.delete("/:id", auth.required, remove);
 
 module.exports = router;

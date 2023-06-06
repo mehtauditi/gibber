@@ -48,7 +48,7 @@ function GroupChatModal({ user, show, handleClose }) {
   const fetchAllUsers = async () => {
     try {
       const res = await Api.get('/user/allUsers');
-      setAllUsers(res.data.filter(u => u.email !== 'teamgibber@test.com' && u.email !== user.email));
+      setAllUsers(res.data.filter(u => u.email !== 'teamgibber@test.com' && u.email !== user.email && user.friends.some(e => u._id === e)));
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +83,8 @@ function GroupChatModal({ user, show, handleClose }) {
                 <option key={user._id} value={user._id}>{user.name}</option>
               ))}
             </Form.Control>
+            <p style={{fontSize: 10}}>* You can only create a group with participants who are your friends</p>
+
             <p style={{ fontSize: "14px" }}>Selected Users: {selectedNames.join(', ')}</p>
           </Form.Group>
         </Form>

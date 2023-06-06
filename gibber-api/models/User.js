@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema({
   email: String,
   password: String,
   language: String,
+  fontSize: {
+    type: Number,
+    default: 0.90
+  },
   friends: [{type: mongoose.Types.ObjectId, ref: 'User'}],
   translateUser: Boolean,
   contacts: [{type: mongoose.Types.ObjectId, ref: 'User'}],
