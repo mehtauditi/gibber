@@ -13,21 +13,21 @@ import {IS_IOS, ThemeContainer} from "./src/config/theme";
 import configureStore from "./src/config/configureStore";
 import {MenuProvider} from 'react-native-popup-menu';
 import {Provider} from "react-redux";
-import mobileAds from 'react-native-google-mobile-ads';
+// import mobileAds from 'react-native-google-mobile-ads';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import { GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
+// import { GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
 
-// Set your Tracking ID here
-const trackingId = 'G-YL13JE2YBT';
+// // Set your Tracking ID here
+// const trackingId = 'G-YL13JE2YBT';
 
-GoogleAnalyticsSettings.setDispatchInterval(30);
-GoogleAnalyticsSettings.setDryRun(false);
-GoogleAnalyticsSettings.setOptOut(false);
-GoogleAnalyticsSettings.setAppName('Gibber Chat');
-GoogleAnalyticsSettings.setAppVersion('1.0');
+// GoogleAnalyticsSettings.setDispatchInterval(30);
+// GoogleAnalyticsSettings.setDryRun(false);
+// GoogleAnalyticsSettings.setOptOut(false);
+// GoogleAnalyticsSettings.setAppName('Gibber Chat');
+// GoogleAnalyticsSettings.setAppVersion('1.0');
 
-// Initialize Google Analytics
-GoogleAnalyticsTracker.startTrackerWithId(trackingId);
+// // Initialize Google Analytics
+// GoogleAnalyticsTracker.startTrackerWithId(trackingId);
 
 
 console.disableYellowBox = true;
