@@ -277,11 +277,10 @@ const Chat = (props) => {
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           />
-          {/* TESTING AD BANNER HERE */}
-          <BannerAd 
-            unitId={AdIds.BANNER} 
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-          />
+            <BannerAd 
+              unitId={AdIds.BANNER} 
+              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            />
         </View>
         
       }
