@@ -19,6 +19,7 @@ import {
   updateGroupImageSuccess,
   updateProfileSuccess,
   updatePasswordSuccess,
+  updateTextArraySuccess,
   forgotPasswordSuccess,
   updateTranslateOptionSuccess
 } from './actions';
@@ -40,6 +41,7 @@ import {
   UPDATE_GROUP_IMAGE,
   UPDATE_PROFILE,
   UPDATE_PASSWORD,
+  UPDATE_TEXT_ARRAY,
   FORGOT_PASSWORD, UPDATE_TRANSLATE_OPTION
 } from "./constants";
 
@@ -98,6 +100,11 @@ export function* updateProfile(action) {
 export function* updatePassword(action) {
   const res = yield call(Api.put, `/user/password/${action.data.id}`, action.data);
   yield put(updatePasswordSuccess(res.data));
+}
+
+export function* updateTextArray(action) {
+  const res = yield call(Api.post, '/chat/conversation/reply/updateTextArray', action.data);
+  yield put(updateTextArraySuccess(res.data));
 }
 
 export function* forgotPassword(action) {
@@ -200,6 +207,7 @@ export default function* loginSaga() {
   yield takeLatest(UPDATE_TRANSLATE_OPTION, updateTranslateOption);
   yield takeLatest(UPDATE_PASSWORD, updatePassword);
   yield takeLatest(FORGOT_PASSWORD, forgotPassword);
+  yield takeLatest(UPDATE_TEXT_ARRAY, updateTextArray);
   yield takeLatest(UPDATE_AVATAR, updateAvatar);
   yield takeLatest(GET_CONVERSATIONS, getConversations);
   yield takeLatest(CONVERSATION_REPLY, conversationReply);

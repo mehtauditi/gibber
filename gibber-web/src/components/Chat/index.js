@@ -1,6 +1,6 @@
 import React from 'react';
 import {ChatContainer, ChatContent, Header, HeaderAvatar, LoadBtn, MessageText, StatusTxt} from "./styles";
-import {getAvatarPath, mapMessageData} from "../../utils/helpers";
+import {getAvatarPath, mapMessageData, translateText} from "../../utils/helpers";
 import { Bubble, Avatar, GiftedChat  } from "react-native-gifted-chat";
 import { Text, Linking } from "react-native";
 import LocationMessage from "./components/LocationMessage";
@@ -42,6 +42,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [selectedBubble, setSelectedBubble] = React.useState(null);
   //Testing something out for load more button here
   const [totalPages, setTotalPages] = React.useState(1);
+  const [userLang, setUserLang] = React.useState(user.language);
+  const [text, setText] = React.useState([]);
 
   React.useEffect(() => {
     setIsReady(false);
@@ -218,6 +220,31 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
       </Hyperlink>
     )
   }
+
+  //This has to reformat the text before rendering?
+  //Renders the message for split second, also doesn't save new messages, because no backend help?
+  //Front end attempt
+  const handleNewTranslation = async (text, targetLang) => {
+    // try {
+    //   const translatedText = await translateText(text, 'es');
+    //   setMessages(translatedText);
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    // return (
+    //   <div>
+    //     {text}
+    //   </div>
+    // )
+  }
+  
+  //Back end attempt
+  // const handleNewTranslation = React.useCallback(async () => {
+    //Format the text before calling the api
+      //Make api call to new api
+      
+      //Translates all messages and stores new objects/arrays in the user's new language
+  // }, [userLang, messages]);
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (

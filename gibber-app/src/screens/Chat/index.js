@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, TouchableOpacity, View} from 'react-native'
+import {ActivityIndicator, TouchableOpacity, View, Platform} from 'react-native'
 import {GiftedChat, Bubble, Avatar, Message} from 'react-native-gifted-chat'
 import {getTheme} from "../../config/theme";
 import {theme as themeStyle} from "../../config/theme";
@@ -17,8 +17,9 @@ import { CommonActions } from '@react-navigation/native';
 import { goBack } from '../../config/Navigator';
 import mobileAds from 'react-native-google-mobile-ads';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import { AppOpenAd, InterstitialAd, RewardedAd, BannerAd, TestIds } from 'react-native-google-mobile-ads';
-
+import { BannerAd, TestIds, BannerAdSize } from 'react-native-google-mobile-ads';
+import OneSignal from 'react-native-onesignal';
+import { AdIds } from '../../config/adMobConfig';
 
 let timeout;
 
@@ -71,13 +72,13 @@ const Chat = (props) => {
   // const adapterStatuses = await mobileAds().initialize();
 
   // Code for admob test ads (do not use production ads from Google admob account)
-  //   # App Open
+    // # App Open
   // AppOpenAd.createForAdRequest(TestIds.APP_OPEN);
 
-  // # Interstitial
+  // // # Interstitial
   // InterstitialAd.createForAdRequest(TestIds.INTERSTITIAL);
 
-  // # Rewarded
+  // // # Rewarded
   // RewardedAd.createForAdRequest(TestIds.REWARDED);
 
   // # Banners
@@ -276,7 +277,12 @@ const Chat = (props) => {
             extraChatData={{currentAudioId}}
             listViewProps={{ListFooterComponent: renderLoadMoreBtn}}
           />
+            <BannerAd 
+              unitId={AdIds.BANNER} 
+              size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+            />
         </View>
+        
       }
     </>
   )

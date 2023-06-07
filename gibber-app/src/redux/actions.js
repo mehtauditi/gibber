@@ -40,6 +40,8 @@ import {
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PROFILE,
   UPDATE_PROFILE_SUCCESS,
+  UPDATE_TEXT_ARRAY,
+  UPDATE_TEXT_ARRAY_SUCCESS,
   UPDATE_TRANSLATE_OPTION,
   UPDATE_TRANSLATE_OPTION_SUCCESS,
 } from "./constants";
@@ -77,6 +79,9 @@ export const updateProfile = data => ({type: UPDATE_PROFILE, data});
 
 export const updatePassword = data => ({type: UPDATE_PASSWORD, data});
 export const updatePasswordSuccess = payload => ({type: UPDATE_PASSWORD_SUCCESS, payload});
+
+export const updateTextArray = data => ({type: UPDATE_TEXT_ARRAY, data});
+export const updateTextArraySuccess = payload => ({type: UPDATE_TEXT_ARRAY_SUCCESS, payload});
 
 export const forgotPassword = data => ({type: FORGOT_PASSWORD, data});
 export const forgotPasswordSuccess = payload => ({type: FORGOT_PASSWORD_SUCCESS, payload});

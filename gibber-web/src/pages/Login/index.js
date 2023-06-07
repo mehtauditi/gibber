@@ -89,7 +89,9 @@ function Login() {
       return toast.warn('Password is not valid!');
     }
     try {
-      const res = await Api.post('/user', {name, email, phone, password, language: lang});
+      console.log(name, email, phone, password, lang);
+      const res = await Api.post('/user/', {name, email, phone, password, language: lang});
+      console.log('After');
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
       navigate('/app/chat')

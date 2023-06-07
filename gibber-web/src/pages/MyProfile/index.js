@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 function MyProfile(props) {
   const location = useLocation();
   const userData = location.state;
+  //This state variable will store the current language and change the user's language
+  const [userLanguage, setUserLanguage] = React.useState(userData.language);
   const navigate = useNavigate();
 
   // This state variable will keep track of whether the component is in edit mode or not,
@@ -132,6 +134,41 @@ function MyProfile(props) {
     return;
   }
 
+  // const languageOptions = languages.map((language) => (
+  //   <option 
+  //     key={language.language} 
+  //     value={language.name}
+  //     selected={language.name === userLanguage}
+  //     >
+  //     {language.name}
+  //   </option>
+  // ));
+
+  //Handle language change here
+  //Need to communiate with backend to change the lanuage
+  const handleLanguageChange = React.useCallback(async (e) => {
+    const selectedLanguage = e.target.value;
+    // setUserLanguage(selectedLanguage);
+    const selectedLanguageName = languages.find((language) => language.language === selectedLanguage)?.name;
+    setUserLanguage(selectedLanguageName);
+    if(selectedLanguageName === userLanguage) {
+      toast.success('You language is already ' + userData.language.name);
+    }
+    toast.success('Your are changing your language to: ' + selectedLanguageName);
+    setUserLanguage(selectedLanguage);
+    
+    console.log(selectedLanguage);
+  });
+
+  const languageDropdown = (
+    <DropdownInput
+      label="Language"
+      value={userLanguage}
+      onChange={handleLanguageChange}
+      style={{marginTop: 0}}
+      />
+  );
+
   useEffect(async () => {
     let imag = await getAvatarPath(userData.avatar);
     setAvatar(imag);
@@ -169,7 +206,9 @@ function MyProfile(props) {
                   <Divider style={{background:'gray', width:'90%', height:'1px'}}/>
                   <div className='element-container' style={{paddingTop:'0px'}}>
                     <h3 className='element-label' style={{paddingTop:'35px'}}>Language</h3>
-                    <h3 className='element-label' style={{paddingTop:'35px', textAlign:'left'}}>{(languages.find(value => value.language === userData.language)).name}</h3>
+                    <h3 className='element-label' style={{paddingTop:'35px', textAlign:'left'}}>
+                      {languageDropdown}
+                    </h3>
                     {/*<DropdownInput onChange={nullFunction}/>*/}
                   </div>
                   <div className='element-container' style={{paddingTop:'15px', justifyContent:'left', marginLeft:'25px'}}>
