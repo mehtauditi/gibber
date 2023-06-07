@@ -2,6 +2,7 @@ import React from 'react';
 import {Avatar, ProfileContainer, Close} from "./styles";
 import Api from '../../config/axios';
 import {getAvatarPath} from "../../utils/helpers";
+import {languages} from "../../utils/languages";
 import {Icon} from "../index";
 
 function Profile({id, ...props}) {
@@ -22,7 +23,7 @@ function Profile({id, ...props}) {
       <div className="title">{data.name}</div>
       <div>{data.phone}</div>
       <div>{data.email}</div>
-      <div>{data.language}</div>
+      <div>{languages.find(i => i.language === data.language).name}</div>
     </ProfileContainer>
   )
 }
