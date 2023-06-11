@@ -89,9 +89,7 @@ function Login() {
       return toast.warn('Password is not valid!');
     }
     try {
-      console.log(name, email, phone, password, lang);
-      const res = await Api.post('/user/', {name, email, phone, password, language: lang});
-      console.log('After');
+      let res = await Api.post(`/user`, {name, email, phone, password, language: lang});
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
       navigate('/app/chat')
@@ -101,7 +99,7 @@ function Login() {
   }, [name, email, password, lang, phone, navigate, isValid]);
 
   const handleLanguageSelection = (e) => {
-    setLang(e);
+    setLang(e.target.value);
     if(e === 'en') setShowConfirmation(true);
   }
 
