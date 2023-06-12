@@ -94,7 +94,8 @@ function Login() {
       Api.setToken(res.data.token);
       navigate('/app/chat')
     } catch (e) {
-      toast.warn(e.response.data.message);
+      if(e.response?.data?.message) toast.warn(e.response.data.message);
+      else toast.warn("An error occured. Please try again later!")
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
 
