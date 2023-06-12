@@ -10,6 +10,7 @@
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "patch-package",
+    "clean": "rm -rf node_modules yarn.lock && yarn install",
     "superclean": "rm -rf node_modules yarn.lock && yarn install && cd ios && rm -rf Pods Podfile.lock && pod install && cd .."
   },
   "dependencies": {
