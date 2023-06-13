@@ -74,35 +74,40 @@ function Login() {
 
   const signUp = React.useCallback(async () => {
     if (name.length <= 0) {
-      return toast.warn('Name required!')
+      return toast.warn('Name required!');
     }
-    if (lang === ""){
-      return toast.warn('Language required!')
+    if (lang === "") {
+      return toast.warn('Language required!');
     }
     if (!(email.length > 0 && phone.length > 4)) {
-      return toast.warn('Phone and email required!')
+      return toast.warn('Phone and email required!');
     }
-    if(!(/\S+@\S+\.\S+/.test(email))){
-      return toast.warn('Valid email is required!')
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      return toast.warn('Valid email is required!');
     }
     if (!isValid) {
       return toast.warn('Password is not valid!');
     }
     try {
-      let res = await Api.post(`/user`, {name, email, phone, password, language: lang.target.value});
+      let res = await Api.post(`/user`, { name, email, phone, password, language: lang });
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
-      navigate('/app/chat')
+      navigate('/app/chat');
     } catch (e) {
-      if(e.response?.data?.message) toast.warn(e.response.data.message);
-      else toast.warn("An error occured. Please try again later!")
+      if (e.response?.data?.message) {
+        toast.warn(e.response.data.message);
+      } else {
+        toast.warn("An error occurred. Please try again later!");
+      }
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
-
+  
   const handleLanguageSelection = (e) => {
     setLang(e.target.value);
-    if(e === 'en') setShowConfirmation(true);
-  }
+    if (e.target.value === 'en') {
+      setShowConfirmation(true);
+    }
+  };
 
 
   const handleConfirm = () => {
