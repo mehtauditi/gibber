@@ -146,20 +146,36 @@ function MyProfile(props) {
 
   //Handle language change here
   //Need to communiate with backend to change the lanuage
+
   const handleLanguageChange = React.useCallback(async (e) => {
     const selectedLanguage = e.target.value;
-    // setUserLanguage(selectedLanguage);
-    const selectedLanguageName = languages.find((language) => language.language === selectedLanguage)?.name;
-    setUserLanguage(selectedLanguageName);
-    if(selectedLanguageName === userLanguage) {
-      toast.success('You language is already ' + userData.language.name);
-    }
-    toast.success('Your are changing your language to: ' + selectedLanguageName);
     setUserLanguage(selectedLanguage);
-    
-    console.log(selectedLanguage);
+  
+    // Map the language code to its corresponding name
+    const selectedLanguageName = languages.find(
+      (language) => language.language === selectedLanguage
+    )?.name;
+  
+    // Map the user language code to its corresponding name
+    const userLanguageName = languages.find(
+      (language) => language.language === userLanguage
+    )?.name;
+  
+    if (selectedLanguage === userLanguage) {
+      toast.success('Your language is already set to ' + (userLanguageName));
+    } else {
+      try {
+        await Api.put(`/user/language/${userData._id}`, {
+          language: selectedLanguage,
+        });
+        toast.success('Your language has been changed to ' + (selectedLanguageName));
+        setUserLanguage(selectedLanguage);
+      } catch (error) {
+        toast.error('Failed to update language');
+      }
+    }
   });
-
+  
   const languageDropdown = (
     <DropdownInput
       label="Language"

@@ -225,8 +225,15 @@ const updateLanguage = async (req, res, next) => {
     const { language } = req.body;
     const userId = req.params.id;
     const user = await User.findOne({_id: userId});
-    await user.updateOne({_id: req.payload.id}, {$set: {language: language}});;
 
+    if(!user){
+      throw new Error('User not found');
+    }
+  
+    user.language = language;
+    await user.save();
+
+    res.json(user)
   } catch (e) {
     next(e);
   }
