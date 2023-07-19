@@ -1,6 +1,6 @@
 import React from 'react';
 import {ChatContainer, ChatContent, Header, HeaderAvatar, LoadBtn, MessageText, StatusTxt} from "./styles";
-import {getAvatarPath, mapMessageData} from "../../utils/helpers";
+import {getAvatarPath, mapMessageData, translateText} from "../../utils/helpers";
 import { Bubble, Avatar, GiftedChat  } from "react-native-gifted-chat";
 import { Text, Linking } from "react-native";
 import LocationMessage from "./components/LocationMessage";
@@ -42,6 +42,8 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
   const [selectedBubble, setSelectedBubble] = React.useState(null);
   //Testing something out for load more button here
   const [totalPages, setTotalPages] = React.useState(1);
+  const [userLang, setUserLang] = React.useState(user.language);
+  const [text, setText] = React.useState([]);
 
   React.useEffect(() => {
     setIsReady(false);
@@ -57,6 +59,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     setPage(0);
     setData();
   }, [data]);
+
   const setData = React.useCallback(async () => {
     if (data._id) {
       removeListeners(['userOnline', 'userOffline']);
@@ -213,10 +216,35 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
     // });
     return (
       <Hyperlink linkDefault={true} linkStyle={{ color: 'blue', textDecorationLine: 'underline'}}>
-        <div>{text}</div>
+        <div style={{fontSize: `${user.fontSize}rem`}}>{text}</div>
       </Hyperlink>
     )
   }
+
+  //This has to reformat the text before rendering?
+  //Renders the message for split second, also doesn't save new messages, because no backend help?
+  //Front end attempt
+  const handleNewTranslation = async (text, targetLang) => {
+    // try {
+    //   const translatedText = await translateText(text, 'es');
+    //   setMessages(translatedText);
+    // } catch (e) {
+    //   console.log(e);
+    // }
+    // return (
+    //   <div>
+    //     {text}
+    //   </div>
+    // )
+  }
+  
+  //Back end attempt
+  // const handleNewTranslation = React.useCallback(async () => {
+    //Format the text before calling the api
+      //Make api call to new api
+      
+      //Translates all messages and stores new objects/arrays in the user's new language
+  // }, [userLang, messages]);
 
   if (!isReady) return <CenteredContent className="loading"><Spinner/></CenteredContent>;
   return (
@@ -256,7 +284,7 @@ function Chat({data, user, mode, sideBarToggle,sidebarStatus, ...props}) {
           const { currentMessage } = props;
           const text = typeof currentMessage?.text === 'string' ? currentMessage?.text : (currentMessage?.text.find(i => i.language === user.language))?.text;
           if (selectedBubble === currentMessage._id) {
-            return <MessageText right={props.position === 'right'}>{formatLink(text)} 
+            return <MessageText right={props.position === 'right'}>{formatLink(text)}
             <StyledText mode={theme[mode]}>
               {currentMessage.originalText}
             </StyledText>

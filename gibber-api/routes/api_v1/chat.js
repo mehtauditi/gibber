@@ -129,6 +129,25 @@ const reply = async (req, res, next) => {
   }
 };
 
+//Updates the text array with new language and new message
+const updateTextArray = async (req, res, next) => { 
+  try {
+    //Need messageData, originalLang, and newLang!
+    //Front end has to pass in the newLang, translatedText, messageId
+    const {newLang, translatedText, messageId}  = req.body;
+    const messages = await Message.find({_id: messageId});
+    if(!messages) {
+      return new ErrorHandler(404, "Messages not found", [], res);
+    }
+    //Pushing new text object 
+    console.log(messages);
+    await Message.updateOne({_id: messageId}, {$push: {text: {language: newLang, text: translatedText}}}, {new: true});
+    res.status(200).json(messages);
+  } catch (e) {
+    next(e);
+  }
+};
+
 const uploadMessageFile = async (req, res, next) => {
   try {
     const uploaded = await s3.upload(req.file, s3_dir + 'chat', getImageName(req.file));
@@ -252,6 +271,8 @@ const getTotalPages = async (req, res, next) => {
     next(e);
   }
 };
+router.post("/conversation/reply/updateTextArray", updateTextArray);
+
 router.get("/conversation/:id/messages/totalPages", auth.required, getTotalPages);
 router.get("/conversation", auth.required, getConversations);
 router.get("/conversation/:id", auth.required, getConversation);
@@ -260,6 +281,7 @@ router.post("/conversation/:recipient", auth.required, createConversation);
 router.post("/group-conversation/", auth.required, createGroup);
 router.get("/conversation-exist/:recipient", auth.required, conversationExist);
 router.post("/conversation/reply/:conversation", auth.required, reply);
+
 router.put("/conversation/set-seen-messages", auth.required, setSeenMessages);
 router.put("/conversation/group/:conversation/exit", auth.required, groupExit);
 router.put("/conversation/group/:conversation/participant", auth.required, addGroupParticipant);

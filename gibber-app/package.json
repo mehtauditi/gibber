@@ -10,11 +10,13 @@
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "patch-package",
+    "clean": "rm -rf node_modules yarn.lock && yarn install",
     "superclean": "rm -rf node_modules yarn.lock && yarn install && cd ios && rm -rf Pods Podfile.lock && pod install && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.15.17",
     "@react-native-community/geolocation": "^3.0.5",
+    "@react-native-community/push-notification-ios": "^1.11.0",
     "@react-native-firebase/analytics": "^17.4.3",
     "@react-native-firebase/app": "^17.4.3",
     "@react-navigation/native": "6.0.7",
@@ -48,6 +50,7 @@
     "react-native-onesignal": "^4.5.0",
     "react-native-permissions": "^3.7.3",
     "react-native-popup-menu": "^0.16.1",
+    "react-native-push-notification": "^8.1.1",
     "react-native-qrcode-scanner": "^1.5.5",
     "react-native-safe-area-context": "^4.5.0",
     "react-native-screens": "^3.20.0",

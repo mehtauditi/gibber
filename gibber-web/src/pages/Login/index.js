@@ -13,6 +13,7 @@ import PhoneInput from 'react-phone-input-2';
 import PasswordChecklist from 'react-password-checklist';
 import 'react-phone-input-2/lib/style.css'
 import './index.css';
+import ConfirmationModal from './ConfirmationModal';
 
 function Login() {
   const [loginType, setLoginType] = React.useState(0);
@@ -23,6 +24,7 @@ function Login() {
   const [password, setPassword] = React.useState('');
   // const [qrCode, setQrCode] = React.useState('');
   const [isValid, setIsValid] = React.useState(false);
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -72,30 +74,45 @@ function Login() {
 
   const signUp = React.useCallback(async () => {
     if (name.length <= 0) {
-      return toast.warn('Name required!')
+      return toast.warn('Name required!');
     }
-    if (lang === ""){
-      return toast.warn('Language required!')
+    if (lang === "") {
+      return toast.warn('Language required!');
     }
     if (!(email.length > 0 && phone.length > 4)) {
-      return toast.warn('Phone and email required!')
+      return toast.warn('Phone and email required!');
     }
-    if(!(/\S+@\S+\.\S+/.test(email))){
-      return toast.warn('Valid email is required!')
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      return toast.warn('Valid email is required!');
     }
     if (!isValid) {
       return toast.warn('Password is not valid!');
     }
     try {
-      const res = await Api.post('/user', {name, email, phone, password, language: lang});
+      let res = await Api.post(`/user`, { name, email, phone, password, language: lang });
       localStorage.setItem('token', res.data.token);
       Api.setToken(res.data.token);
-      navigate('/app/chat')
+      navigate('/app/chat');
     } catch (e) {
-      toast.warn(e.response.data.message);
+      if (e.response?.data?.message) {
+        toast.warn(e.response.data.message);
+      } else {
+        toast.warn("An error occurred. Please try again later!");
+      }
     }
   }, [name, email, password, lang, phone, navigate, isValid]);
+  
+  const handleLanguageSelection = (e) => {
+    setLang(e.target.value);
+    if (e.target.value === 'en') {
+      setShowConfirmation(true);
+    }
+  };
 
+
+  const handleConfirm = () => {
+    setShowConfirmation(false);
+  }
 
   return (
     <div className="container">
@@ -142,8 +159,9 @@ function Login() {
           <CenteredContent>
             <h3>Sign Up</h3>
             <TextInput style={{paddingInline:'10px'}} placeholder="Name" value={name} onChange={setName} />
-            <DropdownInput placeholder="Language"  value={lang} onChange={setLang} />
+            <DropdownInput placeholder="Language"  value={lang} onChange={handleLanguageSelection} />
             <TextInput style={{paddingInline:'10px'}} placeholder="Email" type="email" value={email} onChange={setEmail} />
+            <ConfirmationModal show={showConfirmation} onConfirm={handleConfirm} lang={lang} />
             <PhoneInput
               className="text-field"
               country={'us'}
@@ -159,6 +177,7 @@ function Login() {
             />
             <Button className='login-btn' onClick={signUp} width={350}>Sign Up</Button>
           </CenteredContent>
+
       }
     </div>
   )
