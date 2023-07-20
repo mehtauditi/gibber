@@ -9,6 +9,7 @@ import {useInjectSaga} from "../utils/injectSaga";
 import {navigationRef} from './Navigator';
 import LinkWeb from "../screens/LinkWeb";
 import BlockedList from "../screens/BlockedList";
+import analytics from '@react-native-firebase/analytics';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,10 @@ const appNavigator = () => {
             StatusBar.setBackgroundColor('#fff')
           }
         }
+        await analytics().logScreenView({
+          screen_name: currentRouteName,
+          screen_class: currentRouteName,
+        });
         routeNameRef.current = currentRouteName;
       }}
     >
