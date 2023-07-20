@@ -10,6 +10,7 @@ import {navigationRef} from './Navigator';
 import LinkWeb from "../screens/LinkWeb";
 import BlockedList from "../screens/BlockedList";
 import analytics from '@react-native-firebase/analytics';
+import { IS_IOS } from './theme';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,7 +56,7 @@ const appNavigator = () => {
         }
         routeNameRef.current = currentRouteName;
         await analytics().logScreenView({
-          screen_name: currentRouteName,
+          screen_name: currentRouteName + (IS_IOS ? '-ios': '-android'),
           screen_class: currentRouteName,
         });
       }}
