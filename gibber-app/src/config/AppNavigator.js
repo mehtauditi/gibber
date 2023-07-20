@@ -53,11 +53,11 @@ const appNavigator = () => {
             StatusBar.setBackgroundColor('#fff')
           }
         }
+        routeNameRef.current = currentRouteName;
         await analytics().logScreenView({
           screen_name: currentRouteName,
           screen_class: currentRouteName,
         });
-        routeNameRef.current = currentRouteName;
       }}
     >
       <Stack.Navigator screenOptions={stackOptions}>
