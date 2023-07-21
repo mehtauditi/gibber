@@ -154,7 +154,7 @@ function Sidebar({ user, conversations, ...props }) {
       </Row>
       <ChatList>
         <UList className="nav nav-tabs" id="myTab" role="tablist">
-          {/* <li className="nav-item" role="presentation">
+          <li className="nav-item" role="presentation">
             <button
               className={
                 "nav-link" + (activeTab === "invitation" ? " active" : "")
@@ -168,7 +168,7 @@ function Sidebar({ user, conversations, ...props }) {
             >
               Requests
             </button>
-          </li> */}
+          </li>
           <li className="nav-item" role="presentation">
             <button
               className={
@@ -185,7 +185,7 @@ function Sidebar({ user, conversations, ...props }) {
             </button>
           </li>
         </UList>
-        {/* {activeTab === "invitation" && (
+        {activeTab === "invitation" && (
           <div>
             {receivedInvite.requests?.map((item) => {
               const sender = item.sender;
@@ -234,7 +234,7 @@ function Sidebar({ user, conversations, ...props }) {
               );
             })}
           </div>
-        )} */}
+        )}
 
         {activeTab === "conversation" && (
           <div>

@@ -80,30 +80,31 @@ function CreateChat({close, user, ...props}) {
   }
 
   const renderItem = React.useCallback(item => {
-   // const receiverCheck = getSent && getSent.requests?.some((invite) => invite.receiver === item._id);
+    const receiverCheck = getSent && getSent.requests?.some((invite) => invite.receiver === item._id);
     const alreadyFriends = user.friends?.includes(item._id);
-    // let button;
-    // if (!receiverCheck) {
-    //   button = <button value={item._id} className='request-btn' onClick={handleRequest}>Request</button>;
-    // } else {
-    //   button = <button value={item._id} className="requested-btn"  disabled>Requested</button>;
-    // }
-    // if (alreadyFriends) {
-    //   button = null;
-    // }
+    let button;
+    if (!receiverCheck) {
+      button = <button value={item._id} className='request-btn' onClick={handleRequest}>Request</button>;
+    } else {
+      button = <button value={item._id} className="requested-btn"  disabled>Requested</button>;
+    }
+    if (alreadyFriends) {
+      button = null;
+    }
 
     return (
-      <Item onClick={!alreadyFriends ? null : () => onClick(item)} key={item._id}>
+      <Item onClick={button ? null : () => onClick(item)} key={item._id}>
         <Row>
           <Avatar src={getAvatarPath(item.avatar)} />
           <div>
             <UserName>{item.name}</UserName>
             <div className="subTxt">{selectedOption === 'search-phone' ? item.phone : item.email}</div>
           </div>
+          {button}
         </Row>
       </Item>
     );
-  }, [selectedOption]);
+  }, [getSent, selectedOption]);
 
   return (
     <Container>
