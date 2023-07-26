@@ -17,7 +17,11 @@ import {Provider} from "react-redux";
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 // import { GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
 
+
+// Set your Tracking ID here
+
 // // Set your Tracking ID here
+
 // const trackingId = 'G-YL13JE2YBT';
 
 // GoogleAnalyticsSettings.setDispatchInterval(30);
